@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajoutez une personne{% endblock %}
+
+        {% block stylesheets %} 
+        <style> 
+        h1{
+            color: #f00d59;
+        }
+
+        label{
+            color: #63929c;
+            font-weight: bold;
+        } 
+         
+        </style> 
+         
+         {% endblock %}
+
+{% block body %}
+
+
+<div class="my-5 text-center">
+    <h1>Ajoutez une personne dans l'annuaire <i class="fas fa-user-plus"></i></h1>
+</div>
+<section class="container">
+<form  method='POST'>
+        {# Start Row #}
+            <div class="row mb-3">
+                <div class="col-6 form-group">
+                    <label for="firstname" class="text-uppercase">Prénom :</label>
+                    <input type="text" name="firstname" id="firstname" class="form-control mb-3" placeholder="Votre prénom">
+                </div>
+                <div class="col-6 form-group">
+                    <label for="lastname" class="text-uppercase">Nom :</label>
+                    <input type="text" name="lastname" id="lastname" class="form-control mb-3" placeholder="Votre nom">
+                </div>
+            </div>
+        {# End Row #}
+            <div class="row">
+                <div class="form-group mb-3">
+                    <label for="role" class="text-uppercase">Fonction occupée :</label>
+                <input type="text" name="role" class="form-control mb-3" id="role" placeholder="Votre fonction">
+                </div>
+            </div>
+        {# Start Row #}
+            <div class="row mb-3">
+                <div class="col-6  form-group">
+                    <label for="mobilenumber" class="text-uppercase">Numéro de téléphone portable :</label>
+                    <input type="number" name="mobilenumber" id="mobilenumber" class="form-control mb-3" placeholder="Votre numéro de téléphone portable">
+                </div>
+                <div class="col-6 form-group">
+                    <label for="phonenumber" class="text-uppercase">Numéro de téléphone fixe :</label>
+                    <input type="number" name="phonenumber" id="phonenumber" class="form-control mb-3" placeholder="Numéro de téléphone fixe">
+                </div>
+            </div>
+        {# End Row #} 
+
+        {# Start Row #}
+            <div class="row mb-3">
+                <div class="col-6 form-groupe">
+                    <label for="structure" class="text-uppercase">Bâtiment :</label>
+                    <input type="text" name="structure" id="structure" class="form-control mb-3" placeholder="Votre bâtiment">
+                </div>
+                <div class="col-6 form-group">
+                    <label for="floor" class="text-uppercase">Etage :</label>
+                    <input type="text" name="floor" class="form-control mb-3" id="floor" placeholder="Votre etage">
+                </div>
+            </div>
+        {# End Row #}
+        <div class="row">
+        <div class="form-group">
+            <label for="type" class="text-uppercase">Type :</label>
+            <select class="form-select form-select mb-4" name="type" id="type" aria-label=".form-select">
+                <option selected >Choisissez votre type:</option>
+                    <option value="1">RCPA</option>
+                    <option value="2">Direction</option>
+                    <option value="3">Manager</option>
+            </select>
+        </div>
+        </div>
+            <div class="form-group mb-4">
+                    <label class="col-12 text-center text-uppercase" for="role">Votre niveau :</label>
+            <div class="text-center">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="grade" id="inlineRadio1" value="option1">
+                        <p class="form-check-label" for="titulary">Titulaire</p>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="grade" id="inlineRadio2" value="option2">
+                        <p class="form-check-label " for="subsitute">Suppléant</p>
+                    </div>
+            </div>
+            </div>
+            <div class="mb-4">
+                <label for="formFile" class="form-label col-12 text-center text-uppercase">Une photo ?</label>
+                <input type="file" name="photo" id="photo" class="form-control-file radius-0 text-center col-12" accept="image/* ,application/pdf">
+            </div>
+                <div class="text-center">
+                    <button class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Envoyer</button>
+                </div>
+        </form>
+    </div>
+
+</section>
+
+
+
+{% endblock %}

@@ -1,3 +1,13 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+#Annuaires
+
+list_directory_controller:
+    path: /annuaire
+    controller: App\Controller\DirectoriesController:list
+
+add_directory_controller:
+    path: /annuaire/ajoutez
+    controller: App\Controller\DirectoriesController:add
