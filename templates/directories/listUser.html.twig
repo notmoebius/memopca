@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuaire{% endblock %}
+
+{% block stylesheets %}
+    <style>
+
+        body{
+            background-color: #faf8f7;
+        }
+
+        h1{
+            color: #f00d59 !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+
+        h2{
+            color: #63929c ;
+        }
+
+        .name{
+            color: #63929c ;
+        }
+        
+        .profile-pic {
+            max-width: 100%;
+            height: auto;
+            min-width: 92px;
+            min-height: 92px;
+            max-width: 94px;
+            max-height: 94px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        
+        .card-pic {
+            background-color: #D0D3D4;
+            border-right: 1px solid#D7DBDD;
+            border-radius: 8px 0px 0px 8px;
+        }
+
+        .circle {
+            border-radius: 50%;
+            overflow: hidden;
+            width: 100px;
+            height: 100px;
+            border: 6px solid rgba(236, 236, 236, 0.7);
+            position: relative;
+        transition: all .3s;
+        }
+        
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+<section class="container d-flex justify-content-center pt-3">
+
+    <div class="w-100 ">
+        <h1 class="text-center">Annuaire <i class="fas fa-address-book"></i></h1>
+        <h2 class="text-center mb-3" >Liste des personnes présentes dans l'annuaire:</h2>
+        <p class="text-end">Pour ajouter une personne dans l'annuaire,<a href="{{path('add_directory_controller')}}">cliquez ici</a></p>
+
+            <div class="d-flex row justify-content-center flex-wrap">
+    {% for user in user %}  
+                <div class="user row m-3 rounded" style="max-width: 500px; min-width: 300px;">
+
+                    <div class="col-3 p-2 card-pic">
+                        <div class="circle">
+                            <img class="profile-pic" src="{{user.getPhoto}}" >
+                        </div>
+                    </div>
+
+                    <div class="col-9 p-2 bg-white rounded">
+                        <h5 class="name pt-2">{{ user.firstname }} {{ user.lastname }} </h5>
+                        <p class="status">Fonction occupée : {{ user.status }}</p>
+                        <p class="text-end mb-0"><a class=" btn btn-outline-secondary" href="#">Détails</a></p>
+                    </div>
+
+                </div>  
+            
+    {% endfor %}
+    </div>
+            </div>
+
+</section>
+{% endblock %}

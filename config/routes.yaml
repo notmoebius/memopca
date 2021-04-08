@@ -6,8 +6,8 @@
 
 list_directory_controller:
     path: /annuaire
-    controller: App\Controller\DirectoriesController:list
+    controller: App\Controller\DirectoriesController:listUser
 
 add_directory_controller:
     path: /annuaire/ajoutez
-    controller: App\Controller\DirectoriesController:add
+    controller: App\Controller\DirectoriesController:addUser
