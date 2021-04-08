@@ -61,7 +61,7 @@
     <div class="w-100 ">
         <h1 class="text-center">Annuaire <i class="fas fa-address-book"></i></h1>
         <h2 class="text-center mb-3" >Liste des personnes présentes dans l'annuaire:</h2>
-        <p class="text-end">Pour ajouter une personne dans l'annuaire,<a href="{{path('add_directory_controller')}}">cliquez ici</a></p>
+        <p class="text-end">Pour ajouter une personne dans l'annuaire, <a href="{{path('add_directory_controller')}}">cliquez ici</a></p>
 
             <div class="d-flex row justify-content-center flex-wrap">
     {% for user in user %}  
@@ -76,7 +76,7 @@
                     <div class="col-9 p-2 bg-white rounded">
                         <h5 class="name pt-2">{{ user.firstname }} {{ user.lastname }} </h5>
                         <p class="status">Fonction occupée : {{ user.status }}</p>
-                        <p class="text-end mb-0"><a class=" btn btn-outline-secondary" href="#">Détails</a></p>
+                        <p class="text-end mb-0"><a class=" btn btn-outline-secondary" href="{{path('details_directory_controller', {user: (user.id)} )}}">Détails</a></p>
                     </div>
 
                 </div>  

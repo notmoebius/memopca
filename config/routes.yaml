@@ -11,3 +11,7 @@ list_directory_controller:
 add_directory_controller:
     path: /annuaire/ajoutez
     controller: App\Controller\DirectoriesController:addUser
+
+details_directory_controller:
+    path: /annuaire/détails
+    controller: App\Controller\DirectoriesController:detailsUser
