@@ -8,8 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
-use Respect\Validation\Validator as v;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Cnam\ValidatorBundle\Constraints\Diademe\Diademe;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Validation;
 
 
 
@@ -28,14 +29,15 @@ class DirectoriesController extends AbstractController
 
     }
 
+
     public function detailsUser(Request $request): Response
     {
 
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-
-        $details= $em->getRepository(User::class)->findOneBy(['id'=> $_GET['id']]);
-
+        
+        $user= $em->getRepository(User::class)->findOneBy(['id'=> $_GET['user']]);
+        
         return $this->render('directories/detailsUser.html.twig', [
             'user' => $user,
         ]);
@@ -44,29 +46,43 @@ class DirectoriesController extends AbstractController
 
     public function addUser(): Response
     {
-                $safe= array_map('trim', array_map('strip_tags', $_POST));
+        if(!empty($_POST)){
+            $user = $this->getUser();
+            $safe= array_map('trim', array_map('strip_tags', $_POST));
+            
+            // La variable em c'est EntityManager, c'est la connexion a la base de donnée
+            $em = $this->getDoctrine()->getManager();
 
-                $user = new User;
-                $em = $this->getDoctrine()->getManager();
-                
-                // dd($user);
- 
-                $user->setFirstname($safe['firstname']);
-                $user->setLastname($safe['lastname']);
-                $user->setStatus($safe['status']);
-                $user->setMobilenumber($safe['mobilenumber']);
-                $user->setPhonenumber($safe['phonenumber']);
-                $user->setStructure($safe['structure']);
-                $user->setFloor($safe['floor']);
-                
-                $user->setGrade(boolval(1));
+            // je selectionne la table de la base de données dans laquelle je veux travailler
+            $user = new User;
+           
+            
+            // dd($user);
+            
+            $user->setFirstname($safe['firstname']);
+            $user->setLastname($safe['lastname']);
+            $user->setStatus($safe['status']);
+            $user->setMobilenumber($safe['mobilenumber']);
+            $user->setPhonenumber($safe['phonenumber']);
+            $user->setStructure($safe['structure']);
+            $user->setFloor($safe['floor']);
+            
+            $user->setGrade(boolval($user));
 
 
-                $em->persist($user);
-                $em->flush();
+            // Je prepaer la sauvegarde en base de donnée
+            $em->persist($user);
 
-                return $this->redirectTORoute('list_directory_controller');
-            }
+            // L'équivalent du execute()
+            $em->flush();
 
-    
+            return $this ->redirectToRoute('list_directory_controller');
+
+        }else{
+
+            return $this->render('directories/AddUser.html.twig', [
+            
+            ]);
+        }
+    }
 }

@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5e4b28d5a118854d7d084f58fb4ff81",
+    "content-hash": "d436e3df9edb1acbf3c08bbe9d957f86",
     "packages": [
+        {
+            "name": "cnam/validator-bundle",
+            "version": "5.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "http://artifactory.f5.cnqd.cnamts.fr:80/artifactory/api/composer/php-release/direct-dists/cnam/validator-bundle/cnam-validator-bundle-5.0.0.zip"
+            },
+            "require": {
+                "doctrine/annotations": "*",
+                "doctrine/cache": "*",
+                "php": ">=7.2.5",
+                "symfony/property-access": "^5.0",
+                "symfony/validator": "^5.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Cnam\\ValidatorBundle\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Bundle regroupant les validateurs pour les différents formats de champs",
+            "keywords": [
+                "champ",
+                "constraints",
+                "form",
+                "nir",
+                "phpk",
+                "ps",
+                "skphp",
+                "type",
+                "validator"
+            ]
+        },
         {
             "name": "composer/package-versions-deprecated",
             "version": "1.11.99.1",
