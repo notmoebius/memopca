@@ -9,9 +9,17 @@ list_directory_controller:
     controller: App\Controller\DirectoriesController:listUser
 
 add_directory_controller:
-    path: /annuaire/ajoutez
+    path: /annuaire/ajoutez-un-contact
     controller: App\Controller\DirectoriesController:addUser
 
 details_directory_controller:
     path: /annuaire/détails
     controller: App\Controller\DirectoriesController:detailsUser
+
+update_directory_controller:
+    path: /annuaire/modifiez-le-contact
+    controller: App\Controller\DirectoriesController:UpdateUser
+
+delete_directory_controller:
+    path: /annuaire/supprimez-le-contact
+    controller: App\Controller\DirectoriesController:DeleteUser

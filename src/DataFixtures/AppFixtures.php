@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
             $user->setPhonenumber('0471065586');
             $user->setStructure($faker->sentence($nbWords = 2, $variableNbWords = true));
             $user->setFloor('Etage 2');
-            $user->setRole(['RPCA']);
+            $user->setRole('1');
             $user->setGrade($faker->boolean);
 
             $manager->persist($user);

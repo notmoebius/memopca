@@ -59,14 +59,15 @@ class User
     private $photo;
 
     /**
-     * @ORM\Column(type="json")
-     */
-    private $role = [];
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $grade;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $role;
 
     public function getId(): ?int
     {
@@ -169,18 +170,6 @@ class User
         return $this;
     }
 
-    public function getRole(): ?array
-    {
-        return $this->role;
-    }
-
-    public function setRole(array $role): self
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
     public function getGrade(): ?bool
     {
         return $this->grade;
@@ -189,6 +178,18 @@ class User
     public function setGrade(bool $grade): self
     {
         $this->grade = $grade;
+
+        return $this;
+    }
+
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(Role $role): self
+    {
+        $this->role = $role;
 
         return $this;
     }

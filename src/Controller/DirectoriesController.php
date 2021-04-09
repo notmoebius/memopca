@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
+use App\Entity\Role;
 use Cnam\ValidatorBundle\Constraints\Diademe\Diademe;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validation;
@@ -16,6 +17,8 @@ use Symfony\Component\Validator\Validation;
 
 class DirectoriesController extends AbstractController
 {
+
+    // LISTING UTILISATEURS DANS L'ANNUAIRE
 
     public function listUser(): Response
     {
@@ -29,6 +32,7 @@ class DirectoriesController extends AbstractController
 
     }
 
+    // DETAILS UTILISATEURS DANS L'ANNUAIRE
 
     public function detailsUser(Request $request): Response
     {
@@ -44,14 +48,19 @@ class DirectoriesController extends AbstractController
 
     }
 
+    // AJOUTS UTILISATEURS DANS L'ANNUAIRE
+
     public function addUser(): Response
     {
         if(!empty($_POST)){
+
             $user = $this->getUser();
             $safe= array_map('trim', array_map('strip_tags', $_POST));
-            
-            // La variable em c'est EntityManager, c'est la connexion a la base de donnée
             $em = $this->getDoctrine()->getManager();
+            $role = $em ->getRepository(Role::Class);
+            $safe['role'] = $role->FindOneBy(['id' => $safe['role']]);
+            // La variable em c'est EntityManager, c'est la connexion a la base de donnée
+            
 
             // je selectionne la table de la base de données dans laquelle je veux travailler
             $user = new User;
@@ -66,7 +75,7 @@ class DirectoriesController extends AbstractController
             $user->setPhonenumber($safe['phonenumber']);
             $user->setStructure($safe['structure']);
             $user->setFloor($safe['floor']);
-            
+            $user->setRole($safe['role']);
             $user->setGrade(boolval($user));
 
 
@@ -85,4 +94,72 @@ class DirectoriesController extends AbstractController
             ]);
         }
     }
+
+
+    // MODIFICATION UTILISATEURS DANS L'ANNUAIRE
+
+    public function UpdateUser(Request $request): Response
+    {
+
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+     
+        $user= $em->getRepository(User::class)->findOneBy(['id'=> $_GET['user']]);
+        $role = $user ->getRole() -> getName();
+
+        if(!empty($_POST)){
+
+
+        $safe= array_map('trim', array_map('strip_tags', $_POST));
+        $role = $em ->getRepository(Role::Class);
+
+        $safe['role'] = $role->FindOneBy(['id' => $safe['role']]);
+            
+        $user->setFirstname($safe['firstname']);
+        $user->setLastname($safe['lastname']);
+        $user->setStatus($safe['status']);
+        $user->setMobilenumber($safe['mobilenumber']);
+        $user->setPhonenumber($safe['phonenumber']);
+        $user->setStructure($safe['structure']);
+        $user->setFloor($safe['floor']);
+        $user->setRole($safe['role']);
+        $user->setGrade(boolval($user));
+
+        if($request->isMethod('POST'))
+
+        $em = $this->getDoctrine()->getManager();
+        // Je prepaer la sauvegarde en base de donnée
+        $em->persist($user);
+
+        // L'équivalent du execute()
+        $em->flush();
+
+
+        }else{
+
+
+        }
+
+        return $this->render('directories/updateUser.html.twig', [
+            'user' => $user,
+            ]);
+    }
+
+
+    // SUPPRESSION UTILISATEURS DANS L'ANNUAIRE
+
+    public function DeleteUser(): Response
+    {
+
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $user= $em->getRepository(User::class)->findOneBy(['id'=> $_GET['user']]);
+
+        $em->remove($user);
+
+        $em->flush();
+
+        return $this->redirectToRoute('list_directory_controller');
+    }
+
 }
