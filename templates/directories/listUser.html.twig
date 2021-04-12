@@ -61,9 +61,9 @@
     <div class="w-100 ">
         <h1 class="text-center mt-5">Annuaire <i class="fas fa-address-book"></i></h1>
         <h2 class="text-center mb-3" >Liste des personnes présentes dans l'annuaire:</h2>
-        <p class="text-end">Pour ajouter une personne dans l'annuaire, <a href="{{path('add_directory_controller')}}">cliquez ici</a></p>
+        <p class="text-center"><a class="btn btn-lg btn-secondary" href="{{path('add_directory_controller')}}">Ajoutez un contact <i class="fas fa-user-plus"></i></a></p>
 
-    {% include("directories/partials/navBarDirectory.html.twig") %}
+    {% include("directories/partials/navBarRole.html.twig") %}
 
             <div class="d-flex row justify-content-center flex-wrap">
     {% for user in user %}  

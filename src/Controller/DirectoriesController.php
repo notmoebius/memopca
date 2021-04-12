@@ -180,7 +180,7 @@ class DirectoriesController extends AbstractController
             // L'équivalent du execute()
             $em->flush();
 
-            return $this ->redirectToRoute('list_directory_controller');
+            return $this ->redirectToRoute('list_directory_controller', ['page' => 'accueil'] );
 
         }else{
 
@@ -289,7 +289,7 @@ class DirectoriesController extends AbstractController
 
         $em->flush();
 
-        return $this->redirectToRoute('list_directory_controller');
+        return $this->redirectToRoute('list_directory_controller', ['page' => 'accueil'] );
     }
 
 }

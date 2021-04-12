@@ -4,7 +4,7 @@
 
         {% block stylesheets %} 
         <style> 
-        h1{
+        h1, .asterisk{
             color: #f00d59;
         }
 
@@ -28,49 +28,49 @@
         {# Start Row #}
             <div class="row mb-3">
                 <div class="col-6 form-group">
-                    <label for="firstname" class="text-uppercase">Prénom :</label>
-                    <input type="text" name="firstname" id="firstname" class="form-control mb-3" placeholder="Votre prénom">
+                    <label for="firstname" class="text-uppercase">Prénom : <span class="fs-3 asterisk">*</span></label>
+                    <input type="text" name="firstname" id="firstname" class="form-control mb-3" placeholder="Votre prénom" required>
                 </div>
                 <div class="col-6 form-group">
-                    <label for="lastname" class="text-uppercase">Nom :</label>
-                    <input type="text" name="lastname" id="lastname" class="form-control mb-3" placeholder="Votre nom">
+                    <label for="lastname" class="text-uppercase">Nom : <span class="fs-3 asterisk">*</span></label>
+                    <input type="text" name="lastname" id="lastname" class="form-control mb-3" placeholder="Votre nom" required>
                 </div>
             </div>
         {# End Row #}
             <div class="row">
                 <div class="form-group mb-3">
-                    <label for="status" class="text-uppercase">Fonction occupée :</label>
-                <input type="text" name="status" class="form-control mb-3" id="status" placeholder="Votre fonction">
+                    <label for="status" class="text-uppercase">Fonction occupée : <span class="fs-3 asterisk">*</span></label>
+                <input type="text" name="status" class="form-control mb-3" id="status" placeholder="Votre fonction" required>
                 </div>
             </div>
         {# Start Row #}
             <div class="row mb-3">
                 <div class="col-6  form-group">
-                    <label for="mobilenumber" class="text-uppercase">Numéro de téléphone portable :</label>
-                    <input type="number" name="mobilenumber" id="mobilenumber" class="form-control mb-3" placeholder="Votre numéro de téléphone portable">
+                    <label for="mobilenumber" class="text-uppercase">Numéro de téléphone portable : <span class="fs-3 asterisk">*</span></label>
+                    <input type="number" name="mobilenumber" id="mobilenumber" class="form-control mb-3" placeholder="Votre numéro de téléphone portable" required>
                 </div>
                 <div class="col-6 form-group">
-                    <label for="phonenumber" class="text-uppercase">Numéro de téléphone fixe :</label>
-                    <input type="number" name="phonenumber" id="phonenumber" class="form-control mb-3" placeholder="Numéro de téléphone fixe">
+                    <label for="phonenumber" class="text-uppercase">Numéro de téléphone fixe : <span class="fs-3 asterisk">*</span></label>
+                    <input type="number" name="phonenumber" id="phonenumber" class="form-control mb-3" placeholder="Numéro de téléphone fixe" required>
                 </div>
             </div>
         {# End Row #} 
 
         {# Start Row #}
             <div class="row mb-3">
-                <div class="col-6 form-groupe">
-                    <label for="structure" class="text-uppercase">Bâtiment :</label>
-                    <input type="text" name="structure" id="structure" class="form-control mb-3" placeholder="Votre bâtiment">
+                <div class="col-6 form-group">
+                    <label for="structure" class="text-uppercase">Bâtiment : <span class="fs-3 asterisk">*</span></label>
+                    <input type="text" name="structure" id="structure" class="form-control mb-3" placeholder="Votre bâtiment" required>
                 </div>
                 <div class="col-6 form-group">
-                    <label for="floor" class="text-uppercase">Etage :</label>
+                    <label for="floor" class="text-uppercase">Etage : <span class="hidden fs-3"></span></label>
                     <input type="text" name="floor" class="form-control mb-3" id="floor" placeholder="Votre etage">
                 </div>
             </div>
         {# End Row #}
         <div class="row">
         <div class="form-group">
-            <label for="role" class="text-uppercase">Rôle :</label>
+            <label for="role" class="text-uppercase">Rôle : <span class="fs-3 asterisk">*</span></label>
             <select class="form-select form-select mb-4" name="role" id="role" aria-label=".form-select" required>
                 <option selected >Choisissez votre rôle:</option>
                     <option value="1">RPCA</option>
@@ -81,7 +81,7 @@
 
         </div>
             <div class="form-group mb-4">
-                    <label class="col-12 text-center text-uppercase" for="grade">Votre niveau :</label>
+                    <label class="col-12 text-center text-uppercase" for="grade">Votre niveau : <span class="fs-3 asterisk">*</span></label>
             <div class="text-center">
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="grade" id="grade1" value="1">
@@ -103,6 +103,8 @@
                     <button class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Envoyer</button>
                 </div>
         </form>
+
+        <p class="fst-italic">Les champs marqués par une <span class="fs-3 asterisk">*</span> sont obligatoires.</p>
     </div>
 
 </section>
