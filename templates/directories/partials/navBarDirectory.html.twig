@@ -1,0 +1,29 @@
+{% block stylesheets %}
+
+<style>
+
+.navDirectory:hover{
+
+    text-decoration: none;
+    color: #0dcaf0 !important;
+
+}
+
+
+</style>
+
+{% endblock %}
+
+
+<nav class="mx-3 navbar navbar-expand-lg ">
+        <div class="d-flex w-100 justify-content-center">
+
+            <div class="list-group list-group-horizontal text-center">
+                <a href="{{path('list_directory_controller', {page: 'accueil'}) }}" class="{{ role == 'accueil' ? 'border border-info fw-bold' : '' }} bg-transparent navDirectory list-group-item px-4"><i class="fas fa-home px-2"></i>Accueil</a>
+                <a href="{{ path('list_directory_controller', {page: 'RPCA'}) }}" class="{{ role == 'RPCA' ? 'fw-bold border border-info' : '' }} bg-transparent navDirectory list-group-item px-4">Annuaire RPCA <i class="fas fa-sort-down"></i></a>
+                <a href="{{ path('list_directory_controller', {page: 'Direction'}) }}" class="{{ role == 'Direction' ? 'fw-bold border border-info' : '' }} bg-transparent navDirectory list-group-item px-4">Annuaire Direction <i class="fas fa-sort-down"></i></a>
+                <a href="{{ path('list_directory_controller', {page: 'Manager'}) }}" class="{{ role == 'Manager' ? 'fw-bold border border-info' : '' }} bg-transparent navDirectory list-group-item px-4">Annuaire Manager <i class="fas fa-sort-down"></i></a>              
+            </div>
+        </div>  
+
+    </nav>

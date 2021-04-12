@@ -59,15 +59,16 @@ class User
     private $photo;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $grade;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
      */
     private $role;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Grade::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $grade;
 
     public function getId(): ?int
     {
@@ -170,18 +171,6 @@ class User
         return $this;
     }
 
-    public function getGrade(): ?bool
-    {
-        return $this->grade;
-    }
-
-    public function setGrade(bool $grade): self
-    {
-        $this->grade = $grade;
-
-        return $this;
-    }
-
     public function getRole(): Role
     {
         return $this->role;
@@ -190,6 +179,18 @@ class User
     public function setRole(Role $role): self
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    public function getGrade(): Grade
+    {
+        return $this->grade;
+    }
+
+    public function setGrade(Grade $grade): self
+    {
+        $this->grade = $grade;
 
         return $this;
     }

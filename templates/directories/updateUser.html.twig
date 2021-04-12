@@ -72,7 +72,7 @@
   </div>
   <div class="card-body">
     <h2 class="text-decoration-underline mt-2 mb-3">Modifiez le contact</h2>
-  <form  method="POST">
+  <form  method="POST" enctype="multipart/form-data">
         {# Start Row #}
             <div class="row mb-3">
                 <div class="col-6 form-group">
@@ -119,11 +119,11 @@
         <div class="row">
         <div class="form-group">
             <label for="role" class="text-uppercase">Rôle :</label>
-            <select class="form-select form-select mb-4" name="role" id="role" aria-label=".form-select" value="{{ user.role.id }}" required>
-                <option selected >Choisissez votre rôle:</option>
-                    <option value="1">RCPA</option>
-                    <option value="2">Direction</option>
-                    <option value="3">Manager</option>
+            <select class="form-select form-select mb-4" name="role" id="role" aria-label=".form-select">
+                <option selected value="{{ user.role.id }}">{{ user.role.name }}</option>
+                    <option value="1" checked>RPCA</option>
+                    <option value="2" checked>Direction</option>
+                    <option value="3" checked>Manager</option>
             </select>
         </div>
 
@@ -131,21 +131,22 @@
             <div class="form-group mb-4">
                     <label class="col-12 text-center text-uppercase" for="role">Votre niveau :</label>
             <div class="text-center">
+                
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="grade" id="inlineRadio1" value="option1">
+                        <input class="form-check-input" type="radio" name="grade" id="grade1" value="1" checked>
                         <p class="form-check-label" for="titulary">Titulaire</p>
                     </div>
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="grade" id="inlineRadio2" value="option2">
+                        <input class="form-check-input" type="radio" name="grade" id="grade2" value="2" checked>
                         <p class="form-check-label " for="subsitute">Suppléant</p>
                     </div>
             </div>
             </div>
 
             <div class="mb-4">
-                <label for="formFile" class="form-label col-12 text-center text-uppercase">Changez votre photo ?</label>
-                <input type="file" name="photo" id="photo" class="form-control-file radius-0 text-center col-12" accept="image/* ,application/pdf">
+                <label for="photo" class="form-label col-12 text-center text-uppercase">Changez votre photo ?</label>
+                <input type="file" name="photo" id="photo" class="form-control-file file-upload radius-0 text-center col-12" accept="image/* ,application/pdf"/>
             </div>
                 <div class="text-center">
                     <button class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Valider les modifications</button>
@@ -155,4 +156,30 @@
  </div>
 </div>
 </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+
+                var readURL = function(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $('.profile-pic').attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                $(".file-upload").on('change', function(){
+                    readURL(this);
+                });
+                $(".upload-button").on("click", function () {
+                $(".file-upload").click();
+            });
+        });
+    </script>
 {% endblock %}
