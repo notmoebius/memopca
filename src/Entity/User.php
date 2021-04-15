@@ -70,6 +70,12 @@ class User
      */
     private $grade;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Directory::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $directory;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -191,6 +197,18 @@ class User
     public function setGrade(Grade $grade): self
     {
         $this->grade = $grade;
+
+        return $this;
+    }
+
+    public function getDirectory(): Directory
+    {
+        return $this->directory;
+    }
+
+    public function setDirectory(Directory $directory): self
+    {
+        $this->directory = $directory;
 
         return $this;
     }

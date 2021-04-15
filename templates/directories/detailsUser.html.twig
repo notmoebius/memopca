@@ -17,7 +17,7 @@
         }
 
         h2{
-            color: #f00d59 !important;
+            color: #78072c !important;
             font-family: 'Nunito', sans-serif; 
         }
 
@@ -58,36 +58,54 @@
 {% block body %}
 
 <section class="mt-5 mb-5 container">
+    <div class="text-center">
+        {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
 
 <div class="card text-center">
   <div class="card-header d-flex text-center align-items-center">
         <div class="col-3 p-2">
             <div class="circle">
-                <img class="profile-pic" src="{{ user.getPhoto() }}" >
+                {% if user.photo is empty %}
+
+                <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                {% else %}
+                <img class="profile-pic" src="{{ user.photo }}" >
+                {% endif %}
             </div>
         </div>
         <div class="col-6 mt-4 text-center">
             <h1 class="fw-bold">{{ user.firstname }} <span class="text-uppercase"> {{ user.lastname }} </span></h1>
-            <h2 >{{ user.role.name }}</h2>
+            
+            <h3 class="text-uppercase">{{ user.role.name }}</h3>
         </div>
   </div>
   <div class="card-body">
-  <ul>
+  <h2 class="mt-2 mb-4"><i class="fas fa-address-book"></i> {{ user.directory.name }}</h2>
+  <div class="text-center">
     <h3 class="text-decoration-underline mb-2 card-title">Informations :</h3>
     <p><i class="text-secondary fas fa-briefcase"></i> Fonction occupée  : {{ user.status }}</p>
-
-    <p> </p>
     <p><i class="text-secondary fas fa-user-alt"></i> {{ user.grade.name }}</p>
-
+   </div>
 <div class="text-center">
     <h3 class="text-decoration-underline mb-3 card-title">Coordonnées :</h3>
 
     <p><i class="fs-4 text-primary fas fa-phone-alt"></i> {{ user.phonenumber }}</p>
     <p><i class="fs-4 text-success fas fa-mobile-alt"></i> {{ user.mobilenumber }}</p>
     <p><i class="fs-4 text-danger fas fa-map-marker-alt"></i> {{ user.structure }}</p>
-    <p><i class="fs-4 text-secondary far fa-building"></i> {{ user.floor }}</p>
+    {% if user.floor is empty %}
+    <p><i class="fs-4 text-secondary far fa-building"></i> <span class="fst-italic">Malheureusement, aucun étage n'a été renseigné. </span></p>
+    {% else %}
+    <p><i class="fs-4 text-secondary far fa-building"></i> <span class="fst-italic">Quel étage :</span> {{ user.floor }}</p>
+    {% endif %}
 </div>    
- </ul> 
+ 
     <a href="{{path('update_directory_controller', {user: (user.id)} )}}" class="mt-4 me-3 btn btn-info text-light">Modifier le contact</a>
     <a href="{{path('delete_directory_controller', {user: (user.id)} )}}" class="mt-4 ms-3 btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce contact ?')">Supprimer le contact</a>
  </div>

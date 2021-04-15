@@ -1,0 +1,38 @@
+{% block stylesheets %}
+
+<style>
+.navDirectory{
+    color: #78072c;
+}
+
+.navDirectory:hover{
+
+    text-decoration: none;
+    color: #f00d59 !important;
+
+}
+
+.border-red{
+    border-color: #f00d59 !important;
+}
+
+
+</style>
+
+{% endblock %}
+
+
+<nav class="mx-3 navbar navbar-expand-lg ">
+        <div class="d-flex w-100 justify-content-center">
+
+            <div class="list-group list-group-horizontal text-center">
+                <a href="{{path('list_directory_controller', {page: 'Accueil'}) }}" class="{{ role == 'all' ? 'border border-red fw-bold' : '' }} bg-transparent navDirectory list-group-item px-4"><i class="fas fa-users"></i> Tous les utilisateurs</a>
+                <a href="{{ path('list_directory_controller', {page: 'Comité-crise'}) }}" class="{{ directory == 'ComitéCrise' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-4">Comité Crise</a>
+                <a href="{{ path('list_directory_controller', {page: 'Comité-élargi'}) }}" class="{{ directory == 'ComitéElargi' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-4">Comité Élargi</i></a>
+                <a href="{{ path('list_directory_controller', {page: 'Responsable-site'}) }}" class="{{ directory == 'ResponsableSite' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-4">Responsable Site</a>
+                <a href="{{ path('list_directory_controller', {page: 'Numéros-importants'}) }}" class="{{ directory == 'NumérosImportants' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-4">Numéros Importants</a>              
+                <a href="{{ path('list_directory_controller', {page: 'Non-renseigné'}) }}" class="{{ directory == 'NonRenseigné' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-4">Non Renseigné </a>              
+            </div>
+        </div>  
+
+    </nav>

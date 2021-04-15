@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Entity\Role;
 use App\Entity\Grade;
+use App\Entity\Directory;
 use Cnam\ValidatorBundle\Constraints\Diademe\Diademe;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validation;
@@ -25,9 +26,11 @@ class DirectoriesController extends AbstractController
     {
         $user = $this->getUser();
        
+        // FILTRE PAR ROLE
+
         if(isset($_GET['page'])){     
 
-            if($_GET['page'] == 'accueil'){
+            if($_GET['page'] == 'Accueil'){
 
             $user = $this->getUser();
             // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
@@ -38,7 +41,8 @@ class DirectoriesController extends AbstractController
             return $this->render('directories/listUser.html.twig', [
                 'user' => $user,
                 'page' => 'annuaire',
-                'role' => 'accueil',
+                'role' => 'all',
+                'directory' =>'all'
             ]);
     
             }elseif($_GET['page'] == 'RPCA' ){
@@ -53,6 +57,7 @@ class DirectoriesController extends AbstractController
                     'user' => $user,
                     'page' => 'annuaire',
                     'role' => 'RPCA',
+                    'directory' => 'RPCA',
                     ]);
     
                 }elseif($_GET['page'] == 'Direction' ){
@@ -68,6 +73,7 @@ class DirectoriesController extends AbstractController
                     'user' => $user,
                     'page' => 'annuaire',
                     'role' => 'Direction',
+                    'directory' => 'Direction',
                     ]);
     
                 }elseif($_GET['page'] == 'Manager' ){
@@ -82,15 +88,120 @@ class DirectoriesController extends AbstractController
                         'user' => $user,
                         'page' => 'annuaire',
                         'role' => 'Manager',
+                        'directory' => 'Manager',
+                        ]);
+                }elseif($_GET['page'] == 'autre-rôle' ){
+                    
+                    $user = $this->getUser();
+                    // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+                    $em = $this->getDoctrine()->getManager();
+
+                    $user = $this->getDoctrine()->getRepository(User::class)->findBy(['role' => '4']);
+    
+                    return $this->render('directories/listUser.html.twig', [
+                        'user' => $user,
+                        'page' => 'annuaire',
+                        'role' => 'Autre',
+                        'directory' => 'Autre',
                         ]);
                 }
+
             }
-            return $this->render('directories/listUser.html.twig', [
-                'user' => $user,
-                'page' => 'annuaire',
-                'role' => 'accueil',
-            ]);
+                // FIN du FILTRE par ROLE
+
+                // DEBUT FILTRE par ANNUAIRE
+
+            if(isset($_GET['page'])){     
+
+
+                if($_GET['page'] == 'Comité-crise' ){
+    
+                    $user = $this->getUser();
+                    // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+                    $em = $this->getDoctrine()->getManager();
+    
+                    $user = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '1']);
+                    
+                    return $this->render('directories/listUser.html.twig', [
+                        'user' => $user,
+                        'page' => 'annuaire',
+                        'role' => 'ComitéCrise',
+                        'directory' => 'ComitéCrise',
+                        ]);
+        
+                    }elseif($_GET['page'] == 'Comité-élargi' ){
+                    
+                        $user = $this->getUser();
+                        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+                        $em = $this->getDoctrine()->getManager();
+                        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+                    
+                    $user = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '2']);
+        
+                    return $this->render('directories/listUser.html.twig', [
+                        'user' => $user,
+                        'page' => 'annuaire',
+                        'role' => 'ComitéElargi',
+                        'directory' => 'ComitéElargi',
+                        ]);
+        
+                    }elseif($_GET['page'] == 'Responsable-site' ){
+                        
+                        $user = $this->getUser();
+                        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+                        $em = $this->getDoctrine()->getManager();
+    
+                        $user = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '3']);
+        
+                        return $this->render('directories/listUser.html.twig', [
+                            'user' => $user,
+                            'page' => 'annuaire',
+                            'role' => 'ResponsableSite',
+                            'directory' => 'ResponsableSite',
+                            ]);
+
+                    }elseif($_GET['page'] == 'Numéros-importants' ){
+                        
+                        $user = $this->getUser();
+                        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+                        $em = $this->getDoctrine()->getManager();
+    
+                        $user = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '4']);
+        
+                        return $this->render('directories/listUser.html.twig', [
+                            'user' => $user,
+                            'page' => 'annuaire',
+                            'role' => 'NumérosImportants',
+                            'directory' => 'NumérosImportants',
+                            ]);
+
+                    }elseif($_GET['page'] == 'Non-renseigné' ){
+                        
+                        $user = $this->getUser();
+                        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+                        $em = $this->getDoctrine()->getManager();
+    
+                        $user = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '5']);
+        
+                        return $this->render('directories/listUser.html.twig', [
+                            'user' => $user,
+                            'page' => 'annuaire',
+                            'role' => 'NonRenseigné',
+                            'directory' => 'NonRenseigné',
+                            ]);
+                    }
+        }
+
+        return $this->render('directories/listUser.html.twig', [
+            'user' => $user,
+            'page' => 'annuaire',
+            'role' => 'accueil',
+            'directory' => 'accueil'
+        ]);
     }
+
+    // FIN DU FILTRE par ANNUAIRE
+
 
     // DETAILS UTILISATEURS DANS L'ANNUAIRE
 
@@ -104,10 +215,11 @@ class DirectoriesController extends AbstractController
         
         return $this->render('directories/detailsUser.html.twig', [
             'user' => $user,
-            'role' => 'accueil'
         ]);
 
     }
+
+
 
     // AJOUTS UTILISATEURS DANS L'ANNUAIRE
 
@@ -124,10 +236,12 @@ class DirectoriesController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $role = $em ->getRepository(Role::Class);
             $grade = $em ->getRepository(Grade::Class);
+            $directory = $em ->getRepository(Directory::Class);
 
             // Je recupere mes données de role et de grade
             $safe['role'] = $role->FindOneBy(['id' => $safe['role']]);
             $safe['grade'] = $grade->FindOneBy(['id' => $safe['grade']]);
+            $safe['directory'] = $directory->FindOneBy(['id' => $safe['directory']]);
             
             
             // je selectionne la table de la base de données dans laquelle je veux travailler
@@ -145,6 +259,7 @@ class DirectoriesController extends AbstractController
             $user->setFloor($safe['floor']);
             $user->setRole($safe['role']);
             $user->setGrade($safe['grade']);
+            $user->setDirectory($safe['directory']);
             
             // PHOTO
             if($_FILES['photo']['error'] === UPLOAD_ERR_OK){
@@ -180,7 +295,10 @@ class DirectoriesController extends AbstractController
             // L'équivalent du execute()
             $em->flush();
 
-            return $this ->redirectToRoute('list_directory_controller', ['page' => 'accueil'] );
+            //  On crée le message Flash
+            $this->addFlash('success',  'Le contact a bien été ajouté dans l\'annuaire.');
+
+            return $this ->redirectToRoute('list_directory_controller', ['page' => 'Accueil'] );
 
         }else{
 
@@ -202,6 +320,7 @@ class DirectoriesController extends AbstractController
         $user= $em->getRepository(User::class)->findOneBy(['id'=> $_GET['user']]);
         $role = $user ->getRole() -> getName();
         $grade = $user ->getGrade() -> getName();
+        $directory = $user ->getDirectory() -> getName();
 
 
     if(!empty($_POST)){
@@ -211,9 +330,11 @@ class DirectoriesController extends AbstractController
         $safe= array_map('trim', array_map('strip_tags', $_POST));
         $role = $em ->getRepository(Role::Class);
         $grade = $em ->getRepository(Grade::Class);
+        $directory = $em ->getRepository(Directory::Class);
 
         $safe['role'] = $role->FindOneBy(['id' => $safe['role']]);
         $safe['grade'] = $grade->FindOneBy(['id' => $safe['grade']]);
+        $safe['directory'] = $directory->FindOneBy(['id' => $safe['directory']]);
             
         $user->setFirstname($safe['firstname']);
         $user->setLastname($safe['lastname']);
@@ -224,6 +345,7 @@ class DirectoriesController extends AbstractController
         $user->setFloor($safe['floor']);
         $user->setRole($safe['role']);
         $user->setGrade($safe['grade']);
+        $user->setDirectory($safe['directory']);
         
         // PHOTO
 
@@ -253,16 +375,20 @@ class DirectoriesController extends AbstractController
             $user->setPhoto($publicOutput.$filename);
         }
 
+        
 
         if($request->isMethod('POST'))
 
         $em = $this->getDoctrine()->getManager();
-        // Je prepaer la sauvegarde en base de donnée
+
+        // Je prepare la sauvegarde en base de donnée
         $em->persist($user);
 
         // L'équivalent du execute()
         $em->flush();
 
+        // On crée le message flash
+        $this->addFlash('success',  'Le contact a bien été modifié.');
         
         return $this->render('directories/detailsUser.html.twig', [
             'user' => $user,
@@ -289,7 +415,9 @@ class DirectoriesController extends AbstractController
 
         $em->flush();
 
-        return $this->redirectToRoute('list_directory_controller', ['page' => 'accueil'] );
+        $this->addFlash('success',  'Le contact a bien été supprimé.');
+
+        return $this->redirectToRoute('list_directory_controller', ['page' => 'Accueil'] );
     }
 
 }
