@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -75,6 +77,22 @@ class User
      * @ORM\JoinColumn(nullable=false)
      */
     private $directory;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Warn::class, mappedBy="previens", orphanRemoval=true)
+     */
+    private $warns;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Warn::class, mappedBy="prevenu", orphanRemoval=true)
+     */
+    private $warned;
+
+    public function __construct()
+    {
+        $this->warns = new ArrayCollection();
+        $this->warned = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -209,6 +227,66 @@ class User
     public function setDirectory(Directory $directory): self
     {
         $this->directory = $directory;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Warn[]
+     */
+    public function getWarns(): Collection
+    {
+        return $this->warns;
+    }
+
+    public function addWarn(Warn $warn): self
+    {
+        if (!$this->warns->contains($warn)) {
+            $this->warns[] = $warn;
+            $warn->setPreviens($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWarn(Warn $warn): self
+    {
+        if ($this->warns->removeElement($warn)) {
+            // set the owning side to null (unless already changed)
+            if ($warn->getPreviens() === $this) {
+                $warn->setPreviens(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Warn[]
+     */
+    public function getWarned(): Collection
+    {
+        return $this->warned;
+    }
+
+    public function addWarned(Warn $warned): self
+    {
+        if (!$this->warned->contains($warned)) {
+            $this->warned[] = $warned;
+            $warned->setPrevenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWarned(Warn $warned): self
+    {
+        if ($this->warned->removeElement($warned)) {
+            // set the owning side to null (unless already changed)
+            if ($warned->getPrevenu() === $this) {
+                $warned->setPrevenu(null);
+            }
+        }
 
         return $this;
     }

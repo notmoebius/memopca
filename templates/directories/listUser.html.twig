@@ -9,6 +9,17 @@
             background-color: #faf8f7;
         }
 
+        .export{
+            border: #78072c 2px solid;
+            color:  #78072c;
+        }
+
+        .export:hover{
+            border: #78072c 2px solid;
+            color:  #ffffff;
+            background-color: #78072c;
+        }
+
         h1, h3{
             color: #f00d59 !important;
             font-family: 'Nunito', sans-serif; 
@@ -74,10 +85,20 @@
 
     <h1 class="text-center mt-5">Annuaire <i class="fas fa-address-book"></i></h1>
     <h2 class="text-center mb-3" >Liste des personnes présentes dans l'annuaire:</h2>
-    <p class="text-center"><a class="btn btn-lg btn-secondary m-3" href="{{path('add_directory_controller')}}">Ajoutez un contact <i class="fas fa-user-plus"></i></a></p>
+    <p class="text-center"><a class="btn btn-lg btn-secondary rounded-0 m-3" href="{{path('add_directory_controller')}}">Ajoutez un contact  <i class="ps-2 fs-4 fas fa-user-plus"></i></a></p>
 
     {% include("directories/partials/navBarDirectory.html.twig") %}
-
+    {% if  "/annuaire?page=Comite-crise" in app.request.uri %}
+        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller1')}}" target="_blank" download="{{path('json_directory_controller1')}}">Exportez l'annuaire: Comité-crise <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+    {% elseif "/annuaire?page=Comite-elargi" in app.request.uri %}
+        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller2')}}" target="_blank"download="{{path('json_directory_controller2')}}">Exportez l'annuaire: Comité-élargi <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+    {% elseif "/annuaire?page=Responsable-site" in app.request.uri %}
+        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller3')}}" target="_blank"download="{{path('json_directory_controller3')}}">Exportez l'annuaire: Responsable-site <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+    {% elseif "/annuaire?page=Numeros-importants" in app.request.uri %}       
+        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller4')}}" target="_blank"download="{{path('json_directory_controller4')}}">Exportez l'annuaire: Numéros-importants <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+    {% elseif "/annuaire?page=Non-renseigne" in app.request.uri %}    
+        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller5')}}" target="_blank"download="{{path('json_directory_controller5')}}">Exportez l'annuaire: Non-renseigné <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+    {% endif %}
     <h2 class="text-center py-3 my-3" >Trouvez un contact selon son rôle :</h2>
 
     {% include("directories/partials/navBarRole.html.twig") %}
@@ -103,7 +124,8 @@
                         <h5 class="role text-center pb-3">{{ user.role.name }}</h5>
                         <p class="text-secondary status"><i class="fas fa-briefcase"></i> {{ user.status }}</p>
                         <p class="text-secondary grade mb-0"><i class="text-secondary fas fa-user-alt"></i> {{ user.grade.name }}</p>
-                        <p class="text-end mb-0"><a class=" btn btn-outline-secondary" href="{{path('details_directory_controller', {user: (user.id)} )}}">Détails</a></p>
+                        <p></p>
+                        <p class="text-end mb-0"><a href="{{path('update_directory_controller', {user: (user.id)} )}}" class="fs-4 text-info"><i class="me-3 fas fa-pencil-alt"></a></i></a> <a href="{{path('delete_directory_controller', {user: (user.id)} )}}" class=" fs-4 text-danger"><i class="me-3 fas fa-trash-alt"></i></a> <a class=" btn btn-outline-secondary mb-2 me-2" href="{{path('details_directory_controller', {user: (user.id)} )}}">Détails</a></p>
                     </div>
 
                 </div>  

@@ -14,6 +14,7 @@ use App\Entity\Directory;
 use Cnam\ValidatorBundle\Constraints\Diademe\Diademe;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 
@@ -53,6 +54,7 @@ class DirectoriesController extends AbstractController
 
                 $user = $this->getDoctrine()->getRepository(User::class)->findBy(['role' => '1']);
                 
+
                 return $this->render('directories/listUser.html.twig', [
                     'user' => $user,
                     'page' => 'annuaire',
@@ -114,8 +116,10 @@ class DirectoriesController extends AbstractController
             if(isset($_GET['page'])){     
 
 
-                if($_GET['page'] == 'Comité-crise' ){
-    
+                if($_GET['page'] == 'Comite-crise' ){
+                    
+                  
+                
                     $user = $this->getUser();
                     // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
                     $em = $this->getDoctrine()->getManager();
@@ -125,11 +129,12 @@ class DirectoriesController extends AbstractController
                     return $this->render('directories/listUser.html.twig', [
                         'user' => $user,
                         'page' => 'annuaire',
-                        'role' => 'ComitéCrise',
-                        'directory' => 'ComitéCrise',
+                        'role' => 'ComiteCrise',
+                        'directory' => 'ComiteCrise',
+
                         ]);
         
-                    }elseif($_GET['page'] == 'Comité-élargi' ){
+                    }elseif($_GET['page'] == 'Comite-elargi' ){
                     
                         $user = $this->getUser();
                         // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
@@ -141,8 +146,8 @@ class DirectoriesController extends AbstractController
                     return $this->render('directories/listUser.html.twig', [
                         'user' => $user,
                         'page' => 'annuaire',
-                        'role' => 'ComitéElargi',
-                        'directory' => 'ComitéElargi',
+                        'role' => 'ComiteElargi',
+                        'directory' => 'ComiteElargi',
                         ]);
         
                     }elseif($_GET['page'] == 'Responsable-site' ){
@@ -160,7 +165,7 @@ class DirectoriesController extends AbstractController
                             'directory' => 'ResponsableSite',
                             ]);
 
-                    }elseif($_GET['page'] == 'Numéros-importants' ){
+                    }elseif($_GET['page'] == 'Numeros-importants' ){
                         
                         $user = $this->getUser();
                         // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
@@ -171,11 +176,11 @@ class DirectoriesController extends AbstractController
                         return $this->render('directories/listUser.html.twig', [
                             'user' => $user,
                             'page' => 'annuaire',
-                            'role' => 'NumérosImportants',
-                            'directory' => 'NumérosImportants',
+                            'role' => 'NumerosImportants',
+                            'directory' => 'NumerosImportants',
                             ]);
 
-                    }elseif($_GET['page'] == 'Non-renseigné' ){
+                    }elseif($_GET['page'] == 'Non-renseigne' ){
                         
                         $user = $this->getUser();
                         // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
@@ -186,8 +191,8 @@ class DirectoriesController extends AbstractController
                         return $this->render('directories/listUser.html.twig', [
                             'user' => $user,
                             'page' => 'annuaire',
-                            'role' => 'NonRenseigné',
-                            'directory' => 'NonRenseigné',
+                            'role' => 'NonRenseigne',
+                            'directory' => 'NonRenseigne',
                             ]);
                     }
         }
@@ -420,4 +425,148 @@ class DirectoriesController extends AbstractController
         return $this->redirectToRoute('list_directory_controller', ['page' => 'Accueil'] );
     }
 
+    public function JsonDirectory1(): Response
+    {
+        
+        // $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $user1 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '1']);
+
+        $data1 = array();
+        foreach ($user1 as $key => $user){
+            $data1[$key]['id'] = "id".$user->getId();
+            $data1[$key]['fonction'] = $user->getStatus();
+            $data1[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data1[$key]['portable'] = $user->getMobilenumber();
+            $data1[$key]['fixe'] = $user-> getPhonenumber();
+            $data1[$key]['etage'] = $user->getFloor();
+            $data1[$key]['photo'] = $user-> getPhoto();
+            $data1[$key]['type'] = $user->getRole()->getName();
+            $data1[$key]['niveau'] = $user->getGrade()->getName();
+            $data1[$key]['batiment'] = $user-> getStructure();
+        }        
+        
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data1);
+        return $response;
+
+    }
+
+    public function JsonDirectory2(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user2 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '2']);
+
+
+        $data2 = array();
+        
+        foreach ($user2 as $key => $user){
+            $data2[$key]['id'] = "id".$user->getId();
+            $data2[$key]['fonction'] = $user->getStatus();
+            $data2[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data2[$key]['portable'] = $user->getMobilenumber();
+            $data2[$key]['fixe'] = $user-> getPhonenumber();
+            $data2[$key]['etage'] = $user->getFloor();
+            $data2[$key]['photo'] = $user-> getPhoto();
+            $data2[$key]['type'] = $user->getRole()->getName();
+            $data2[$key]['niveau'] = $user->getGrade()->getName();
+            $data2[$key]['batiment'] = $user-> getStructure();
+        }
+
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data2);
+        return $response;
+    }
+
+    public function JsonDirectory3(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user3 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '3']);
+
+
+        $data3 = array();
+        foreach ($user3 as $key => $user){
+            $data3[$key]['id'] = "id".$user->getId();
+            $data3[$key]['fonction'] = $user->getStatus();
+            $data3[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data3[$key]['portable'] = $user->getMobilenumber();
+            $data3[$key]['fixe'] = $user-> getPhonenumber();
+            $data3[$key]['etage'] = $user->getFloor();
+            $data3[$key]['photo'] = $user-> getPhoto();
+            $data3[$key]['type'] = $user->getRole()->getName();
+            $data3[$key]['niveau'] = $user->getGrade()->getName();
+            $data3[$key]['batiment'] = $user-> getStructure();
+        }
+
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data3);
+        return $response;
+
+        }
+
+    public function JsonDirectory4(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user4 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '4']);
+    
+        $data4 = array();
+        foreach ($user4 as $key => $user){
+            $data4[$key]['id'] = "id".$user->getId();
+            $data4[$key]['fonction'] = $user->getStatus();
+            $data4[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data4[$key]['portable'] = $user->getMobilenumber();
+            $data4[$key]['fixe'] = $user-> getPhonenumber();
+            $data4[$key]['etage'] = $user->getFloor();
+            $data4[$key]['photo'] = $user-> getPhoto();
+            $data4[$key]['type'] = $user->getRole()->getName();
+            $data4[$key]['niveau'] = $user->getGrade()->getName();
+            $data4[$key]['batiment'] = $user-> getStructure();
+        }
+
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data4);
+        return $response;
+    }
+
+    public function JsonDirectory5(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user5 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '5']);
+        
+        $data5 = array();
+        foreach ($user5 as $key => $user){
+            $data5[$key]['id'] = "id".$user->getId();
+            $data5[$key]['fonction'] = $user->getStatus();
+            $data5[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data5[$key]['portable'] = $user->getMobilenumber();
+            $data5[$key]['fixe'] = $user-> getPhonenumber();
+            $data5[$key]['etage'] = $user->getFloor();
+            $data5[$key]['photo'] = $user-> getPhoto();
+            $data5[$key]['type'] = $user->getRole()->getName();
+            $data5[$key]['niveau'] = $user->getGrade()->getName();
+            $data5[$key]['batiment'] = $user-> getStructure();
+        }
+
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data5);
+        return $response;
+    }
+
 }
+
+    

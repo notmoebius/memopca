@@ -23,3 +23,27 @@ update_directory_controller:
 delete_directory_controller:
     path: /supprimez-le-contact
     controller: App\Controller\DirectoriesController:DeleteUser
+
+    # ANNUAIRE FICHIERS JSON
+
+json_directory_controller1:
+    path: /Annuaire_Comite-Crise
+    controller: App\Controller\DirectoriesController:JsonDirectory1
+
+json_directory_controller2:
+    path: /Annuaire_Comite_Elargi
+    controller: App\Controller\DirectoriesController:JsonDirectory2
+
+json_directory_controller3:
+    path: /Annuaire_Responsable_Site
+    controller: App\Controller\DirectoriesController:JsonDirectory3
+
+json_directory_controller4:
+    path: /Annuaire_Numeros_Importants
+    controller: App\Controller\DirectoriesController:JsonDirectory4
+
+json_directory_controller5:
+    path: /Annuaire_Non_Renseigne
+    controller: App\Controller\DirectoriesController:JsonDirectory5
+
+
