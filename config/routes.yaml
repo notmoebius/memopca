@@ -25,6 +25,9 @@ delete_directory_controller:
     controller: App\Controller\DirectoriesController:DeleteUser
 
     # ANNUAIRE FICHIERS JSON
+json_directory_controller:
+    path: /Annuaires
+    controller: App\Controller\DirectoriesController:JsonDirectory
 
 json_directory_controller1:
     path: /Annuaire_Comite-Crise
@@ -46,4 +49,10 @@ json_directory_controller5:
     path: /Annuaire_Non_Renseigne
     controller: App\Controller\DirectoriesController:JsonDirectory5
 
+# FIN ANNUAIRE
 
+# MEMO
+
+list_memo_controller:
+    path: /memo
+    controller: App\Controller\MemoController:index
