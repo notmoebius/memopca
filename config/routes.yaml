@@ -55,4 +55,15 @@ json_directory_controller5:
 
 list_memo_controller:
     path: /memo
-    controller: App\Controller\MemoController:index
+    controller: App\Controller\MemoController:ListMemo
+
+add_memo_controller:
+    path: /creer-un-memo
+    controller: App\Controller\MemoController:AddMemo
+
+
+# CONNEXION
+
+login_controller:
+    path: /se-connecter
+    controller: App\Controller\SecurityController::login

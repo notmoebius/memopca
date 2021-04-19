@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Entity\Role;
 use App\Entity\Grade;
 use App\Entity\Directory;
+use App\Entity\Organization;
 use Cnam\ValidatorBundle\Constraints\Diademe\Diademe;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validation;
@@ -242,11 +243,13 @@ class DirectoriesController extends AbstractController
             $role = $em ->getRepository(Role::Class);
             $grade = $em ->getRepository(Grade::Class);
             $directory = $em ->getRepository(Directory::Class);
+            $organization = $em ->getRepository(Organization::Class);
 
             // Je recupere mes données de role et de grade
             $safe['role'] = $role->FindOneBy(['id' => $safe['role']]);
             $safe['grade'] = $grade->FindOneBy(['id' => $safe['grade']]);
             $safe['directory'] = $directory->FindOneBy(['id' => $safe['directory']]);
+            $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
             
             
             // je selectionne la table de la base de données dans laquelle je veux travailler
@@ -265,6 +268,7 @@ class DirectoriesController extends AbstractController
             $user->setRole($safe['role']);
             $user->setGrade($safe['grade']);
             $user->setDirectory($safe['directory']);
+            $user->setOrganization($safe['organization']);
             
             // PHOTO
             if($_FILES['photo']['error'] === UPLOAD_ERR_OK){
@@ -326,6 +330,7 @@ class DirectoriesController extends AbstractController
         $role = $user ->getRole() -> getName();
         $grade = $user ->getGrade() -> getName();
         $directory = $user ->getDirectory() -> getName();
+        $organization = $user ->getOrganization() -> getName();
 
 
     if(!empty($_POST)){
@@ -336,10 +341,12 @@ class DirectoriesController extends AbstractController
         $role = $em ->getRepository(Role::Class);
         $grade = $em ->getRepository(Grade::Class);
         $directory = $em ->getRepository(Directory::Class);
+        $organization = $em ->getRepository(Organization::Class);
 
         $safe['role'] = $role->FindOneBy(['id' => $safe['role']]);
         $safe['grade'] = $grade->FindOneBy(['id' => $safe['grade']]);
         $safe['directory'] = $directory->FindOneBy(['id' => $safe['directory']]);
+        $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
             
         $user->setFirstname($safe['firstname']);
         $user->setLastname($safe['lastname']);
@@ -351,6 +358,7 @@ class DirectoriesController extends AbstractController
         $user->setRole($safe['role']);
         $user->setGrade($safe['grade']);
         $user->setDirectory($safe['directory']);
+        $user->setOrganization($safe['organization']);
         
         // PHOTO
 

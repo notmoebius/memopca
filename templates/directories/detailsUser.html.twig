@@ -100,10 +100,11 @@
     <p><i class="fs-4 text-success fas fa-mobile-alt"></i> {{ user.mobilenumber }}</p>
     <p><i class="fs-4 text-danger fas fa-map-marker-alt"></i> {{ user.structure }}</p>
     {% if user.floor is empty %}
-    <p><i class="fs-4 text-secondary far fa-building"></i> <span class="fst-italic">Malheureusement, aucun étage n'a été renseigné. </span></p>
+    <p> <span class="fst-italic">Malheureusement, aucun étage n'a été renseigné. </span></p>
     {% else %}
-    <p><i class="fs-4 text-secondary far fa-building"></i> <span class="fst-italic">Quel étage :</span> {{ user.floor }}</p>
+    <p><span class="fst-italic">Quel étage :</span> {{ user.floor }}</p>
     {% endif %}
+    <p><i class="fs-4 text-secondary far fa-building"></i> {{ user.organization.name }}</p>
 </div>    
     <a href="{{path('update_directory_controller', {user: (user.id)} )}}" class="mt-4 me-3 btn btn-info text-light">Modifier le contact</a>
     <a href="" class="mt-4 ms-3 me-3 btn btn-primary text-light">Voir le mémo</a>    

@@ -79,19 +79,25 @@ class User
     private $directory;
 
     /**
-     * @ORM\OneToMany(targetEntity=Warn::class, mappedBy="previens", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Memo::class, mappedBy="user_inform")
      */
-    private $warns;
+    private $user_inform;
 
     /**
-     * @ORM\OneToMany(targetEntity=Warn::class, mappedBy="prevenu", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Memo::class, mappedBy="user_informed")
      */
-    private $warned;
+    private $user_informed;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Organization::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $organization;
 
     public function __construct()
     {
-        $this->warns = new ArrayCollection();
-        $this->warned = new ArrayCollection();
+        $this->inform = new ArrayCollection();
+        $this->informed = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,62 +237,38 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection|Warn[]
-     */
-    public function getWarns(): Collection
+    public function getUserInform(): ?Memo
     {
-        return $this->warns;
+        return $this->user_inform;
     }
 
-    public function addWarn(Warn $warn): self
+    public function setUserInform(?Memo $user_inform): self
     {
-        if (!$this->warns->contains($warn)) {
-            $this->warns[] = $warn;
-            $warn->setPreviens($this);
-        }
+        $this->user_inform = $user_inform;
 
         return $this;
     }
 
-    public function removeWarn(Warn $warn): self
+    public function getUserInformed(): ?Memo
     {
-        if ($this->warns->removeElement($warn)) {
-            // set the owning side to null (unless already changed)
-            if ($warn->getPreviens() === $this) {
-                $warn->setPreviens(null);
-            }
-        }
+        return $this->user_informed;
+    }
+
+    public function setUserInformed(?Memo $user_informed): self
+    {
+        $this->user_informed = $user_informed;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Warn[]
-     */
-    public function getWarned(): Collection
+    public function getOrganization(): Organization
     {
-        return $this->warned;
+        return $this->organization;
     }
 
-    public function addWarned(Warn $warned): self
+    public function setOrganization(Organization $organization): self
     {
-        if (!$this->warned->contains($warned)) {
-            $this->warned[] = $warned;
-            $warned->setPrevenu($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWarned(Warn $warned): self
-    {
-        if ($this->warned->removeElement($warned)) {
-            // set the owning side to null (unless already changed)
-            if ($warned->getPrevenu() === $this) {
-                $warned->setPrevenu(null);
-            }
-        }
+        $this->organization = $organization;
 
         return $this;
     }

@@ -8,10 +8,13 @@
             text-decoration: underline;
             
         } 
-         
+
+        .login:hover{
+            color: #212529 !important;
+        }
         </style> 
          
-         {% endblock %}
+{% endblock %}
 
 <nav class="navbar navbar-expand-lg navbar-info bg-info">
     <div class="container">
@@ -24,6 +27,7 @@
             <a class="btn btn-light text-info mx-4 px-3" href="{{ path('list_memo_controller') }}">Mémo <i class="fas fa-mobile-alt"></i></a>
             {# <a class="btn btn-light text-info mx-4 px-3" href="">Crises/Alertes <i class="far fa-bell"></i></a> #}
             <a class="btn btn-light text-info mx-4 px-3" href="#">Documents <i class="far fa-folder-open"></i></a>
+            <a class="login text-light" href="{{ path('login_controller') }}"><i class="ps-2 fs-2 fas fa-user-circle"></i></a>
         </div>
     </div>
 </nav>

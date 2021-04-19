@@ -2,6 +2,15 @@
     "alchemy/zippy": {
         "version": "1.0.0"
     },
+    "cnam/authapp-bundle": {
+        "version": "5.0.0"
+    },
+    "cnam/authsrvsec-bundle": {
+        "version": "5.0.2"
+    },
+    "cnam/cryptographie-bundle": {
+        "version": "5.0.0"
+    },
     "cnam/validator-bundle": {
         "version": "5.0.0"
     },
@@ -205,6 +214,9 @@
             "./.env"
         ]
     },
+    "symfony/form": {
+        "version": "v5.2.6"
+    },
     "symfony/framework-bundle": {
         "version": "5.2",
         "recipe": {
@@ -234,6 +246,9 @@
     "symfony/http-kernel": {
         "version": "v5.2.6"
     },
+    "symfony/intl": {
+        "version": "v5.2.4"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -243,10 +258,16 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/options-resolver": {
+        "version": "v5.2.4"
+    },
     "symfony/orm-pack": {
         "version": "v2.1.0"
     },
     "symfony/polyfill-intl-grapheme": {
+        "version": "v1.22.1"
+    },
+    "symfony/polyfill-intl-icu": {
         "version": "v1.22.1"
     },
     "symfony/polyfill-intl-normalizer": {

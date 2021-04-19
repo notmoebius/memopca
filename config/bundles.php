@@ -10,4 +10,7 @@ return [
     Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
+    Cnam\AuthSrvSecBundle\AuthSrvSecBundle::class => ['all' => true],
+    Cnam\CryptographieBundle\CryptographieBundle::class => ['all' => true],
+    Cnam\AuthAppBundle\AuthAppBundle::class => ['all' => true],
 ];

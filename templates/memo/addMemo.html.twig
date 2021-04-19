@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mémo{% endblock %}
+
+{% block body %}
+<style>
+
+        h1, h3{
+            color: #f00d59 !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+        h4{
+            color: #78072c;
+        }
+
+        h2, h5{
+            color: #63929c ;
+        }
+
+</style>
+
+<div class="example-wrapper">
+<section class="container d-flex justify-content-center pt-3">
+    <div class="w-100 ">
+    {# Div message flash #}
+        <div class="text-center">
+            {% for level, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ level }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+{{ form_start(form) }}
+     
+
+{{ form_end(form) }}
+{% endblock %}

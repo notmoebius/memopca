@@ -177,6 +177,18 @@
                 <label for="photo" class="form-label col-12 text-center text-uppercase">Changez votre photo ? <span class="optionnel fst-italic">(Optionnel)</span></label>
                 <input type="file" name="photo" id="photo" class="form-control-file file-upload radius-0 text-center col-12" accept="image/* ,application/pdf"/>
             </div>
+
+                    {# Start Row #}
+        <div class="row">
+        <div class="form-group">
+            <label for="organization" class="text-uppercase">Votre Organisme : </label>
+            <select class="form-select form-select mb-4" name="organization" id="organization" aria-label=".form-select">
+                    <option> Choisissez votre Organisme:</option>
+                    <option value="1" {% if user.organization.id == 1 %} selected {% endif %}>CPAM Haute-Garonne</option>
+
+            </select>
+        </div>
+        {# End Row #}
                 <div class="text-center">
                     <button class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Valider les modifications</button>
                 </div>

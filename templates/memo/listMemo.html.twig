@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mémo{% endblock %}
+
+{% block body %}
+<style>
+
+        h1, h3{
+            color: #f00d59 !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+        h4{
+            color: #78072c;
+        }
+
+        h2, h5{
+            color: #63929c ;
+        }
+
+    .down{
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 200px 100px 0 100px;
+        border-color: #ff7070 transparent transparent transparent;
+    }
+</style>
+
+<div class="example-wrapper">
+<section class="container d-flex justify-content-center pt-3">
+    <div class="w-100 ">
+    {# Div message flash #}
+        <div class="text-center">
+            {% for level, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ level }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+    <h1 class="text-center mt-5">Mémo <i class="fas fa-mobile-alt"></i></h1>
+    <h2 class="text-center mb-3" >Liste des mémos :</h2>
+    <p class="text-center"><a class="btn btn-lg btn-secondary rounded-0 m-3" href="">Ajoutez un mémo  <i class="ps-2 fs-4 fas fa-plus"></i></a></p>
+
+    <form method="POST"> 
+                <label for="directory" class="text-uppercase">Choisissez l'utilisateur pour afficher son mémo: </label>
+                <select class="form-select form-select mb-4" name="memo" id="memo" aria-label=".form-select" required>
+                <option selected >Quel utilisateur ?</option>
+                <option value="{{ {user: (user.id)} }}">{{ user.firstname }} {{ user.lastname }}</option>
+    <div class="down"></div>
+
+    </form>
+ 
+{% endblock %}
