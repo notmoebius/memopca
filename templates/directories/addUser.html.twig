@@ -4,6 +4,11 @@
 
         {% block stylesheets %} 
         <style> 
+        
+        body{
+            background-color: #faf8f7;
+        }
+
         h1{
             color: #f00d59;
         }
@@ -27,6 +32,15 @@
 <div class="mt-4 mb-2 text-center">
     <h1>Ajoutez une personne dans l'annuaire <i class="fas fa-user-plus"></i></h1>
     <p class="text-center fst-italic">Tous les champs du formulaire sont obligatoires.</p>
+
+          {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
 </div>
 <section class="container">
 <form  method="POST" enctype="multipart/form-data">
@@ -44,8 +58,8 @@
         {# End Row #}
             <div class="row">
                 <div class="form-group mb-2">
-                    <label for="status" class="text-uppercase">Fonction occupée : </label>
-                <input type="text" name="status" class="form-control mb-3" id="status" placeholder="Votre fonction" required>
+                    <label for="profession" class="text-uppercase">Fonction occupée : </label>
+                <input type="text" name="profession" class="form-control mb-3" id="profession" placeholder="Votre fonction" required>
                 </div>
             </div>
         {# Start Row #}
@@ -79,7 +93,7 @@
         <div class="form-group">
             <label for="role" class="text-uppercase">Rôle : </label>
             <select class="form-select form-select mb-4" name="role" id="role" aria-label=".form-select" required>
-                <option selected >Choisissez votre rôle:</option>
+                <option value="0" selected >Choisissez votre rôle:</option>
                     <option value="1">RPCA</option>
                     <option value="2">Direction</option>
                     <option value="3">Manager</option>
@@ -94,7 +108,7 @@
         <div class="form-group">
             <label for="directory" class="text-uppercase">Annuaire d'affectation : </label>
             <select class="form-select form-select mb-4" name="directory" id="directory" aria-label=".form-select" required>
-                <option selected >Choisissez votre annuaire d'affectation :</option>
+                <option value="0" selected >Choisissez votre annuaire d'affectation :</option>
                     <option value="1">Comité Crise</option>
                     <option value="2">Comité Elargi</option>
                     <option value="3">Responsable site</option>
@@ -133,8 +147,9 @@
         <div class="form-group">
             <label for="organization" class="text-uppercase">Votre Organisme : </label>
             <select class="form-select form-select mb-4" name="organization" id="organization" aria-label=".form-select" required>
-                <option selected >Choisissez votre Organisme:</option>
+                <option value="0" selected >Choisissez votre Organisme:</option>
                     <option value="1">CPAM Haute-Garonne</option>
+                    <option value="2">CPAM National</option>
             </select>
         </div>
         </div>

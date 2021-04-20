@@ -12,6 +12,7 @@ use App\Entity\Role;
 use App\Entity\Grade;
 use App\Entity\Directory;
 use App\Entity\Organization;
+use Respect\Validation\Validator as v;
 use Cnam\ValidatorBundle\Constraints\Diademe\Diademe;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Validation;
@@ -24,7 +25,7 @@ class DirectoriesController extends AbstractController
 
     // LISTING UTILISATEURS DANS L'ANNUAIRE
 
-    public function listUser(Request $request): Response
+    public function ListUser(Request $request): Response
     {
         $user = $this->getUser();
        
@@ -198,12 +199,12 @@ class DirectoriesController extends AbstractController
                     }
         }
 
-        return $this->render('directories/listUser.html.twig', [
-            'user' => $user,
-            'page' => 'annuaire',
-            'role' => 'accueil',
-            'directory' => 'accueil'
-        ]);
+                         return $this->render('directories/listUser.html.twig', [
+                            'user' => $user,
+                            'page' => 'annuaire',
+                            'role' => 'accueil',
+                            'directory' => 'accueil'
+                        ]);
     }
 
     // FIN DU FILTRE par ANNUAIRE
@@ -211,7 +212,7 @@ class DirectoriesController extends AbstractController
 
     // DETAILS UTILISATEURS DANS L'ANNUAIRE
 
-    public function detailsUser(Request $request): Response
+    public function DetailsUser(Request $request): Response
     {
 
         $user = $this->getUser();
@@ -229,22 +230,111 @@ class DirectoriesController extends AbstractController
 
     // AJOUTS UTILISATEURS DANS L'ANNUAIRE
 
-    public function addUser(): Response
+    public function AddUser(): Response
     {
+
+        $errors = [];
+
         if(!empty($_POST)){
 
-            // dd($_FILES);
-            
-            $user = $this->getUser();
             $safe= array_map('trim', array_map('strip_tags', $_POST));
-
-            // La variable em c'est EntityManager, c'est la connexion a la base de donnée
             $em = $this->getDoctrine()->getManager();
+
             $role = $em ->getRepository(Role::Class);
             $grade = $em ->getRepository(Grade::Class);
             $directory = $em ->getRepository(Directory::Class);
             $organization = $em ->getRepository(Organization::Class);
+    
+            // Je recupere mes données de role et de grade
+            $safe['role'] = $role->FindOneBy(['id' => $safe['role']]);
 
+            $safe['directory'] = $directory->FindOneBy(['id' => $safe['directory']]);
+            $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+            // La variable em c'est EntityManager, c'est la connexion a la base de donnée
+
+
+            if(!v::length(2, 50)->validate($safe['firstname'])){
+                $errors[]= 'Votre prénom doit contenir entre 2 et 50 caracteres';
+            }
+
+            if(!v::length(2, 50)->validate($safe['lastname'])){
+                $errors[]= 'Votre nom doit contenir entre 2 et 50 caracteres';
+            }
+
+            if(!v::length(5, 100)->validate($safe['profession'])){
+                $errors[]= 'Votre fonction doit contenir entre 5 et 100 caracteres';
+            }
+
+            if(!v::length(10)->validate($safe['mobilenumber'])){
+                $errors[]= 'Votre numéro de téléphone portable doit contenir exactement 10 chiffres';
+            }
+
+            if(!v::length(10)->validate($safe['phonenumber'])){
+                $errors[]= 'Votre numéro de téléphone fixe doit contenir exactement 10 chiffres';
+            }
+
+            if(!v::length(5, 50)->validate($safe['structure'])){
+                $errors[]= 'Votre Bâtiment doit contenir entre 5 et 50 caractères';
+            }
+
+            if(!v::length(null, 15)->validate($safe['floor'])){
+                $errors[]= 'Votre Etage ne peut pas excéder 15 caracteres';
+            }
+
+	        if(!isset($safe['role'])){ // Validation organisation
+                    $errors[] = 'Vous devez choisir votre rôle au sein de MemoPCA.';
+            }
+
+	        if(!isset($safe['directory'])){ // Validation organisation
+                    $errors[] = 'Vous devez choisir l\'annuaire auquel vous appartenez au sein de MemoPCA.';
+            }
+
+	        if(!isset($safe['grade'])){ // Validation organisation
+                    $errors[] = 'Vous devez choisir si vous êtes "Titulaire" ou "Suppléant".';
+            }
+
+	        if(!isset($safe['organization'])){ // Validation organisation
+                    $errors[] = 'Vous devez choisir votre organisme.';
+            }
+
+            // Verification Image
+            if(isset($_FILES['photo']) && $_FILES['photo']['error'] != UPLOAD_ERR_NO_FILE){
+
+                if($_FILES['photo']['error'] != UPLOAD_ERR_OK){
+                    $errors[] = 'Une erreur est survenue lors du transfert de l\'image'; 
+                }
+                else {
+
+                    $maxSize = 3 * 1000 * 1000; 
+
+                    if($_FILES['photo']['size'] > $maxSize){
+                        $errors[] = 'L\'image est trop volumineuse, maximum 3Mo';
+                    }
+                    else {
+
+                        $allowMimesTypes = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png'];
+                        if(!in_array($_FILES['photo']['type'], $allowMimesTypes)){
+                            $errors[] = 'Le type de fichier est invalide';
+                        }
+                    }
+                }
+                
+            } // endif isset($_FILES['profilPicture']) && !empty($_FILES['profilPicture']) && $_FILES['profilPicture']['error'] != UPLOAD_ERR_NO_FILE
+
+            if(count($errors) === 0){
+
+            // dd($_FILES);
+            
+            $user = $this->getUser();
+
+            // La variable em c'est EntityManager, c'est la connexion a la base de donnée
+            $em = $this->getDoctrine()->getManager();
+            
+            $role = $em ->getRepository(Role::Class);
+            $grade = $em ->getRepository(Grade::Class);
+            $directory = $em ->getRepository(Directory::Class);
+            $organization = $em ->getRepository(Organization::Class);
+    
             // Je recupere mes données de role et de grade
             $safe['role'] = $role->FindOneBy(['id' => $safe['role']]);
             $safe['grade'] = $grade->FindOneBy(['id' => $safe['grade']]);
@@ -260,7 +350,7 @@ class DirectoriesController extends AbstractController
             
             $user->setFirstname($safe['firstname']);
             $user->setLastname($safe['lastname']);
-            $user->setStatus($safe['status']);
+            $user->setProfession($safe['profession']);
             $user->setMobilenumber($safe['mobilenumber']);
             $user->setPhonenumber($safe['phonenumber']);
             $user->setStructure($safe['structure']);
@@ -310,30 +400,106 @@ class DirectoriesController extends AbstractController
             return $this ->redirectToRoute('list_directory_controller', ['page' => 'Accueil'] );
 
         }else{
-
-            return $this->render('directories/AddUser.html.twig', [
             
-            ]);
+            $this->addFlash('danger',  implode('<br>', $errors));
+            }
         }
-    }
 
+        return $this->render('directories/AddUser.html.twig', [
+            ]);
+    }
 
     // MODIFICATION UTILISATEURS DANS L'ANNUAIRE
 
     public function UpdateUser(Request $request): Response
     {
 
-        $user = $this->getUser();
+        $safe= array_map('trim', array_map('strip_tags', $_POST));
         $em = $this->getDoctrine()->getManager();
-     
-        $user= $em->getRepository(User::class)->findOneBy(['id'=> $_GET['user']]);
-        $role = $user ->getRole() -> getName();
-        $grade = $user ->getGrade() -> getName();
-        $directory = $user ->getDirectory() -> getName();
-        $organization = $user ->getOrganization() -> getName();
+        $user = $em->getRepository(User::Class)->FindOneBy(['id' => $_GET['user']]);
+
+        $role = $em ->getRepository(Role::Class);
+        $grade = $em ->getRepository(Grade::Class);
+        $directory = $em ->getRepository(Directory::Class);
+        $organization = $em ->getRepository(Organization::Class);
+
+        // Je recupere mes données de role et de grade
+        $safe['role'] = $role->FindOneBy(['id' => $safe['role']]);
+
+        $safe['directory'] = $directory->FindOneBy(['id' => $safe['directory']]);
+        $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+        // La variable em c'est EntityManager, c'est la connexion a la base de donnée
 
 
-    if(!empty($_POST)){
+        if(!v::length(2, 50)->validate($safe['firstname'])){
+            $errors[]= 'Votre prénom doit contenir entre 2 et 50 caracteres';
+        }
+
+        if(!v::length(2, 50)->validate($safe['lastname'])){
+            $errors[]= 'Votre nom doit contenir entre 2 et 50 caracteres';
+        }
+
+        if(!v::length(5, 100)->validate($safe['profession'])){
+            $errors[]= 'Votre fonction doit contenir entre 5 et 100 caracteres';
+        }
+
+        if(!v::length(10)->validate($safe['mobilenumber'])){
+            $errors[]= 'Votre numéro de téléphone portable doit contenir exactement 10 chiffres';
+        }
+
+        if(!v::length(10)->validate($safe['phonenumber'])){
+            $errors[]= 'Votre numéro de téléphone fixe doit contenir exactement 10 chiffres';
+        }
+
+        if(!v::length(5, 50)->validate($safe['structure'])){
+            $errors[]= 'Votre Bâtiment doit contenir entre 5 et 50 caractères';
+        }
+
+        if(!v::length(null, 15)->validate($safe['floor'])){
+            $errors[]= 'Votre Etage ne peut pas excéder 15 caracteres';
+        }
+
+        if(!isset($safe['role'])){ // Validation organisation
+                $errors[] = 'Vous devez choisir votre rôle au sein de MemoPCA.';
+        }
+
+        if(!isset($safe['directory'])){ // Validation organisation
+                $errors[] = 'Vous devez choisir l\'annuaire auquel vous appartenez au sein de MemoPCA.';
+        }
+
+        if(!isset($safe['grade'])){ // Validation organisation
+                $errors[] = 'Vous devez choisir si vous êtes "Titulaire" ou "Suppléant".';
+        }
+
+        if(!isset($safe['organization'])){ // Validation organisation
+                $errors[] = 'Vous devez choisir votre organisme.';
+        }
+
+        // Verification Image
+        if(isset($_FILES['photo']) && $_FILES['photo']['error'] != UPLOAD_ERR_NO_FILE){
+
+            if($_FILES['photo']['error'] != UPLOAD_ERR_OK){
+                $errors[] = 'Une erreur est survenue lors du transfert de l\'image'; 
+            }
+            else {
+
+                $maxSize = 3 * 1000 * 1000; 
+
+                if($_FILES['photo']['size'] > $maxSize){
+                    $errors[] = 'L\'image est trop volumineuse, maximum 3Mo';
+                }
+                else {
+
+                    $allowMimesTypes = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png'];
+                    if(!in_array($_FILES['photo']['type'], $allowMimesTypes)){
+                        $errors[] = 'Le type de fichier est invalide';
+                    }
+                }
+            }
+            
+        } // endif isset($_FILES['profilPicture']) && !empty($_FILES['profilPicture']) && $_FILES['profilPicture']['error'] != UPLOAD_ERR_NO_FILE
+
+        if(count($errors) === 0){
 
         
         
@@ -350,7 +516,7 @@ class DirectoriesController extends AbstractController
             
         $user->setFirstname($safe['firstname']);
         $user->setLastname($safe['lastname']);
-        $user->setStatus($safe['status']);
+        $user->setProfession($safe['profession']);
         $user->setMobilenumber($safe['mobilenumber']);
         $user->setPhonenumber($safe['phonenumber']);
         $user->setStructure($safe['structure']);
@@ -392,11 +558,12 @@ class DirectoriesController extends AbstractController
 
         if($request->isMethod('POST'))
 
+        
         $em = $this->getDoctrine()->getManager();
 
         // Je prepare la sauvegarde en base de donnée
         $em->persist($user);
-
+        
         // L'équivalent du execute()
         $em->flush();
 
@@ -407,12 +574,17 @@ class DirectoriesController extends AbstractController
             'user' => $user,
             ]);
 
-        }
+        }else{
 
+            $this->addFlash('danger',  implode('<br>', $errors));
+        }
+ 
         return $this->render('directories/updateUser.html.twig', [
             'user' => $user,
             ]);
+
     }
+
 
 
     // SUPPRESSION UTILISATEURS DANS L'ANNUAIRE
@@ -442,7 +614,7 @@ class DirectoriesController extends AbstractController
     //     $data1 = array();
     //     foreach ($user1 as $key => $user){
     //         $data1[$key]['id'] = "id".$user->getId();
-    //         $data1[$key]['fonction'] = $user->getStatus();
+    //         $data1[$key]['fonction'] = $user->getProfession();
     //         $data1[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
     //         $data1[$key]['portable'] = $user->getMobilenumber();
     //         $data1[$key]['fixe'] = $user-> getPhonenumber();
@@ -465,7 +637,7 @@ class DirectoriesController extends AbstractController
         
     //     foreach ($user2 as $key => $user){
     //         $data2[$key]['id'] = "id".$user->getId();
-    //         $data2[$key]['fonction'] = $user->getStatus();
+    //         $data2[$key]['fonction'] = $user->getProfession();
     //         $data2[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
     //         $data2[$key]['portable'] = $user->getMobilenumber();
     //         $data2[$key]['fixe'] = $user-> getPhonenumber();
@@ -488,7 +660,7 @@ class DirectoriesController extends AbstractController
         
     //     foreach ($user3 as $key => $user){
     //         $data3[$key]['id'] = "id".$user->getId();
-    //         $data3[$key]['fonction'] = $user->getStatus();
+    //         $data3[$key]['fonction'] = $user->getProfession();
     //         $data3[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
     //         $data3[$key]['portable'] = $user->getMobilenumber();
     //         $data3[$key]['fixe'] = $user-> getPhonenumber();
@@ -511,7 +683,7 @@ class DirectoriesController extends AbstractController
         
     //     foreach ($user4 as $key => $user){
     //         $data4[$key]['id'] = "id".$user->getId();
-    //         $data4[$key]['fonction'] = $user->getStatus();
+    //         $data4[$key]['fonction'] = $user->getProfession();
     //         $data4[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
     //         $data4[$key]['portable'] = $user->getMobilenumber();
     //         $data4[$key]['fixe'] = $user-> getPhonenumber();
@@ -534,7 +706,7 @@ class DirectoriesController extends AbstractController
         
     //     foreach ($user5 as $key => $user){
     //         $data5[$key]['id'] = "id".$user->getId();
-    //         $data5[$key]['fonction'] = $user->getStatus();
+    //         $data5[$key]['fonction'] = $user->getProfession();
     //         $data5[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
     //         $data5[$key]['portable'] = $user->getMobilenumber();
     //         $data5[$key]['fixe'] = $user-> getPhonenumber();
@@ -590,7 +762,7 @@ class DirectoriesController extends AbstractController
         $data1 = array();
         foreach ($user1 as $key => $user){
             $data1[$key]['id'] = "id".$user->getId();
-            $data1[$key]['fonction'] = $user->getStatus();
+            $data1[$key]['fonction'] = $user->getProfession();
             $data1[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
             $data1[$key]['portable'] = $user->getMobilenumber();
             $data1[$key]['fixe'] = $user-> getPhonenumber();
@@ -620,7 +792,7 @@ class DirectoriesController extends AbstractController
         
         foreach ($user2 as $key => $user){
             $data2[$key]['id'] = "id".$user->getId();
-            $data2[$key]['fonction'] = $user->getStatus();
+            $data2[$key]['fonction'] = $user->getProfession();
             $data2[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
             $data2[$key]['portable'] = $user->getMobilenumber();
             $data2[$key]['fixe'] = $user-> getPhonenumber();
@@ -648,7 +820,7 @@ class DirectoriesController extends AbstractController
         $data3 = array();
         foreach ($user3 as $key => $user){
             $data3[$key]['id'] = "id".$user->getId();
-            $data3[$key]['fonction'] = $user->getStatus();
+            $data3[$key]['fonction'] = $user->getProfession();
             $data3[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
             $data3[$key]['portable'] = $user->getMobilenumber();
             $data3[$key]['fixe'] = $user-> getPhonenumber();
@@ -676,7 +848,7 @@ class DirectoriesController extends AbstractController
         $data4 = array();
         foreach ($user4 as $key => $user){
             $data4[$key]['id'] = "id".$user->getId();
-            $data4[$key]['fonction'] = $user->getStatus();
+            $data4[$key]['fonction'] = $user->getProfession();
             $data4[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
             $data4[$key]['portable'] = $user->getMobilenumber();
             $data4[$key]['fixe'] = $user-> getPhonenumber();
@@ -703,7 +875,7 @@ class DirectoriesController extends AbstractController
         $data5 = array();
         foreach ($user5 as $key => $user){
             $data5[$key]['id'] = "id".$user->getId();
-            $data5[$key]['fonction'] = $user->getStatus();
+            $data5[$key]['fonction'] = $user->getProfession();
             $data5[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
             $data5[$key]['portable'] = $user->getMobilenumber();
             $data5[$key]['fixe'] = $user-> getPhonenumber();

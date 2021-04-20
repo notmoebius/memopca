@@ -126,10 +126,10 @@
                         <h3 class="fw-bold name text-center pt-2">{{ user.firstname }} {{ user.lastname }} </h3>
                         <h4 class="directory text-center">{{ user.directory.name }}</h4>
                         <h5 class="role text-center pb-3">{{ user.role.name }}</h5>
-                        <p class="text-secondary status"><i class="fas fa-briefcase"></i> {{ user.status }}</p>
+                        <p class="text-secondary status"><i class="fas fa-briefcase"></i> {{ user.profession }}</p>
                         <p class="text-secondary grade mb-0"><i class="text-secondary fas fa-user-alt"></i> {{ user.grade.name }}</p>
                         <p></p>
-                        <p class="text-end mb-0"><a href="{{path('update_directory_controller', {user: (user.id)} )}}" class="fs-4 text-info"><i class="me-3 fas fa-pencil-alt"></a></i></a> <a href="{{path('delete_directory_controller', {user: (user.id)} )}}" class=" fs-4 text-danger"><i class="me-3 fas fa-trash-alt"></i></a> <a class=" btn btn-outline-secondary mb-2 me-2" href="{{path('details_directory_controller', {user: (user.id)} )}}">Détails</a></p>
+                        <p class="text-end mb-0"><a href="{{path('update_directory_controller', {user: (user.id)} )}}" class="fs-4 text-info"><i class="me-3 fas fa-pencil-alt"></a></i></a> <a href="{{path('delete_directory_controller', {user: (user.id)} )}}" class=" fs-4 text-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce contact ?')"><i class="me-3 fas fa-trash-alt"></i></a> <a class=" btn btn-outline-secondary mb-2 me-2" href="{{path('details_directory_controller', {user: (user.id)} )}}">Détails</a></p>
                     </div>
 
                 </div>  

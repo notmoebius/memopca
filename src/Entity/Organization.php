@@ -29,10 +29,16 @@ class Organization
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Login::class, mappedBy="organization", orphanRemoval=true)
+     */
+    private $login;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->login = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,6 +82,36 @@ class Organization
             // set the owning side to null (unless already changed)
             if ($user->getOrganization() === $this) {
                 $user->setOrganization(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Login[]
+     */
+    public function getLogin(): Collection
+    {
+        return $this->login;
+    }
+
+    public function addLogin(Login $login): self
+    {
+        if (!$this->login->contains($login)) {
+            $this->login[] = $login;
+            $login->setOrganization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLogin(Login $login): self
+    {
+        if ($this->login->removeElement($login)) {
+            // set the owning side to null (unless already changed)
+            if ($login->getOrganization() === $this) {
+                $login->setOrganization(null);
             }
         }
 

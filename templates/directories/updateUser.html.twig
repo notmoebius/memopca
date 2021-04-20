@@ -82,6 +82,14 @@
     <h2 class="text-decoration-underline mt-2 mb-3">Modifiez le contact</h2>
     <p class="fst-italic">Tous les champs du formulaire sont obligatoires.</p>
 
+          {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        
   <form  method="POST" enctype="multipart/form-data">
         {# Start Row #}
             <div class="row mb-3">
@@ -97,8 +105,8 @@
         {# End Row #}
             <div class="row">
                 <div class="form-group mb-3">
-                    <label for="status" class="text-uppercase">Fonction occupée : </label>
-                <input type="text" name="status" class="form-control mb-3" id="status" placeholder="Votre fonction" value="{{ user.status }}">
+                    <label for="profession" class="text-uppercase">Fonction occupée : </label>
+                <input type="text" name="profession" class="form-control mb-3" id="profession" placeholder="Votre fonction" value="{{ user.profession }}">
                 </div>
             </div>
         {# Start Row #}
@@ -132,7 +140,7 @@
         <div class="form-group">
             <label for="role" class="text-uppercase">Rôle : </label>
             <select class="form-select form-select mb-4" name="role" id="role" aria-label=".form-select">
-                    <option> Choisissez votre rôle:</option>
+                    <option value="0"> Choisissez votre rôle:</option>
                     <option value="1" {% if user.role.id == 1 %} selected {% endif %}>RPCA</option>
                     <option value="2" {% if user.role.id == 2 %} selected {% endif %}>Direction</option>
                     <option value="3" {% if user.role.id == 3 %} selected {% endif %}>Manager</option>
@@ -146,7 +154,7 @@
             <div class="form-group">
                 <label for="directory" class="text-uppercase">Annuaire d'affectation : </label>
                 <select class="form-select form-select mb-4" name="directory" id="directory" aria-label=".form-select" required>
-                    <option>Choisissez votre annuaire d'affectation :</option>
+                    <option value="0">Choisissez votre annuaire d'affectation :</option>
                     <option value="1" {% if user.directory.id == 1 %} selected {% endif %}>Comité crise</option>
                     <option value="2" {% if user.directory.id == 2 %} selected {% endif %}>Comité élargi</option>
                     <option value="3" {% if user.directory.id == 3 %} selected {% endif %}>Responsable site</option>
@@ -183,8 +191,10 @@
         <div class="form-group">
             <label for="organization" class="text-uppercase">Votre Organisme : </label>
             <select class="form-select form-select mb-4" name="organization" id="organization" aria-label=".form-select">
-                    <option> Choisissez votre Organisme:</option>
+                    <option value="0"> Choisissez votre Organisme:</option>
                     <option value="1" {% if user.organization.id == 1 %} selected {% endif %}>CPAM Haute-Garonne</option>
+                    <option value="2" {% if user.organization.id == 2 %} selected {% endif %}>CPAM National</option>
+
 
             </select>
         </div>

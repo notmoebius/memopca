@@ -4,6 +4,11 @@
 
 {% block stylesheets %}
 <style>
+
+body{
+    background-color: #faf8f7;
+}
+
 .logo{
   width: 50px;
   height: 50px;
@@ -12,14 +17,21 @@
 h1, h3{
     color: #f00d59 !important;
     font-family: 'Nunito', sans-serif; 
-        }
+}
+
 h4{
     color: #78072c;
-        }
+}
 
 h2, h5{
     color: #63929c ;
-        }
+    }
+    
+label{
+    color: #63929c;
+    font-weight: bold;
+} 
+
 </style>
 {% endblock %}
 
@@ -30,6 +42,10 @@ h2, h5{
         <h1 class="mb-3 font-weight-normal">Connexion</h1>
 
         <p>Connecter votre compte facilement avec l'un de ces services</p>
+
+        <div >
+            <a href=""><img class="logo m-3" src="/asset/images/logo/logoAccessMaster.png" alt="logo Access Master"></a>
+        </div>
     </div>
     <div class="w-50 mx-auto ">
 

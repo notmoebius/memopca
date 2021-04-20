@@ -12,7 +12,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/se-connecter", name="app_login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function Login(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
@@ -29,7 +29,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="app_logout")
      */
-    public function logout()
+    public function Logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }

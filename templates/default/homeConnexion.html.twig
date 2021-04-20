@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil MemoPCA{% endblock %}
+
+
+{% block stylesheets %}
+    <style>
+
+        body{
+            background-color: #faf8f7;
+        }
+
+        h1{
+            color: #f00d59 !important;
+            font-family: 'Nunito', sans-serif; 
+        } 
+        
+        h2{
+            color: #63929c;
+            font-family: 'Nunito', sans-serif; 
+        }
+
+        h4{
+            color: #78072c;
+        }
+
+        h5{
+            color: #78072c;
+        }
+
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+<section class="container d-flex justify-content-centerpt-3">
+    <div class="w-100">
+    {# Div message flash #}
+        <div class="text-center">
+            {% for level, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ level }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+
+    <h1 class="text-center mb-3 mt-5 mb-5">MémoPCA </i></h1>
+
+    <h5 class="text-start">Bonjour, <span class="fst-italic">{{ login.firstname }} {{ login.lastname }}</span> <i class="fas fa-hand-peace"></i></h5>
+    <h5 class="text-start">Votre email de connexion est <span class="fst-italic">{{ login.email }}</span></h5>
+    <h5 class="text-start mb-5">Vous faîtes parti de l'organisme : <span class="fst-italic">{{ login.organization.name }}</span> en tant que <span class="fst-italic">{{ login.status }}</span></h5>
+
+    <section class="container mb-5">
+
+        <h2 class="text-center mb-5">Détails des fontionnalités : <i class="fas fa-cogs"></i></h2>
+        <div class="row">
+    
+    
+    
+    
+    </div>    
+
+</section>
+{% endblock %}

@@ -6,6 +6,8 @@ security:
 
 
 
+
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         phpk:
@@ -15,6 +17,8 @@ security:
             entity:
                 class: App\Entity\Login
                 property: email
+        # used to reload user from session & other features (e.g. switch_user)
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -45,7 +49,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: login_controller
 
 
             # activate different ways to authenticate

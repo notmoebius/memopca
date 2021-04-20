@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil MemoPCA{% endblock %}
+
+
+{% block stylesheets %}
+    <style>
+
+        body{
+            background-color: #faf8f7;
+        }
+
+        h1, h3{
+            color: #f00d59 !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+        h4{
+            color: #78072c;
+        }
+
+        h2, h5{
+            color: #63929c ;
+        }
+     .imghome{
+         width: 80%;
+     }
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+<section class="container d-flex justify-content-centerpt-3">
+    <div class="w-100">
+    {# Div message flash #}
+        <div class="text-center">
+            {% for level, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ level }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+
+    <h1 class="text-center mb-3 mt-5">MémoPCA </i></h1>
+
+    <h2 class="text-center mb-5">Inscription : <i class="far fa-user"></i></h2>
+
+</div>
+</section>
+
+    <section class="container mb-5">
+        <div class="row ">
+            <div class="col-4 shopordev ">
+                <h3 class="text-center text-info fw-bold mb-1">Vous êtes SNPCA ?</h3>
+                <p class="text-center"><strong class="fw-normal"><u>Inscrivez-vous</u></strong>.</p>
+                <div class="text-center">
+                    <a href="{{ path('user_register', { status: 'SNPCA'}) }}"><img src="/asset/images/logo/logo1.jpg" class="imghome rounded img-responsive" alt="..."></a>
+                </div>            
+            </div>
+
+            <div class="col-4 shopordev">
+            <h3 class="text-center text-info fw-bold mb-1">Vous êtes RPCA ?</h3>
+                <p class="text-center"><strong class="fw-normal"><u>Inscrivez-vous</u></strong>.</p>
+                <div class="text-center">
+                    <a href="{{ path('user_register', { status: 'RPCA'}) }}"><img src="/asset/images/logo/logo2.jpg" class="imghome rounded img-responsive" alt="..."></a>
+                </div>
+            </div>
+
+            <div class="col-4 shopordev">
+            <h3 class="text-center text-info fw-bold  mb-1">Un autre statut ?</h3>
+                <p class="text-center"><strong class="fw-normal"><u>Inscrivez-vous</u></strong>.</p>
+                <div class="text-center">
+                    <a href="{{ path('user_register', { status: 'other'}) }}"><img src="/asset/images/logo/logo3.jpg" class="imghome rounded img-responsive" alt="..."></a>
+                </div>
+            </div> 
+        </div>
+    </section>
+    <section class="container mb-5">
+
+
+    
+    
+    
+    </div>    
+
+</section>
+{% endblock %}

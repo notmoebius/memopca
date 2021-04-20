@@ -2,19 +2,29 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-#Annuaires
 
+# ACCUEIL 
+home_controller:
+    path: /accueil
+    controller: App\Controller\DefaultController:Home
+
+home_connexion_controller:
+    path: /home
+    controller: App\Controller\DefaultController:HomeConnexion
+
+
+# ANNUAIRES
 list_directory_controller:
     path: /annuaire
-    controller: App\Controller\DirectoriesController:listUser
+    controller: App\Controller\DirectoriesController:ListUser
 
 add_directory_controller:
     path: /ajoutez-un-contact
-    controller: App\Controller\DirectoriesController:addUser
+    controller: App\Controller\DirectoriesController:AddUser
 
 details_directory_controller:
     path: /détails
-    controller: App\Controller\DirectoriesController:detailsUser
+    controller: App\Controller\DirectoriesController:DetailsUser
 
 update_directory_controller:
     path: /modifiez-le-contact
@@ -24,7 +34,7 @@ delete_directory_controller:
     path: /supprimez-le-contact
     controller: App\Controller\DirectoriesController:DeleteUser
 
-    # ANNUAIRE FICHIERS JSON
+# ANNUAIRE FICHIERS JSON
 json_directory_controller:
     path: /Annuaires
     controller: App\Controller\DirectoriesController:JsonDirectory
@@ -61,9 +71,14 @@ add_memo_controller:
     path: /creer-un-memo
     controller: App\Controller\MemoController:AddMemo
 
+# INSCRIPTION
+
+user_register:
+    path: /inscription
+    controller: App\Controller\UserController::Register
 
 # CONNEXION
 
 login_controller:
     path: /se-connecter
-    controller: App\Controller\SecurityController::login
+    controller: App\Controller\SecurityController::Login
