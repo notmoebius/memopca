@@ -13,4 +13,5 @@ return [
     Cnam\AuthSrvSecBundle\AuthSrvSecBundle::class => ['all' => true],
     Cnam\CryptographieBundle\CryptographieBundle::class => ['all' => true],
     Cnam\AuthAppBundle\AuthAppBundle::class => ['all' => true],
+    Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
 ];

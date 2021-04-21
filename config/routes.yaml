@@ -82,3 +82,7 @@ user_register:
 login_controller:
     path: /se-connecter
     controller: App\Controller\SecurityController::Login
+
+forget_controller:
+    path: /mot-de-passe-oublie
+    controller: App\Controller\SecurityController::ForgetPass

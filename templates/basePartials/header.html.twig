@@ -8,8 +8,11 @@
             text-decoration: underline;
             
         } 
-
         .login:hover{
+            color: #212529 !important;
+        }
+
+        .logout:hover{
             color: #212529 !important;
         }
         </style> 
@@ -18,16 +21,25 @@
 
 <nav class="navbar navbar-expand-lg navbar-info bg-info">
     <div class="container">
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <a class="navbar-brand text-light" href="{{ path('home_connexion_controller') }}"><img class="logonav px-2" src="/asset/images/logos.png" alt=""><i class="fas fa-headset"></i> MémoPCA</a>
+    {% else %}
         <a class="navbar-brand text-light" href="{{ path('home_controller') }}"><img class="logonav px-2" src="/asset/images/logos.png" alt=""><i class="fas fa-headset"></i> MémoPCA</a>
+    {% endif %}    
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+       
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <a class="btn btn-light text-info mx-3 px-3" href="{{ path('list_directory_controller', {page: 'Accueil'}) }}">Annuaire <i class="far fa-address-book"></i></a>
             <a class="btn btn-light text-info mx-3 px-3" href="{{ path('list_memo_controller') }}">Mémo <i class="fas fa-mobile-alt"></i></a>
             {# <a class="btn btn-light text-info mx-4 px-3" href="">Crises/Alertes <i class="far fa-bell"></i></a> #}
             <a class="btn btn-light text-info mx-3 px-3" href="#">Documents <i class="far fa-folder-open"></i></a>
+            <a class="logout text-light" href="{{ path('app_logout') }}"><i class="ps-2 fs-2 fas fa-sign-out-alt"></i></a>
+        {% else %}
             <a class="login text-light" href="{{ path('login_controller') }}"><i class="ps-2 fs-2 fas fa-user-circle"></i></a>
+        {% endif %}
         </div>
     </div>
 </nav>

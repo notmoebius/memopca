@@ -28,7 +28,7 @@ class DefaultController extends AbstractController
 
         $status = $this->getUser()->getStatus();
         
-        if($this->getUser() && $status === "SNPCA" || $status === "RPCA" || $status === "other" ){
+        if($this->getUser() && $status === "SNPCA" || $status === "RPCA" || $status === "Utilisateur" ){
             
             $login = $this->getUser();
             $em = $this->getDoctrine()->getManager();

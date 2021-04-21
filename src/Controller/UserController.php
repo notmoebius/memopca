@@ -38,7 +38,7 @@ class UserController extends AbstractController
             $session->start();
         }
         // Set and Get session attributes
-        if(!empty($_GET["status"])){
+        if(!empty($_GET['status'])){
             $session->set('status', $_GET['status']);
         }else{
             return $this->redirectToRoute('home_controller');
@@ -100,7 +100,7 @@ class UserController extends AbstractController
                         $login,
                         $safe['password']
                     ));
-    
+
                     $em->persist($login);
                     $em->flush();
                     $_POST = array();
