@@ -74,7 +74,13 @@
 
             <h1 class="fs-2 welcome text-center mb-3">Bienvenue sur l'application:</h1>
             <h1 class="fs-1 title text-center mb-3">MémoPCA <i class="fas fa-headset"></i></h1>
-            <p class="text-center"><a href="#inscription" class="text-center btn btn-lg btn-outline-secondary">Inscription</a></p>
+
+
+            <div class="d-flex justify-content-center">
+
+                <p class="text-center px-3"><a href="#inscription" class="text-center btn btn-lg btn-outline-secondary">Inscription</a></p>
+                <p class="text-center px-3"><a href="{{ path('login_controller') }}" class="text-center btn btn-lg btn-outline-secondary">Connexion</a></p>
+            </div> 
 
         </div>
         <h2 class="fs-1 text-center pt-2">Application gérant la gestion des alertes et des annuaires.</h2>

@@ -49,9 +49,9 @@ label{
     </div>
     <div class="w-50 mx-auto ">
 
-          {% for level, messages in app.flashes %}
+        {% for level, messages in app.flashes %}
             {% for message in messages %}
-                <div class="alert alert-{{ level }}">
+                <div class="text-center alert alert-{{ level }}">
                     {{ message|raw }}
                 </div>
             {% endfor %}

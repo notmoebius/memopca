@@ -88,8 +88,14 @@
     <p class="text-center"><a class="btn btn-lg btn-secondary rounded-0 m-3" href="{{path('add_directory_controller')}}">Ajoutez un contact  <i class="ps-2 fs-4 fas fa-user-plus"></i></a></p>
 
     {# download="{{path('json_directory_controller')}}" #}
+    {% if status == 'SNCPA' %}
+    {% include("directories/partials/navBarDirectorySNCPA.html.twig") %}
+    {% elseif status == 'RPCA' %}
+    {% include("directories/partials/navBarDirectoryRPCA.html.twig") %}
+    {% elseif status == 'Utilisateur' %}
+    {% include("directories/partials/navBarDirectoryUtilisateur.html.twig") %}
+    {% endif %}
 
-    {% include("directories/partials/navBarDirectory.html.twig") %}
     {% if  "/annuaire?page=Accueil" in app.request.uri %}
         <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="" target="_blank">Exportez les annuaires <i class="ps-2 fs-4 fas fa-download"></i></a></p>
     {% elseif  "/annuaire?page=Comite-crise" in app.request.uri %}
