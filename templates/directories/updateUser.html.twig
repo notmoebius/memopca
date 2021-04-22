@@ -192,8 +192,8 @@
             <label for="organization" class="text-uppercase">Votre Organisme : </label>
             <select class="form-select form-select mb-4" name="organization" id="organization" aria-label=".form-select">
                     <option value="0"> Choisissez votre Organisme:</option>
-                    <option value="1" {% if user.organization.id == 1 %} selected {% endif %}>CPAM Haute-Garonne</option>
-                    <option value="2" {% if user.organization.id == 2 %} selected {% endif %}>CPAM National</option>
+                    <option value="1" {% if user.organization.id == 1 %} selected {% endif %}>CPAM National</option>
+                    <option value="2" {% if user.organization.id == 2 %} selected {% endif %}>CPAM Haute-Garonne</option>
 
 
             </select>

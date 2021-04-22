@@ -21,22 +21,27 @@ class MemoController extends AbstractController
     public function ListMemo(): Response
     {
 
-        $user = $this->getUser();
-               
-                $em = $this->getDoctrine()->getManager();
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
 
-                $user = $this->getDoctrine()->getRepository(User::class)->findAll();
+        $em = $this->getDoctrine()->getManager();
 
+        $user = $this->getDoctrine()->getRepository(User::class)->findAll();
+        
         return $this->render('memo/listMemo.html.twig', [
             'list_memo_controller' => 'MemoController',
             'user' => $user,
-        ]);
+            'login' => $login,
+            'status' => $status,
+            ]);
     }
 
     public function AddMemo(): Response
     {
 
-        $user = $this->getUser();
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+
         $em = $this->getDoctrine()->getManager();
         $user= $em->getRepository(User::class)->findAll();
         $memo = new Memo();
@@ -45,6 +50,8 @@ class MemoController extends AbstractController
         
         return $this->render('memo/addMemo.html.twig', [
             'user' => $user,
+            'login' => $login,
+            'status' => $status,
             'form' => $form->createView(),
         ]);
     }

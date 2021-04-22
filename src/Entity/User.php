@@ -95,6 +95,12 @@ class User
      */
     private $organization;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Login::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $login;
+
     public function __construct()
     {
         $this->inform = new ArrayCollection();
@@ -270,6 +276,18 @@ class User
     public function setOrganization(Organization $organization): self
     {
         $this->organization = $organization;
+
+        return $this;
+    }
+
+    public function getLogin(): ?Login
+    {
+        return $this->login;
+    }
+
+    public function setLogin(?Login $login): self
+    {
+        $this->login = $login;
 
         return $this;
     }

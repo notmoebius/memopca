@@ -27,11 +27,11 @@
 
         <div class="list-group list-group-horizontal text-center">
             <a href="{{path('list_directory_controller', {page: 'Accueil-Organisme'}) }}" class="{{ role == 'allorganisme' ? 'border border-red fw-bold' : '' }} bg-transparent navDirectory list-group-item px-3">Utilisateurs de votre organisme</a>
-            <a href="{{ path('list_directory_controller', {page: 'Comite-crise-organisme'}) }}" class="{{ directory == 'ComiteCriseorganisme' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Comité Crise</a>
-            <a href="{{ path('list_directory_controller', {page: 'Comite-elargi-organisme'}) }}" class="{{ directory == 'ComiteElargiorganisme' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Comité Élargi</i></a>
-            <a href="{{ path('list_directory_controller', {page: 'Responsable-site'}) }}" class="{{ directory == 'ResponsableSite' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Responsable Site</a>
-            <a href="{{ path('list_directory_controller', {page: 'Numeros-importants'}) }}" class="{{ directory == 'NumerosImportants' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Numéros Importants</a>              
-            <a href="{{ path('list_directory_controller', {page: 'Non-renseigne'}) }}" class="{{ directory == 'NonRenseigne' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Non Renseigné </a>              
+            <a href="{{ path('list_directory_controller', {page: 'Comite-crise-Organisme'}) }}" class="{{ directory == 'ComiteCriseOrganisme' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Comité Crise</a>
+            <a href="{{ path('list_directory_controller', {page: 'Comite-elargi-Organisme'}) }}" class="{{ directory == 'ComiteElargiOrganisme' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Comité Élargi</i></a>
+            <a href="{{ path('list_directory_controller', {page: 'Responsable-site-Organisme'}) }}" class="{{ directory == 'ResponsableSiteOrganisme' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Responsable Site</a>
+            <a href="{{ path('list_directory_controller', {page: 'Numeros-importants-Organisme'}) }}" class="{{ directory == 'NumerosImportantsOrganisme' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Numéros Importants</a>              
+            <a href="{{ path('list_directory_controller', {page: 'Non-renseigne-Organisme'}) }}" class="{{ directory == 'NonRenseigneOrganisme' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Non Renseigné </a>              
         </div>
     </div>  
 </nav>

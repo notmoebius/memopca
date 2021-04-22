@@ -1,8 +1,33 @@
+{% block stylesheets %}
+
+<style>
+.navDirectory{
+    color: #78072c;
+}
+
+.navDirectory:hover{
+
+    text-decoration: none;
+    color: #f00d59 !important;
+
+}
+
+.border-red{
+    border-color: #f00d59 !important;
+}
+
+
+</style>
+
+{% endblock %}
+
+
 <nav class="mx-3 navbar navbar-expand-lg ">
     <div class="d-flex w-100 justify-content-center">
 
         <div class="list-group list-group-horizontal text-center">
-            <a href="#">Contacts Ajoutés </a>              
+            <a href="{{path('list_directory_controller', {page: 'Accueil-Utilisateur'}) }}" class="{{ role == 'Accueil-Utilisateur' ? 'border border-red fw-bold' : '' }} bg-transparent navDirectory list-group-item px-3"></i> Accueil</a>
+            <a href="{{ path('list_directory_controller', {page: 'Vos-Contacts'}) }}" class="{{ directory == 'Vos-Contacts' ? 'fw-bold border border-red' : '' }} bg-transparent navDirectory list-group-item px-3">Vos contacts</a>              
         </div>
     </div>  
 </nav>

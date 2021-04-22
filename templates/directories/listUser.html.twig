@@ -64,6 +64,9 @@
         transition: all .3s;
         }
         
+        .accueilUtilisateur{
+            border-radius: 20%;
+        }
 
 </style>
 {% endblock %}
@@ -88,32 +91,68 @@
     <p class="text-center"><a class="btn btn-lg btn-secondary rounded-0 m-3" href="{{path('add_directory_controller')}}">Ajoutez un contact  <i class="ps-2 fs-4 fas fa-user-plus"></i></a></p>
 
     {# download="{{path('json_directory_controller')}}" #}
-    {% if status == 'SNCPA' %}
-    {% include("directories/partials/navBarDirectorySNCPA.html.twig") %}
+    {% if status == 'SNPCA' %}
+    {% include("directories/partials/navBarDirectorySNPCA.html.twig") %}
     {% elseif status == 'RPCA' %}
     {% include("directories/partials/navBarDirectoryRPCA.html.twig") %}
     {% elseif status == 'Utilisateur' %}
     {% include("directories/partials/navBarDirectoryUtilisateur.html.twig") %}
     {% endif %}
 
-    {% if  "/annuaire?page=Accueil" in app.request.uri %}
-        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="" target="_blank">Exportez les annuaires <i class="ps-2 fs-4 fas fa-download"></i></a></p>
-    {% elseif  "/annuaire?page=Comite-crise" in app.request.uri %}
-        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller1')}}" target="_blank" download="{{path('json_directory_controller1')}}">Exportez l'annuaire: Comité-crise <i class="ps-2 fs-4 fas fa-download"></i></a></p>
-    {% elseif "/annuaire?page=Comite-elargi" in app.request.uri %}
-        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller2')}}" target="_blank"download="{{path('json_directory_controller2')}}">Exportez l'annuaire: Comité-élargi <i class="ps-2 fs-4 fas fa-download"></i></a></p>
-    {% elseif "/annuaire?page=Responsable-site" in app.request.uri %}
-        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller3')}}" target="_blank"download="{{path('json_directory_controller3')}}">Exportez l'annuaire: Responsable-site <i class="ps-2 fs-4 fas fa-download"></i></a></p>
-    {% elseif "/annuaire?page=Numeros-importants" in app.request.uri %}       
-        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller4')}}" target="_blank"download="{{path('json_directory_controller4')}}">Exportez l'annuaire: Numéros-importants <i class="ps-2 fs-4 fas fa-download"></i></a></p>
-    {% elseif "/annuaire?page=Non-renseigne" in app.request.uri %}    
-        <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller5')}}" target="_blank"download="{{path('json_directory_controller5')}}">Exportez l'annuaire: Non-renseigné <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+    {% if status == 'SNPCA' %}
+        {% if  "/annuaire?page=Accueil" in app.request.uri %}
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="" target="_blank">Exportez les annuaires <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif  "/annuaire?page=Comite-crise" in app.request.uri %}
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller1')}}" target="_blank" download="{{path('json_directory_controller1')}}">Exportez l'annuaire: Comité-crise <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif "/annuaire?page=Comite-elargi" in app.request.uri %}
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller2')}}" target="_blank"download="{{path('json_directory_controller2')}}">Exportez l'annuaire: Comité-élargi <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif "/annuaire?page=Responsable-site" in app.request.uri %}
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller3')}}" target="_blank"download="{{path('json_directory_controller3')}}">Exportez l'annuaire: Responsable-site <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif "/annuaire?page=Numeros-importants" in app.request.uri %}       
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller4')}}" target="_blank"download="{{path('json_directory_controller4')}}">Exportez l'annuaire: Numéros-importants <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif "/annuaire?page=Non-renseigne" in app.request.uri %}    
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller5')}}" target="_blank"download="{{path('json_directory_controller5')}}">Exportez l'annuaire: Non-renseigné <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% endif %}
+    {% elseif status == 'RPCA' %}
+        {% if  "/annuaire?page=Accueil-Organisme" in app.request.uri %}
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="" target="_blank">Exportez les annuaires <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif  "/annuaire?page=Comite-crise-Organisme" in app.request.uri %}
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller1')}}" target="_blank" download="{{path('json_directory_controller1')}}">Exportez l'annuaire: Comité-crise <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif "/annuaire?page=Comite-elargi-Organisme" in app.request.uri %}
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller2')}}" target="_blank"download="{{path('json_directory_controller2')}}">Exportez l'annuaire: Comité-élargi <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif "/annuaire?page=Responsable-site-Organisme" in app.request.uri %}
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller3')}}" target="_blank"download="{{path('json_directory_controller3')}}">Exportez l'annuaire: Responsable-site <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif "/annuaire?page=Numeros-importants-Organisme" in app.request.uri %}       
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller4')}}" target="_blank"download="{{path('json_directory_controller4')}}">Exportez l'annuaire: Numéros-importants <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% elseif "/annuaire?page=Non-renseigne-Organisme" in app.request.uri %}    
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller5')}}" target="_blank"download="{{path('json_directory_controller5')}}">Exportez l'annuaire: Non-renseigné <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+        {% endif %}  
+    {% elseif status == 'Utilisateur' %}
     {% endif %}
+
+    {% if status == 'SNPCA' %}
+    <h2 class="text-center py-3 my-3" >Trouvez un contact selon son Organisme :</h2>
+        {% include("directories/partials/navBarOrganization.html.twig") %}
+    {% elseif status == 'RPCA' %}
     <h2 class="text-center py-3 my-3" >Trouvez un contact selon son rôle :</h2>
-
     {% include("directories/partials/navBarRole.html.twig") %}
+    {% endif %}
 
-
+    {% if  "/annuaire?page=Accueil-Utilisateur" in app.request.uri %}
+    <h2 class="text-center py-3 pb-5 my-3">Bienvenue sur l'annuaire de Mémo PCA</h2>
+    <div class="row">
+        <div class="col align-self-center">
+            <p class="text-center fs-5 fw-bold">Etant donné que vous avez la fonction d'utilisateur sur le site internet, vous pouvez accéder uniquement au(x) contact(s) que vous avez ajouté dans l'annuaire.</p>
+            <p class="text-center fs-5">En cas d'erreur sur votre statut lors de votre inscription, il faudra alors dans ce cas adresser une demande au support afin qu'il puisse corriger votre statut.</p>
+             <p class="text-center fs-5">Vous pouvez suivre ce lien pour acceder directement au <a href="#">support</a>. Renseignez toutes vos informations pour facilitez la recherche de l'équipe du support.
+            <p class="text-center fs-5">Une reponse vous sera adressé dans les plus brefs délais.</p>
+        </div>
+        <div class="col ms-5 ps-5">
+            <img class="pb-5 accueilUtilisateur" src="/asset/images/logo/accueilUtilisateur.jpg" alt="Illustration Accueil Utilisateur">
+        </div>
+    </div>
+    {% endif %}     
+            
             <div class="d-flex row justify-content-center flex-wrap">
     {% for user in user %}  
                 <div class="user row m-3 rounded" style="max-width: 500px; min-width: 300px;">

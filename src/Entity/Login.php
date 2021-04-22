@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LoginRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -64,6 +66,16 @@ class Login implements UserInterface
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $activation_token;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="login")
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -214,6 +226,36 @@ class Login implements UserInterface
     public function setActivationToken(?string $activation_token): self
     {
         $this->activation_token = $activation_token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setLogin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getLogin() === $this) {
+                $user->setLogin(null);
+            }
+        }
 
         return $this;
     }

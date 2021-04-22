@@ -16,6 +16,11 @@
         h2, h5{
             color: #63929c ;
         }
+        
+        label{
+            color: #63929c;
+            font-weight: bold;
+        } 
 
     .down{
         width: 0;
@@ -24,10 +29,13 @@
         border-width: 200px 100px 0 100px;
         border-color: #ff7070 transparent transparent transparent;
     }
+    .bannierememo{
+        width: 100%;
+    }
 </style>
 
 <div class="example-wrapper">
-<section class="container d-flex justify-content-center pt-3">
+<section class="container d-flex justify-content-center py-5 pt-3">
     <div class="w-100 ">
     {# Div message flash #}
         <div class="text-center">
@@ -39,18 +47,31 @@
                 {% endfor %}
             {% endfor %}
         </div>
+    <div class="row align-items-center align-self-center justify-content-center">
+        <div class="col-12">
+            <h1 class="text-center mb-3 mt-3">Mémo <i class="fas fa-mobile-alt"></i></h1>
+        </div>
 
-    <h1 class="text-center mt-5">Mémo <i class="fas fa-mobile-alt"></i></h1>
-    <h2 class="text-center mb-3" >Liste des mémos :</h2>
-    <p class="text-center"><a class="btn btn-lg btn-secondary rounded-0 m-3" href="">Ajoutez un mémo  <i class="ps-2 fs-4 fas fa-plus"></i></a></p>
+        <div class="align-items-center align-self-center col-6">
+            <img class="bannierememo mb-3" src="/asset/images/logo/bannierememo.jpg" alt="">
+        </div>
+    </div>
+    <h2 class="text-center mb-1" >Liste des mémos :</h2>
+    <p class="text-center mb-3"><a class="btn btn-lg btn-secondary rounded-0 m-3" href="">Ajoutez un mémo  <i class="ps-2 fs-4 fas fa-plus"></i></a></p>
+
+    <h3 class="fst-italic mb-3" ><u>Le mémo de quel contact souhaitez-vous afficher :</u></h3>
 
     <form method="POST"> 
-                <label for="directory" class="text-uppercase">Choisissez l'utilisateur pour afficher son mémo: </label>
+            <label for="directory" class="text-uppercase">Choisissez l'utilisateur pour afficher son mémo: </label>
                 <select class="form-select form-select mb-4" name="memo" id="memo" aria-label=".form-select" required>
-                <option selected >Quel utilisateur ?</option>
-                <option value="{{ {user: (user.id)} }}">{{ user.firstname }} {{ user.lastname }}</option>
-    <div class="down"></div>
-
+            <option selected >Quel utilisateur ?</option>
+            {% for key, user in user %}
+                <option value="{{ key }}: {{ user.id }}"> {{ user.firstname }} {{ user.lastname }}</option>
+            {% endfor %}
+                </select>
+        <div class="text-center">
+            <a href="#" class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Afficher</a>
+        </div>
     </form>
- 
+ </section>
 {% endblock %}
