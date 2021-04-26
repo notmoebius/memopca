@@ -80,16 +80,6 @@ class User
     private $directory;
 
     /**
-     * @ORM\OneToMany(targetEntity=Memo::class, mappedBy="user_inform")
-     */
-    private $user_inform;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Memo::class, mappedBy="user_informed")
-     */
-    private $user_informed;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Organization::class, inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -101,10 +91,40 @@ class User
      */
     private $login;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Memo::class, mappedBy="users", orphanRemoval=true)
+     */
+    private $memos;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Memo::class, mappedBy="inform2")
+     */
+    private $user_inform2;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Memo::class, mappedBy="informed2")
+     */
+    private $user_informed2;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Memo::class, mappedBy="inform1")
+     */
+    private $user_inform1;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Memo::class, mappedBy="informed1")
+     */
+    private $user_informed1;
+
     public function __construct()
     {
         $this->inform = new ArrayCollection();
         $this->informed = new ArrayCollection();
+        $this->memos = new ArrayCollection();
+        $this->user_inform2 = new ArrayCollection();
+        $this->user_informed2 = new ArrayCollection();
+        $this->user_inform1 = new ArrayCollection();
+        $this->user_informed1 = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -288,6 +308,156 @@ class User
     public function setLogin(?Login $login): self
     {
         $this->login = $login;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Memo[]
+     */
+    public function getMemos(): Collection
+    {
+        return $this->memos;
+    }
+
+    public function addMemo(Memo $memo): self
+    {
+        if (!$this->memos->contains($memo)) {
+            $this->memos[] = $memo;
+            $memo->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMemo(Memo $memo): self
+    {
+        if ($this->memos->removeElement($memo)) {
+            // set the owning side to null (unless already changed)
+            if ($memo->getUsers() === $this) {
+                $memo->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Memo[]
+     */
+    public function getUserInform2(): Collection
+    {
+        return $this->user_inform2;
+    }
+
+    public function addUserInform2(Memo $userInform2): self
+    {
+        if (!$this->user_inform2->contains($userInform2)) {
+            $this->user_inform2[] = $userInform2;
+            $userInform2->setInform2($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserInform2(Memo $userInform2): self
+    {
+        if ($this->user_inform2->removeElement($userInform2)) {
+            // set the owning side to null (unless already changed)
+            if ($userInform2->getInform2() === $this) {
+                $userInform2->setInform2(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Memo[]
+     */
+    public function getUserInformed2(): Collection
+    {
+        return $this->user_informed2;
+    }
+
+    public function addUserInformed2(Memo $userInformed2): self
+    {
+        if (!$this->user_informed2->contains($userInformed2)) {
+            $this->user_informed2[] = $userInformed2;
+            $userInformed2->setInformed2($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserInformed2(Memo $userInformed2): self
+    {
+        if ($this->user_informed2->removeElement($userInformed2)) {
+            // set the owning side to null (unless already changed)
+            if ($userInformed2->getInformed2() === $this) {
+                $userInformed2->setInformed2(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Memo[]
+     */
+    public function getUserInform1(): Collection
+    {
+        return $this->user_inform1;
+    }
+
+    public function addUserInform1(Memo $userInform1): self
+    {
+        if (!$this->user_inform1->contains($userInform1)) {
+            $this->user_inform1[] = $userInform1;
+            $userInform1->setInform1($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserInform1(Memo $userInform1): self
+    {
+        if ($this->user_inform1->removeElement($userInform1)) {
+            // set the owning side to null (unless already changed)
+            if ($userInform1->getInform1() === $this) {
+                $userInform1->setInform1(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Memo[]
+     */
+    public function getUserInformed1(): Collection
+    {
+        return $this->user_informed1;
+    }
+
+    public function addUserInformed1(Memo $userInformed1): self
+    {
+        if (!$this->user_informed1->contains($userInformed1)) {
+            $this->user_informed1[] = $userInformed1;
+            $userInformed1->setInformed1($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserInformed1(Memo $userInformed1): self
+    {
+        if ($this->user_informed1->removeElement($userInformed1)) {
+            // set the owning side to null (unless already changed)
+            if ($userInformed1->getInformed1() === $this) {
+                $userInformed1->setInformed1(null);
+            }
+        }
 
         return $this;
     }

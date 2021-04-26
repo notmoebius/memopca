@@ -96,6 +96,10 @@ add_memo_controller:
     path: /creer-un-memo
     controller: App\Controller\MemoController:AddMemo
 
+details_memo_controller:
+    path: /details-memo
+    controller: App\Controller\MemoController:DetailsMemo
+
 # INSCRIPTION
 
 user_register:

@@ -61,17 +61,26 @@
 
     <h3 class="fst-italic mb-3" ><u>Le mémo de quel contact souhaitez-vous afficher :</u></h3>
 
-    <form method="POST"> 
-            <label for="directory" class="text-uppercase">Choisissez l'utilisateur pour afficher son mémo: </label>
-                <select class="form-select form-select mb-4" name="memo" id="memo" aria-label=".form-select" required>
-            <option selected >Quel utilisateur ?</option>
-            {% for key, user in user %}
-                <option value="{{ key }}: {{ user.id }}"> {{ user.firstname }} {{ user.lastname }}</option>
-            {% endfor %}
-                </select>
+    {% for memo in memo %}  
+                <div class="user row m-3 rounded" style="max-width: 500px; min-width: 300px;">
+
+            
+                    <div class="col-9 p-2 bg-white rounded">
+                        <h3 class="fw-bold name text-center pt-2">{{ memo.users.firstname }} {{ memo.users.lastname }} </h3>
+
+        
         <div class="text-center">
-            <a href="#" class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Afficher</a>
+            <a href="{{path('details_memo_controller', {memo: (memo.id)} )}}" class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Afficher son mémo</a>
         </div>
-    </form>
+
+                </div>  
+            
+    {% endfor %}
+            
+            
+                </select>
+
+        
+
  </section>
 {% endblock %}
