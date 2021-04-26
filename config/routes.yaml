@@ -59,6 +59,31 @@ json_directory_controller5:
     path: /Annuaire_Non_Renseigne
     controller: App\Controller\DirectoriesController:JsonDirectory5
 
+# ANNUAIRE ORGANISME FICHIERS JSON
+json_directory_organization_controller:
+    path: /Annuaires_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization
+
+json_directory_organization_controller1:
+    path: /Annuaire_Comite-Crise_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization1
+
+json_directory_organization_controller2:
+    path: /Annuaire_Comite_Elargi_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization2
+
+json_directory_organization_controller3:
+    path: /Annuaire_Responsable_Site_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization3
+
+json_directory_organization_controller4:
+    path: /Annuaire_Numeros_Importants_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization4
+
+json_directory_organization_controller5:
+    path: /Annuaire_Non_Renseigne_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization5
+
 # FIN ANNUAIRE
 
 # MEMO

@@ -46,13 +46,13 @@ class MemoController extends AbstractController
         $user= $em->getRepository(User::class)->findAll();
         $memo = new Memo();
 
-        $form = $this->createForm(MemoType::class, $memo);
+
         
         return $this->render('memo/addMemo.html.twig', [
             'user' => $user,
             'login' => $login,
             'status' => $status,
-            'form' => $form->createView(),
+
         ]);
     }
 }

@@ -115,17 +115,17 @@
         {% endif %}
     {% elseif status == 'RPCA' %}
         {% if  "/annuaire?page=Accueil-Organisme" in app.request.uri %}
-            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="" target="_blank">Exportez les annuaires <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="" target="_blank">Exportez les annuaires de l'organisme <i class="ps-2 fs-4 fas fa-download"></i></a></p>
         {% elseif  "/annuaire?page=Comite-crise-Organisme" in app.request.uri %}
-            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller1')}}" target="_blank" download="{{path('json_directory_controller1')}}">Exportez l'annuaire: Comité-crise <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_organization_controller1')}}" target="_blank" download="{{path('json_directory_organization_controller1')}}">Exportez l'annuaire de l'organisme: Comité-crise <i class="ps-2 fs-4 fas fa-download"></i></a></p>
         {% elseif "/annuaire?page=Comite-elargi-Organisme" in app.request.uri %}
-            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller2')}}" target="_blank"download="{{path('json_directory_controller2')}}">Exportez l'annuaire: Comité-élargi <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_organization_controller2')}}" target="_blank"download="{{path('json_directory_organization_controller2')}}">Exportez l'annuaire de l'organisme: Comité-élargi <i class="ps-2 fs-4 fas fa-download"></i></a></p>
         {% elseif "/annuaire?page=Responsable-site-Organisme" in app.request.uri %}
-            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller3')}}" target="_blank"download="{{path('json_directory_controller3')}}">Exportez l'annuaire: Responsable-site <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_organization_controller3')}}" target="_blank"download="{{path('json_directory_organization_controller3')}}">Exportez l'annuaire de l'organisme: Responsable-site <i class="ps-2 fs-4 fas fa-download"></i></a></p>
         {% elseif "/annuaire?page=Numeros-importants-Organisme" in app.request.uri %}       
-            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller4')}}" target="_blank"download="{{path('json_directory_controller4')}}">Exportez l'annuaire: Numéros-importants <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_organization_controller4')}}" target="_blank"download="{{path('json_directory_organization_controller4')}}">Exportez l'annuaire de l'organisme: Numéros-importants <i class="ps-2 fs-4 fas fa-download"></i></a></p>
         {% elseif "/annuaire?page=Non-renseigne-Organisme" in app.request.uri %}    
-            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_controller5')}}" target="_blank"download="{{path('json_directory_controller5')}}">Exportez l'annuaire: Non-renseigné <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+            <p class="text-center"><a class="btn btn export rounded-0 mt-3" href="{{path('json_directory_organization_controller5')}}" target="_blank"download="{{path('json_directory_organization_controller5')}}">Exportez l'annuaire de l'organisme: Non-renseigné <i class="ps-2 fs-4 fas fa-download"></i></a></p>
         {% endif %}  
     {% elseif status == 'Utilisateur' %}
     {% endif %}

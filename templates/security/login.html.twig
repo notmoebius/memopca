@@ -32,6 +32,11 @@ label{
     font-weight: bold;
 } 
 
+.navLink:hover{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 </style>
 {% endblock %}
 
@@ -91,7 +96,7 @@ label{
                             </label>
                         </div>
                     #}
-                <a class="nav-link px-0" href="{{path('forget_controller')}}">Mot de passe oublié ?</a>
+                <a class="nav-link text-secondary fst-italic px-0" href="{{path('forget_controller')}}"><i class="pe-1 fs-5 fas fa-unlock-alt"></i> <span class="navLink"> Mot de passe oublié ?</span></a>
 
                 <div class="text-center">
                     <button class="btn btn-lg btn-outline-secondary mt-3" type="submit">Se connecter</button>

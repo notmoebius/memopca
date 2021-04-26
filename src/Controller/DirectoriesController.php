@@ -1134,6 +1134,169 @@ class DirectoriesController extends AbstractController
         return $response;
     }
 
+    public function JsonDirectoryOrganization1(): Response
+    {
+        $login = $this -> getUser();
+  
+        // $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $organization = $login->getOrganization()->getId();
+        
+        $user1 = $this->getDoctrine()->getRepository(User::class)->findBy(array('directory' => '1', 'organization' => $organization));
+
+
+        $data1 = array();
+        foreach ($user1 as $key => $user){
+            $data1[$key]['id'] = "id".$user->getId();
+            $data1[$key]['fonction'] = $user->getProfession();
+            $data1[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data1[$key]['portable'] = $user->getMobilenumber();
+            $data1[$key]['fixe'] = $user-> getPhonenumber();
+            $data1[$key]['etage'] = $user->getFloor();
+            $data1[$key]['photo'] = $user-> getPhoto();
+            $data1[$key]['type'] = $user->getRole()->getName();
+            $data1[$key]['niveau'] = $user->getGrade()->getName();
+            $data1[$key]['batiment'] = $user-> getStructure();
+        }        
+        
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data1);
+        return $response;
+
+    }
+
+    public function JsonDirectoryOrganization2(): Response
+    {
+        $login = $this -> getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $organization = $login->getOrganization()->getId();
+        
+        $user2 = $this->getDoctrine()->getRepository(User::class)->findBy(array('directory' => '2', 'organization' => $organization));
+
+
+        $data2 = array();
+        
+        foreach ($user2 as $key => $user){
+            $data2[$key]['id'] = "id".$user->getId();
+            $data2[$key]['fonction'] = $user->getProfession();
+            $data2[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data2[$key]['portable'] = $user->getMobilenumber();
+            $data2[$key]['fixe'] = $user-> getPhonenumber();
+            $data2[$key]['etage'] = $user->getFloor();
+            $data2[$key]['photo'] = $user-> getPhoto();
+            $data2[$key]['type'] = $user->getRole()->getName();
+            $data2[$key]['niveau'] = $user->getGrade()->getName();
+            $data2[$key]['batiment'] = $user-> getStructure();
+        }
+
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data2);
+        return $response;
+    }
+
+    public function JsonDirectoryOrganization3(): Response
+    {
+        $login = $this -> getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $organization = $login->getOrganization()->getId();
+        
+        $user3 = $this->getDoctrine()->getRepository(User::class)->findBy(array('directory' => '3', 'organization' => $organization));
+
+
+        $data3 = array();
+        foreach ($user3 as $key => $user){
+            $data3[$key]['id'] = "id".$user->getId();
+            $data3[$key]['fonction'] = $user->getProfession();
+            $data3[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data3[$key]['portable'] = $user->getMobilenumber();
+            $data3[$key]['fixe'] = $user-> getPhonenumber();
+            $data3[$key]['etage'] = $user->getFloor();
+            $data3[$key]['photo'] = $user-> getPhoto();
+            $data3[$key]['type'] = $user->getRole()->getName();
+            $data3[$key]['niveau'] = $user->getGrade()->getName();
+            $data3[$key]['batiment'] = $user-> getStructure();
+        }
+
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data3);
+        return $response;
+
+        }
+
+    public function JsonDirectoryOrganization4(): Response
+    {
+        $login = $this -> getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $organization = $login->getOrganization()->getId();
+
+        $user4 = $this->getDoctrine()->getRepository(User::class)->findBy(array('directory' => '4', 'organization' => $organization));
+    
+        $data4 = array();
+        foreach ($user4 as $key => $user){
+            $data4[$key]['id'] = "id".$user->getId();
+            $data4[$key]['fonction'] = $user->getProfession();
+            $data4[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data4[$key]['portable'] = $user->getMobilenumber();
+            $data4[$key]['fixe'] = $user-> getPhonenumber();
+            $data4[$key]['etage'] = $user->getFloor();
+            $data4[$key]['photo'] = $user-> getPhoto();
+            $data4[$key]['type'] = $user->getRole()->getName();
+            $data4[$key]['niveau'] = $user->getGrade()->getName();
+            $data4[$key]['batiment'] = $user-> getStructure();
+        }
+
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data4);
+        return $response;
+    }
+
+    public function JsonDirectoryOrganization5(): Response
+    {
+        $login = $this -> getUser();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $organization = $login->getOrganization()->getId();
+        
+        $user5 = $this->getDoctrine()->getRepository(User::class)->findBy(array('directory' => '5', 'organization' => $organization));
+        
+        $data5 = array();
+        foreach ($user5 as $key => $user){
+            $data5[$key]['id'] = "id".$user->getId();
+            $data5[$key]['fonction'] = $user->getProfession();
+            $data5[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
+            $data5[$key]['portable'] = $user->getMobilenumber();
+            $data5[$key]['fixe'] = $user-> getPhonenumber();
+            $data5[$key]['etage'] = $user->getFloor();
+            $data5[$key]['photo'] = $user-> getPhoto();
+            $data5[$key]['type'] = $user->getRole()->getName();
+            $data5[$key]['niveau'] = $user->getGrade()->getName();
+            $data5[$key]['batiment'] = $user-> getStructure();
+        }
+
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data5);
+        return $response;
+    }
+
 }
 
     
