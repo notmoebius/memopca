@@ -13,6 +13,7 @@ use App\Entity\Role;
 use App\Entity\Grade;
 use App\Entity\Directory;
 use App\Entity\Organization;
+use App\Entity\Memo;
 use Respect\Validation\Validator as v;
 use Cnam\ValidatorBundle\Constraints\Diademe\Diademe;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,7 +33,7 @@ class DirectoriesController extends AbstractController
         $login = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()->getRepository(User::class);
-
+        $memo = $this->getDoctrine()->getRepository(User::class);
         $status = $this->getUser()->getStatus();
         // FILTRE PAR ROLE
 
@@ -409,7 +410,8 @@ class DirectoriesController extends AbstractController
                             'login' => $login,
                             'page' => 'annuaire',
                             'role' => 'accueil',
-                            'directory' => 'accueil'
+                            'directory' => 'accueil',
+                            'memo' => $memo,
                         ]);
     
     }
@@ -425,13 +427,16 @@ class DirectoriesController extends AbstractController
         $login = $this->getUser();
         $status = $this->getUser()->getStatus();
         $em = $this->getDoctrine()->getManager();
-        
-        $user= $em->getRepository(User::class)->findOneBy(['id'=> $_GET['user']]);
-        
+
+        $memo= $em->getRepository(Memo::class)->findOneBy(['users' => $_GET['user']]);
+        $user = $em->getRepository(User::class)->findOneBy(['id'=> $_GET['user']]);
+
+
         return $this->render('directories/detailsUser.html.twig', [
             'login'=> $login,
             'status' => $status,
             'user' => $user,
+            'memo'=> $memo,
         ]);
 
     }

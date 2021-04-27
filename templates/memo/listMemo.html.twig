@@ -32,6 +32,34 @@
     .bannierememo{
         width: 100%;
     }
+
+    .roundedcard{
+        padding: 2px;
+        border: solid 0.1px rgba(99, 146, 156, 0.5);
+        border-radius: 50%;
+    }
+
+     .circle {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 100px;
+        height: 100px;
+        border: 6px solid rgba(236, 236, 236, 0.7);
+        position: relative;
+        transition: all .3s;
+    }
+
+    .profile-pic {
+        max-width: 100%;
+        height: auto;
+        min-width: 92px;
+        min-height: 92px;
+        max-width: 94px;
+        max-height: 94px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
 </style>
 
 <div class="example-wrapper">
@@ -60,27 +88,23 @@
     <p class="text-center mb-3"><a class="btn btn-lg btn-secondary rounded-0 m-3" href="{{ path('add_memo_controller') }}">Ajoutez un mémo  <i class="ps-2 fs-4 fas fa-plus"></i></a></p>
 
     <h3 class="fst-italic mb-3" ><u>Le mémo de quel contact souhaitez-vous afficher :</u></h3>
-
+        <div class="d-flex row justify-content-center flex-wrap">
     {% for memo in memo %}  
-                <div class="user row m-3 rounded" style="max-width: 500px; min-width: 300px;">
-
-            
-                    <div class="col-9 p-2 bg-white rounded">
-                        <h3 class="fw-bold name text-center pt-2">{{ memo.users.firstname }} {{ memo.users.lastname }} </h3>
-
-        
-        <div class="text-center">
-            <a href="{{path('details_memo_controller', {memo: (memo.id)} )}}" class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Afficher son mémo</a>
+        <div class="user row m-3 rounded" style="max-width: 500px; min-width: 300px;">
+  
+            <div class="col-9 shadow-lg d-flex flex-column p-2 justify-content-center align-self-center align-items-center bg-white roundedcard"  style="width: 300px; height:300px;">
+                    <h3 class="fw-bold name text-center mt-2 mb-0">{{ memo.users.firstname }} {{ memo.users.lastname }} </h3>
+                    <h5 class="role text-center mb-0">{{ memo.users.role.name }}</h5>
+                <div class="circle ">
+                    <img class="profile-pic" src="{{ memo.users.photo }}" >
+                </div>
+                    <p class="text-secondary status mb-0"><i class="fas fa-briefcase"></i> {{ memo.users.profession }}</p>        
+                <div class="text-center">
+                    <a href="{{path('details_memo_controller', {memo: (memo.id)} )}}" class="mt-2 mb-2 btn btn-outline-secondary text-uppercase" type="submit">Voir son mémo</a>
+                </div>
+            </div>  
+        </div> 
+    {% endfor %}         
         </div>
-
-                </div>  
-            
-    {% endfor %}
-            
-            
-                </select>
-
-        
-
  </section>
 {% endblock %}

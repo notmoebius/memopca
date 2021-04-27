@@ -107,7 +107,7 @@
     <p><i class="fs-4 text-secondary far fa-building"></i> {{ user.organization.name }}</p>
 </div>    
     <a href="{{path('update_directory_controller', {user: (user.id)} )}}" class="mt-4 me-3 btn btn-info text-light">Modifier le contact</a>
-    <a href="" class="mt-4 ms-3 me-3 btn btn-primary text-light">Voir le mémo</a>    
+    <a href="{{path('details_memo_controller', {memo: (memo.id)} )}}" class="mt-4 ms-3 me-3 btn btn-primary text-light">Voir le mémo</a>    
     <a href="{{path('delete_directory_controller', {user: (user.id)} )}}" class="mt-4 ms-3 btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce contact ?')">Supprimer le contact</a>
  </div>
 </div>

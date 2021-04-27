@@ -83,6 +83,7 @@ class MemoController extends AbstractController
             
         }
         return $this->render('memo/addMemo.html.twig', [
+            'user' =>$user,
             'memo' => $memo,
             'login' => $login,
             'status' => $status,
@@ -104,7 +105,7 @@ class MemoController extends AbstractController
         return $this->render('memo/detailsMemo.html.twig', [
             'login'=> $login,
             'status' => $status,
-            'user' => $user,
+            'memo' => $memo,
         ]);
 
     }
