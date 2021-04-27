@@ -90,15 +90,19 @@
     <h3 class="fst-italic mb-3" ><u>Le mémo de quel contact souhaitez-vous afficher :</u></h3>
         <div class="d-flex row justify-content-center flex-wrap">
     {% for memo in memo %}  
-        <div class="user row m-3 rounded" style="max-width: 500px; min-width: 300px;">
+        <div class="user row m-3 rounded" style="max-width: 400px; min-width: 300px;">
   
             <div class="col-9 shadow-lg d-flex flex-column p-2 justify-content-center align-self-center align-items-center bg-white roundedcard"  style="width: 300px; height:300px;">
                     <h3 class="fw-bold name text-center mt-2 mb-0">{{ memo.users.firstname }} {{ memo.users.lastname }} </h3>
                     <h5 class="role text-center mb-0">{{ memo.users.role.name }}</h5>
                 <div class="circle ">
-                    <img class="profile-pic" src="{{ memo.users.photo }}" >
+                    {% if memo.users.photo is empty %}
+                        <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                    {% else %}
+                        <img class="profile-pic" src="{{ memo.users.photo }}" >
+                    {% endif %}
                 </div>
-                    <p class="text-secondary status mb-0"><i class="fas fa-briefcase"></i> {{ memo.users.profession }}</p>        
+                    <p class="text-secondary text-center status mb-0"><i class="fas fa-briefcase"></i> {{ memo.users.profession }}</p>        
                 <div class="text-center">
                     <a href="{{path('details_memo_controller', {memo: (memo.id)} )}}" class="mt-2 mb-2 btn btn-outline-secondary text-uppercase" type="submit">Voir son mémo</a>
                 </div>

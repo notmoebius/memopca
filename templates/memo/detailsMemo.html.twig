@@ -131,7 +131,12 @@
     </div>
     {# debut de row #}
 <div class="row justify-content-between">
+
+{% if memo.informed1 is null == true %}
+
+{% else %}
     <div class="card p-0 col-5 text-center">
+
     <div class="card-header  col-12 d-flex text-center justify-content-center align-self-center align-items-center">
 
         <div class="d-flex text-center align-self-center align-items-center">
@@ -159,7 +164,38 @@
             </div>
         </div>
     </div>
+{% endif %}
 
+{% if memo.informed2 is null == true %}
+    <div class="card p-0 col-5 text-center">
+    <div class="card-header col-12 d-flex text-center justify-content-center align-self-center align-items-center">
+
+        <div class="d-flex text-center align-self-center align-items-center">
+            <div class="circle">
+                {% if memo.informed2.photo is empty %}
+
+                <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                {% else %}
+                <img class="profile-pic" src="{{ memo.informed2.photo }}" >
+                {% endif %}
+            </div>
+        <div class="flex-column">
+            <h2 class="ps-3">{{ memo.informed2.firstname }} <span class="text-uppercase"> {{memo.informed2.lastname }} </span></h2>
+            <h3 class="ps-3 mb-0 pb-0">{{ memo.informed2.role.name }}</h3>
+        </div>        
+        </div>
+        
+    </div>
+        <div class="row card-body">
+            <h5 class="card-title text-secondary">{{ memo.informed2.profession }}</h5>
+
+            <div class="d-flex justify-content-around">
+                <p><i class="fs-6 logomobile bg-primary text-light fas fa-mobile-alt me-2"></i> {{ memo.informed2.mobilenumber }}</p>
+                <p><i class="text-start logophone fs-6 p-2 text-primary fas fa-phone me-2"></i> {{ memo.informed2.phonenumber }}</p>
+            </div>
+        </div>
+    </div>
+{% else %}
     <div class="card p-0 col-5 text-center">
     <div class="card-header col-12 d-flex text-center justify-content-center align-self-center align-items-center">
 
@@ -189,6 +225,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 {# fin de row #}
 </section>
 <section class="container">
@@ -216,12 +253,15 @@
 <section class="container">
 
 <div class="row justify-content-between">
+{% if memo.inform1 is null == true %}
+
+{% else %}
     <div class="card p-0 col-5 text-center">
     <div class="card-header justify-content-center col-12 d-flex text-center align-self-center align-items-center">
 
         <div class="d-flex text-center align-self-center align-items-center">
             <div class="circle">
-                {% if memo.inform1.photo is empty %}
+                {% if memo.inform1.photo is empty  %}
 
                 <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
                 {% else %}
@@ -244,7 +284,10 @@
             </div>
         </div>
     </div>
+{% endif %}
+{% if memo.inform2 is null == true %}
 
+{% else %}
     <div class="card p-0 col-5 text-center">
     <div class="card-header justify-content-center col-12 d-flex text-center align-self-center align-items-center">
 
@@ -275,12 +318,13 @@
         </div>
     </div>
 </div>
+{% endif %}
 {# fin de row #}
 </section>
 
 <section class="p-1 mt-3 mb-1 container text-center">
-    <a href="" class="btn btn-lg btn-primary">Modifier</a>
-    <a href="" class="btn btn-lg btn-danger">Supprimer</a>
+    <a href="{{path('update_memo_controller', {memo: (memo.id)} )}}" class="btn btn-lg btn-primary">Modifier</a>
+    <a href="{{path('delete_memo_controller', {memo: (memo.id)} )}}" class="btn btn-lg btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce memo ?')">Supprimer</a>
 </section>
 
 {% endblock %}

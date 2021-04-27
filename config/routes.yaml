@@ -100,6 +100,14 @@ details_memo_controller:
     path: /details-memo
     controller: App\Controller\MemoController:DetailsMemo
 
+update_memo_controller:
+    path: /modifier-memo
+    controller: App\Controller\MemoController:UpdateMemo
+
+delete_memo_controller:
+    path: /supprimer-memo
+    controller: App\Controller\MemoController:DeleteMemo
+    
 # INSCRIPTION
 
 user_register:
