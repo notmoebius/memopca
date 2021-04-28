@@ -107,6 +107,10 @@ update_memo_controller:
 delete_memo_controller:
     path: /supprimer-memo
     controller: App\Controller\MemoController:DeleteMemo
+
+json_memo_controller:
+    path: /exporter-memo
+    controller: App\Controller\MemoController:JsonMemo
     
 # INSCRIPTION
 

@@ -14,6 +14,12 @@ use App\Entity\Directory;
 use App\Entity\Memo;
 use App\Form\MemoType;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 class MemoController extends AbstractController
 {
@@ -196,4 +202,60 @@ class MemoController extends AbstractController
     
             return $this->redirectToRoute('list_memo_controller');
         }
+
+            // EXPORT EN JSON
+        public function JsonMemo(): Response
+        {
+            
+            
+            // $user = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $memo = $this->getDoctrine()->getRepository(Memo::class)->findAll();
+
+            $data = array();
+            foreach ($memo as $memo){
+
+                $serializer = new Serializer();
+                $data['qui'] = "id".$memo->getUsers()->getId();
+
+            if($memo->getInformed1()->getId() == null){
+                $data['prevenu'] = ["", "id".$memo->getInformed2()->getId()];
+                $data['previent'] = ["id".$memo->getInform1()->getId(), "id".$memo->getInform2()->getId()];
+            
+            }
+            if($memo->getInformed2()->getId() == null){
+
+                $data['prevenu'] = ["id".$memo->getInformed1()->getId(), ""];
+                $data['previent'] = ["id".$memo->getInform1()->getId(), "id".$memo->getInform2()->getId()];
+
+            }
+            if($memo->getInform1()->getId() == null){
+
+                $data['prevenu'] = ["id".$memo->getInformed1()->getId(), "id".$memo->getInformed2()->getId()];
+                $data['previent'] = ["", "id".$memo->getInform2()->getId()];
+
+            }
+            if($memo->getInform2()->getId() == null){
+
+                $data['prevenu'] = ["id".$memo->getInformed1()->getId(), "id".$memo->getInformed2()->getId()];
+                $data['previent'] = ["id".$memo->getInform1()->getId(), ""];
+            
+            }
+            if(is_null($memo->getInform2()->getId()) == false || is_null($memo->getInform1()->getId()) == false || is_null($memo->getInformed2()->getId()) == false || is_null($memo->getInformed1()->getId()) == false){
+                $data['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
+                $data['previent'] = (["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId().""]);
+            }  
+// dd($data);
+            $response = new JsonResponse();
+            
+            $response->headers->set('Content-Type', 'application/json');
+            $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+            $response->setData($data);
+            return $response;
+          
+            
+        }
+
+        
+    }
 }
