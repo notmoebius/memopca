@@ -34,12 +34,14 @@
          <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         {% if status == 'SNPCA' %}
             <a class="btn btn-light text-info mx-3 px-3" href="{{ path('list_directory_controller', {page: 'Accueil'}) }}">Annuaire <i class="far fa-address-book"></i></a>
+            <a class="btn btn-light text-info mx-3 px-3" href="{{ path('list_memo_controller', {page: 'Accueil'}) }}">Mémo <i class="fas fa-mobile-alt"></i></a>
         {% elseif status == 'RPCA' %}
             <a class="btn btn-light text-info mx-3 px-3" href="{{ path('list_directory_controller', {page: 'Accueil-Organisme'}) }}">Annuaire <i class="far fa-address-book"></i></a>
+            <a class="btn btn-light text-info mx-3 px-3" href="{{ path('list_memo_controller', {page: 'Accueil'}) }}">Mémo <i class="fas fa-mobile-alt"></i></a>
         {% elseif status == 'Utilisateur' %}  
             <a class="btn btn-light text-info mx-3 px-3" href="{{ path('list_directory_controller', {page: 'Accueil-Utilisateur'}) }}">Annuaire <i class="far fa-address-book"></i></a>
+            <a class="btn btn-light text-info mx-3 px-3" href="{{ path('list_memo_controller', {page: 'Memo-Utilisateur'}) }}">Mémo <i class="fas fa-mobile-alt"></i></a>
         {% endif %}    
-            <a class="btn btn-light text-info mx-3 px-3" href="{{ path('list_memo_controller') }}">Mémo <i class="fas fa-mobile-alt"></i></a>
             {# <a class="btn btn-light text-info mx-4 px-3" href="">Crises/Alertes <i class="far fa-bell"></i></a> #}
             <a class="btn btn-light text-info mx-3 px-3" href="#">Documents <i class="far fa-folder-open"></i></a>
             <a class="logout text-light" href="{{ path('app_logout') }}"><i class="ps-2 fs-2 fas fa-sign-out-alt"></i></a>

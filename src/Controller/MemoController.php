@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Respect\Validation\Validator as v;
 
 class MemoController extends AbstractController
 {
@@ -29,22 +30,60 @@ class MemoController extends AbstractController
     public function ListMemo(): Response
     {
 
-        $login = $this->getUser();
-        $status = $this->getUser()->getStatus();
+        if(isset($_GET['page'])){
 
-        $em = $this->getDoctrine()->getManager();
+            $login = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $user = $this->getDoctrine()->getRepository(User::class);
+            $memo = $this->getDoctrine()->getRepository(User::class);
+            $status = $this->getUser()->getStatus();
 
-        $memo= $em->getRepository(Memo::class)->findAll();
+        if($_GET['page'] == 'Memo-Utilisateur' && $status === 'Utilisateur' ){
+                
+            $login = $this->getUser();
+            // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+            $em = $this->getDoctrine()->getManager();
 
-        
-        return $this->render('memo/listMemo.html.twig', [
-            'list_memo_controller' => 'MemoController',
+            $login = $login->getId();
             
-            'login' => $login,
-            'status' => $status,
-            'memo' => $memo,
-            ]);
+            $memo = $this->getDoctrine()->getRepository(Memo::class)->findBy(array('login' => $login));
+
+            return $this->render('memo/listMemo.html.twig', [
+                'user' => $user,
+                'memo' => $memo,
+                'page' => 'Memo-Utilisateur',
+                'status' => $status,
+                'login' => $login,
+                ]);
+
+            }elseif($_GET['page'] == 'Accueil' && $status === 'SNPCA' || $status === 'RPCA' ){
+
+                $login = $this->getUser();
+                $status = $this->getUser()->getStatus();
+        
+                $em = $this->getDoctrine()->getManager();
+        
+                $memo= $em->getRepository(Memo::class)->findAll();
+        
+                
+                return $this->render('memo/listMemo.html.twig', [
+                    'list_memo_controller' => 'MemoController',
+                    'page' => 'Accueil',
+                    'login' => $login,
+                    'status' => $status,
+                    'memo' => $memo,
+                    ]);
+        }
+
     }
+    return $this->render('memo/listMemo.html.twig', [
+        'list_memo_controller' => 'MemoController',
+        
+        'login' => $login,
+        'status' => $status,
+        'memo' => $memo,
+        ]);
+}
 
     public function AddMemo(): Response
     {
@@ -55,13 +94,38 @@ class MemoController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $user= $em->getRepository(User::class)->findAll();
         $memo = $em->getRepository(Memo::class);
+        
+        $errors = [];
 
         if(!empty($_POST)){
 
             $safe= array_map('trim', array_map('strip_tags', $_POST));
-            $user= $em->getRepository(User::class);
+            $user= $em->getRepository(User::class)->findAll();
 
+            $users = $em->getRepository(User::class)->findby(['id' => $safe['users']]);
+            $memo_user = $em->getRepository(Memo::class)->findby(['users' => $safe['users']]);
+        
             
+            
+            if(null == $safe['users'] ){ // Validation organisation
+                $errors[] = 'Vous devez choisir un utilisateur au sein de l\'annuaire MemoPCA.';
+            }
+
+           if($memo_user){ // Validation users
+                  $errors[] = 'Le mémo de cet utilisateur a déjà été crée.';
+             }
+
+            if( ($safe['users'] !== 0 && v::equals($safe['users'])->validate($safe['informed'])) || ($safe['users'] !== 0 && v::equals($safe['users'])->validate($safe['informed2'])) || ($safe['users'] !== 0 && v::equals($safe['users'])->validate($safe['inform'])) || ($safe['users'] !== 0 && v::equals($safe['users'])->validate($safe['inform2'])) ){
+                $errors[] = 'Il n\'est pas possible de figurer parmis les contacts de son propre mémo.';
+            }
+
+            if( (($safe['informed'] > 0) && v::equals($safe['informed'])->validate($safe['informed2'])) || (($safe['informed'] > 0) && v::equals($safe['informed'])->validate($safe['inform'])) || (($safe['informed'] > 0) && v::equals($safe['informed'])->validate($safe['inform2'])) || (($safe['informed2'] > 0) && v::equals($safe['informed2'])->validate($safe['informed'])) || (($safe['informed2'] > 0) && v::equals($safe['informed2'])->validate($safe['inform'])) || (($safe['informed2'] > 0) && v::equals($safe['informed2'])->validate($safe['inform2'])) || (($safe['inform'] > 0) && v::equals($safe['inform'])->validate($safe['informed'])) ||  (($safe['inform'] > 0) && v::equals($safe['inform'])->validate($safe['informed2'])) || (($safe['inform'] > 0) && v::equals($safe['inform'])->validate($safe['inform2'])) || (($safe['inform2'] > 0) && v::equals($safe['inform2'])->validate($safe['informed'])) || (($safe['inform2'] > 0) && v::equals($safe['inform2'])->validate($safe['informed2'])) || (($safe['inform2'] > 0) && v::equals($safe['inform2'])->validate($safe['inform'])) ){
+                $errors[] = 'Un contact ne peut pas apparaître plusieurs fois sur le même mémo.';
+            }
+
+            if(count($errors) === 0){
+
+            $user= $em->getRepository(User::class);
             // Je recupere mes données de role et de grade
             $safe['users'] = $user->FindOneBy(['id' => $safe['users']]);
             $safe['informed'] = $user->FindOneBy(['id' => $safe['informed']]);
@@ -93,7 +157,12 @@ class MemoController extends AbstractController
                 'memo' => $memo,
                 ]);
             
+        }else{
+            $this->addFlash('danger',  implode('<br>', $errors));
+
+            return $this->redirectToroute('add_memo_controller');
         }
+    }
         return $this->render('memo/addMemo.html.twig', [
             'user' =>$user,
             'memo' => $memo,
@@ -101,6 +170,7 @@ class MemoController extends AbstractController
             'status' => $status,
 
         ]);
+        
     }
 
     // DETAILS Memo
@@ -111,10 +181,12 @@ class MemoController extends AbstractController
         $login = $this->getUser();
         $status = $this->getUser()->getStatus();
         $em = $this->getDoctrine()->getManager();
-        
+        $user= $em->getRepository(User::class)->findAll();
+
         $memo= $em->getRepository(Memo::class)->findOneBy(['id'=> $_GET['memo']]);
         
         return $this->render('memo/detailsMemo.html.twig', [
+            'user' =>$user,
             'login'=> $login,
             'status' => $status,
             'memo' => $memo,
@@ -132,12 +204,28 @@ class MemoController extends AbstractController
         $user= $em->getRepository(User::class)->findAll();
         $memo = $em->getRepository(Memo::class)->findOneBy(['id' => $_GET['memo']]);
 
+        $errors= [];
+
         if(!empty($_POST)){
 
             $safe= array_map('trim', array_map('strip_tags', $_POST));
             $user= $em->getRepository(User::class);
+            $safe= array_map('trim', array_map('strip_tags', $_POST));
+            $user= $em->getRepository(User::class)->findAll();
 
-            
+    
+
+          if( ($safe['users'] !== 0 && v::equals($safe['users'])->validate($safe['informed'])) || ($safe['users'] !== 0 && v::equals($safe['users'])->validate($safe['informed2'])) || ($safe['users'] !== 0 && v::equals($safe['users'])->validate($safe['inform'])) || ($safe['users'] !== 0 && v::equals($safe['users'])->validate($safe['inform2'])) ){
+              $errors[] = 'Il n\'est pas possible de figurer parmis les contacts de son propre mémo.';
+        }
+
+          if( (($safe['informed'] > 0) && v::equals($safe['informed'])->validate($safe['informed2'])) || (($safe['informed'] > 0) && v::equals($safe['informed'])->validate($safe['inform'])) || (($safe['informed'] > 0) && v::equals($safe['informed'])->validate($safe['inform2'])) || (($safe['informed2'] > 0) && v::equals($safe['informed2'])->validate($safe['informed'])) || (($safe['informed2'] > 0) && v::equals($safe['informed2'])->validate($safe['inform'])) || (($safe['informed2'] > 0) && v::equals($safe['informed2'])->validate($safe['inform2'])) || (($safe['inform'] > 0) && v::equals($safe['inform'])->validate($safe['informed'])) ||  (($safe['inform'] > 0) && v::equals($safe['inform'])->validate($safe['informed2'])) || (($safe['inform'] > 0) && v::equals($safe['inform'])->validate($safe['inform2'])) || (($safe['inform2'] > 0) && v::equals($safe['inform2'])->validate($safe['informed'])) || (($safe['inform2'] > 0) && v::equals($safe['inform2'])->validate($safe['informed2'])) || (($safe['inform2'] > 0) && v::equals($safe['inform2'])->validate($safe['inform'])) ){
+            $errors[] = 'Un contact ne peut pas apparaître plusieurs fois sur le même mémo.';
+        }
+
+            if(count($errors) === 0){
+
+            $user= $em->getRepository(User::class);
             // Je recupere mes données de role et de grade
             $safe['users'] = $user->FindOneBy(['id' => $safe['users']]);
             $safe['informed'] = $user->FindOneBy(['id' => $safe['informed']]);
@@ -146,8 +234,6 @@ class MemoController extends AbstractController
             $safe['inform2'] = $user->FindOneBy(['id' => $safe['inform2']]);
 
             
-            
-            $memo->setUsers($safe['users']);
             $memo->setInformed1($safe['informed']);
             
             $memo->setInformed2($safe['informed2']);
@@ -169,12 +255,23 @@ class MemoController extends AbstractController
             $_POST = array();
             
             return $this->render('memo/detailsMemo.html.twig', [
+                'user' => $user,
                 'login'=> $login,
                 'status' => $status,
                 'memo' => $memo,
                 
                 ]);
+        }else{
+            $this->addFlash('danger',  implode('<br>', $errors));
+
+            return $this->render('memo/updateMemo.html.twig', [
+                'user' =>$user,
+                'memo' => $memo,
+                'login' => $login,
+                'status' => $status,
+            ]);
         }
+    }
         return $this->render('memo/updateMemo.html.twig', [
             'user' =>$user,
             'memo' => $memo,
@@ -232,152 +329,7 @@ class MemoController extends AbstractController
 
 
         }
-// public function AddmemoJson(): Response 
-    // {
-    //     $em = $this->getDoctrine()->getManager();
 
-    //     $user1 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '1']);
-
-    //     $data1 = array();
-    //     foreach ($user1 as $key => $user){
-    //         $data1[$key]['id'] = "id".$user->getId();
-    //         $data1[$key]['fonction'] = $user->getProfession();
-    //         $data1[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
-    //         $data1[$key]['portable'] = $user->getMobilenumber();
-    //         $data1[$key]['fixe'] = $user-> getPhonenumber();
-    //         $data1[$key]['etage'] = $user->getFloor();
-    //         $data1[$key]['photo'] = $user-> getPhoto();
-    //         $data1[$key]['type'] = $user->getRole()->getName();
-    //         $data1[$key]['niveau'] = $user->getGrade()->getName();
-    //         $data1[$key]['batiment'] = $user-> getStructure();
-    //     }        
-        
-    //     $response1 = new JsonResponse();
-        
-    //     $response1->headers->set('Content-Type', 'application/json');
-    //     $response1->setEncodingOptions(JSON_UNESCAPED_UNICODE);
-    //     $response1->setData($data1);
-
-    //     $user2 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '2']);
-
-    //     $data2 = array();
-        
-    //     foreach ($user2 as $key => $user){
-    //         $data2[$key]['id'] = "id".$user->getId();
-    //         $data2[$key]['fonction'] = $user->getProfession();
-    //         $data2[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
-    //         $data2[$key]['portable'] = $user->getMobilenumber();
-    //         $data2[$key]['fixe'] = $user-> getPhonenumber();
-    //         $data2[$key]['etage'] = $user->getFloor();
-    //         $data2[$key]['photo'] = $user-> getPhoto();
-    //         $data2[$key]['type'] = $user->getRole()->getName();
-    //         $data2[$key]['niveau'] = $user->getGrade()->getName();
-    //         $data2[$key]['batiment'] = $user-> getStructure();
-    //     }
-
-    //     $response2 = new JsonResponse();
-        
-    //     $response2->headers->set('Content-Type', 'application/json');
-    //     $response2->setEncodingOptions(JSON_UNESCAPED_UNICODE);
-    //     $response2->setData($data2);
-        
-    //     $user3 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '3']);
-
-    //     $data3 = array();
-        
-    //     foreach ($user3 as $key => $user){
-    //         $data3[$key]['id'] = "id".$user->getId();
-    //         $data3[$key]['fonction'] = $user->getProfession();
-    //         $data3[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
-    //         $data3[$key]['portable'] = $user->getMobilenumber();
-    //         $data3[$key]['fixe'] = $user-> getPhonenumber();
-    //         $data3[$key]['etage'] = $user->getFloor();
-    //         $data3[$key]['photo'] = $user-> getPhoto();
-    //         $data3[$key]['type'] = $user->getRole()->getName();
-    //         $data3[$key]['niveau'] = $user->getGrade()->getName();
-    //         $data3[$key]['batiment'] = $user-> getStructure();
-    //     }
-
-    //     $response3 = new JsonResponse();
-        
-    //     $response3->headers->set('Content-Type', 'application/json');
-    //     $response3->setEncodingOptions(JSON_UNESCAPED_UNICODE);
-    //     $response3->setData($data3);
-
-    //     $user4 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '4']);
-
-    //     $data4 = array();
-        
-    //     foreach ($user4 as $key => $user){
-    //         $data4[$key]['id'] = "id".$user->getId();
-    //         $data4[$key]['fonction'] = $user->getProfession();
-    //         $data4[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
-    //         $data4[$key]['portable'] = $user->getMobilenumber();
-    //         $data4[$key]['fixe'] = $user-> getPhonenumber();
-    //         $data4[$key]['etage'] = $user->getFloor();
-    //         $data4[$key]['photo'] = $user-> getPhoto();
-    //         $data4[$key]['type'] = $user->getRole()->getName();
-    //         $data4[$key]['niveau'] = $user->getGrade()->getName();
-    //         $data4[$key]['batiment'] = $user-> getStructure();
-    //     }
-
-    //     $response4 = new JsonResponse();
-        
-    //     $response4->headers->set('Content-Type', 'application/json');
-    //     $response4->setEncodingOptions(JSON_UNESCAPED_UNICODE);
-    //     $response4->setData($data4);
-
-    //     $user5 = $this->getDoctrine()->getRepository(User::class)->findBy(['directory' => '5']);
-
-    //     $data5 = array();
-        
-    //     foreach ($user5 as $key => $user){
-    //         $data5[$key]['id'] = "id".$user->getId();
-    //         $data5[$key]['fonction'] = $user->getProfession();
-    //         $data5[$key]['nom'] = $user->getFirstname()." ".$user->getLastname();
-    //         $data5[$key]['portable'] = $user->getMobilenumber();
-    //         $data5[$key]['fixe'] = $user-> getPhonenumber();
-    //         $data5[$key]['etage'] = $user->getFloor();
-    //         $data5[$key]['photo'] = $user-> getPhoto();
-    //         $data5[$key]['type'] = $user->getRole()->getName();
-    //         $data5[$key]['niveau'] = $user->getGrade()->getName();
-    //         $data5[$key]['batiment'] = $user-> getStructure();
-    //     }
-
-    //     $response5 = new JsonResponse();
-        
-    //     $response5->headers->set('Content-Type', 'application/json');
-    //     $response5->setEncodingOptions(JSON_UNESCAPED_UNICODE);
-    //     $response5->setData($data5);
-
-
-    //     $files = array($response1, $response2, $response3, $response4, $response5);
-    //     $zipname = 'Annuaires.zip';
-    //     $zip = new ZipArchive;
-        
-    //     if($zip->open($zipname, ZipArchive::CREATE) == TRUE ){
-    //     foreach ($files as $file) {
-    //     // download file
-
-        
-    //     $numFiles = $zip->numFiles;
-        
-    //     dd($numFiles);
-        
-    //     }
-
-    //     $zip->close();
-    // }
-    //     header('Content-Type: application/zip');
-    //     header('Content-disposition: attachment; filename='.$zipname);
-    //     header('Content-Length: ' . filesize($zipname));
-    //     readfile($zipname);
-
-    //     unlink($zipname);
-        
-        
-    //     return $response;
-    // }
 
     }
 

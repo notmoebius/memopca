@@ -72,6 +72,11 @@ class Login implements UserInterface
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="login")
+     */
+    private $memos;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -260,5 +265,26 @@ class Login implements UserInterface
         return $this;
     }
 
+    public function addMemo(Memo $memo): self
+    {
+        if (!$this->memos->contains($memo)) {
+            $this->memos[] = $memo;
+            $memo->setLogin($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMemo(Memo $memo): self
+    {
+        if ($this->memos->removeElement($memo)) {
+            // set the owning side to null (unless already changed)
+            if ($memo->getLogin() === $this) {
+                $memo->setLogin(null);
+            }
+        }
+
+        return $this;
+    }
     
 }

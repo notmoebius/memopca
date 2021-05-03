@@ -39,13 +39,13 @@
         </div>
     <form name="form" method="POST">
     
-    <h1 class="text-center mt-5 mb-5">Création du Mémo individuelle de  
+    <h1 class="text-center mt-5 mb-5">Modification du Mémo individuelle de  
     <select name="users" id="users" aria-label=".form-select" required>
-            <option selected >Quel utilisateur ?</option>
-            {% for user in user %}
-                <option value="{{ user.id }}"{% if memo.users.id == user.id %} selected {% endif %}> {{ user.firstname }} {{ user.lastname }}</option>
-            {% endfor %}
-                </select></h1>
+
+                <option value="{{ memo.users.id }}"> {{ memo.users.firstname }} {{ memo.users.lastname }}</option>
+
+    </select>
+    </h1>
 
     
 
@@ -55,23 +55,7 @@
 
         </div>
             <div class="form-group mb-3">
-                    <label class="col-12 text-center text-uppercase mb-2" for="NumbersInformed"> Par combien de personnes doit être contacté notre utilsateur en cas d'alerte : </label>
-            <div class="text-center">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="NumbersInformed" id="NumbersInformed0" value="0" checked>
-                        <p class="form-check-label" for="informed0">0</p>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="NumbersInformed" id="NumbersInformed1" value="1" >
-                        <p class="form-check-label " for="informed1">1</p>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="NumbersInformed" id="NumbersInformed2" value="2">
-                        <p class="form-check-label " for="informed2">2</p>
-                    </div>
-            </div>
+                    <label class="col-12 text-center text-uppercase mb-2" for="NumbersInformed"> En cas d'alerte, qui va contacter notre utilisateur {{ memo.users.firstname }} {{ memo.users.lastname }} : </label>
             </div>
         {# End Row #}
             <div class="row">
@@ -79,10 +63,17 @@
                 <label for="" class="text-uppercase">Contact 1: </label>
                 <select class="form-select form-select mb-4" name="informed" id="informed" aria-label=".form-select" required>
                     <option value="0" selected >Qui prévient notre utilisateur :</option>
+                    {% if memo.informed1 is null == true %}
+                            <option value="0" selected>Aucun</option>
+                        {% for user in user %}
+                            <option value="{{ user.id }}"> {{ user.firstname }} {{ user.lastname }} </option>
+                        {% endfor %}                      
+                    {% else %}
                         <option value="0">Aucun</option>
                 {% for user in user %}
                         <option value="{{ user.id }}" {% if memo.informed1.id == user.id %} selected {% endif %}> {{ user.firstname }} {{ user.lastname }}</option>
-                {% endfor %}                
+                {% endfor %}   
+                    {% endif %}             
                 </select>
             </div>
 
@@ -90,10 +81,17 @@
                 <label for="" class="text-uppercase">Contact 2: </label>
                 <select class="form-select form-select mb-4" name="informed2" id="informed2" aria-label=".form-select" required>
                     <option selected >Qui prévient notre utilisateur :</option>
+                    {% if memo.informed2 is null == true %}
+                            <option value="0" selected>Aucun</option>
+                        {% for user in user %}
+                            <option value="{{ user.id }}"> {{ user.firstname }} {{ user.lastname }} </option>
+                        {% endfor %}                      
+                    {% else %}
                         <option value="0">Aucun</option>
                 {% for user in user %}
                         <option value="{{ user.id }}" {% if memo.informed2.id == user.id %} selected {% endif %}> {{ user.firstname }} {{ user.lastname }}</option>
                 {% endfor %}
+                    {% endif %}
                 </select>
                 </div>
             </div>
@@ -102,25 +100,9 @@
         <div class="row">
         <div class="form-group">
 
-        </div>
+
             <div class="form-group mb-2">
-                    <label class="col-12 text-center text-uppercase mb-2" for="NumbersInform"> Combien de personnes notre utilsateur va prévenir en cas d'alerte : </label>
-            <div class="text-center">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="NumbersInform" id="NumbersInform0" value="0"  checked>
-                        <p class="form-check-label" for="inform0">0</p>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="NumbersInform" id="NumbersInform1"  value="1" >
-                        <p class="form-check-label " for="inform1">1</p>
-                    </div>
-
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="NumbersInform" id="NumbersInform2" value="2">
-                        <p class="form-check-label " for="inform2">2</p>
-                    </div>
-            </div>
+                    <label class="col-12 text-center text-uppercase mb-2" for="NumbersInform"> En cas d'alerte, Qui notre utilisateur {{ memo.users.firstname }} {{ memo.users.lastname }} doit contacter : </label>
             </div>
         {# End Row #}
         <div class="row">
@@ -128,10 +110,17 @@
                 <label for="" class="text-uppercase">Contact 1: </label>
                 <select class="form-select form-select mb-4" name="inform" id="inform" aria-label=".form-select" required>
                     <option value="0" selected >Qui notre utilsateur doit prévenir :</option>
+                    {% if memo.inform1 is null == true %}
+                            <option value="0" selected>Aucun</option>
+                        {% for user in user %}
+                            <option value="{{ user.id }}"> {{ user.firstname }} {{ user.lastname }} </option>
+                        {% endfor %}                      
+                    {% else %}
                         <option value="0">Aucun</option>
                 {% for user in user %}
                         <option value="{{ user.id }}" {% if memo.inform1.id == user.id %} selected {% endif %}> {{ user.firstname }} {{ user.lastname }}</option>
-                {% endfor %}                
+                {% endfor %} 
+                    {% endif %}               
                 </select>
             </div>
 
@@ -139,10 +128,17 @@
                 <label for="inform2" class="text-uppercase">Contact 2: </label>
                 <select class="form-select form-select mb-4" name="inform2" id="inform2" aria-label=".form-select" required>
                     <option value="0" selected >Qui notre utilsateur doit prévenir :</option>
+                {% if memo.inform2 is null == true %}
+                    <option value="0" selected>Aucun</option>
+                {% for user in user %}
+                        <option value="{{ user.id }}"> {{ user.firstname }} {{ user.lastname }} </option>
+                {% endfor %}  
+                    {% else %}
                         <option value="0">Aucun</option>
                 {% for user in user %}
                         <option value="{{ user.id }}" {% if memo.inform2.id == user.id %} selected {% endif %}> {{ user.firstname }} {{ user.lastname }} </option>
-                {% endfor %}                
+                {% endfor %}    
+                    {% endif %}            
                 </select>
                 </div>
         </div>

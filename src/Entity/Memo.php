@@ -56,6 +56,12 @@ class Memo
      */
     private $informed1;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Login::class, inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $login;
+
     public function __construct()
     {
         $this->inform = new ArrayCollection();
@@ -207,6 +213,18 @@ class Memo
     public function setInformed1(?user $informed1): self
     {
         $this->informed1 = $informed1;
+
+        return $this;
+    }
+
+    public function getLogin(): ?Login
+    {
+        return $this->login;
+    }
+
+    public function setLogin(?Login $login): self
+    {
+        $this->login = $login;
 
         return $this;
     }
