@@ -1163,7 +1163,7 @@ class DirectoriesController extends AbstractController
             $data1[$key]['niveau'] = $user->getGrade()->getName();
             $data1[$key]['batiment'] = $user-> getStructure();
         }        
-        
+
         $response = new JsonResponse();
         
         $response->headers->set('Content-Type', 'application/json');

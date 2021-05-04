@@ -310,23 +310,90 @@ class MemoController extends AbstractController
             $memo = $this->getDoctrine()->getRepository(Memo::class)->findAll();
 
             $data = array();
-            foreach ($memo as $memo){
-
+            foreach ($memo as $key => $memo){
+            
                 $serializer = new Serializer();
-                $data['qui'] = "id".$memo->getUsers()->getId();
+                $data[$key]['qui'] = "id".$memo->getUsers()->getId();
 
-                $data['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
-                $data['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId().""];
-                $response = new JsonResponse();
+            // if((null === $memo->getInformed1()) || (null === $memo->getInformed2()) || (null === $memo->getInform1()) || (null === $memo->getInform2())){
+            //     if($memo->getInformed1() === null){
+
+            //         $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
+            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
+
+            //     }elseif(null === $memo->getInformed2()){
+            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
+            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
+            //     }elseif(null === $memo->getInform1()){
+            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
+            //         $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId().""];
+
+            //     }elseif(null === $memo->getInform2()){
+            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
+            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."".""];
+
+            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2())){
+            //         $data[$key]['prevenu'] = ["".", ".""];
+            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
+
+            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInform1())){
+            //         $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
+            //         $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
+
+            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInform2()) ){
+            //         $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
+            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".""];
+                    
+
+            //     }elseif( (null === $memo->getInformed2()) && (null === $memo->getInform1()) ){
+            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
+            //         $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
+                    
+            //     }elseif( (null === $memo->getInformed2()) && (null === $memo->getInform2()) ){
+            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
+            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".""];
+                
+            //     }elseif( (null === $memo->getInform1()) && (null === $memo->getInform2()) ){
+            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
+            //         $data[$key]['previent'] = ["".", ".""];
+
+            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && (null === $memo->getInform1()) ){
+            //         $data[$key]['prevenu'] = ["".", ".""];
+            //         $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
+
+            //     }elseif( (null === $memo->getInformed2()) && (null === $memo->getInform1()) && (null === $memo->getInform2()) ){
+            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
+            //         $data[$key]['previent'] = ["".", ".""];
+
+            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInform1()) && (null === $memo->getInform2()) ){
+            //         $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
+            //         $data[$key]['previent'] = ["".", ".""];
+
+
+            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && (null === $memo->getInform2()) ){
+            //         $data[$key]['prevenu'] = ["".", ".""];
+            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".""];
+
+            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && (null === $memo->getInform1()) && (null === $memo->getInform2())){
+            //         $data[$key]['prevenu'] = ["".", ".""];
+            //         $data[$key]['previent'] = ["".", ".""];
+            //     }    
+
+            //     }else{
+            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
+            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
+            //     }
+            }
+            dd($data);
             
-                $response->headers->set('Content-Type', 'application/json');
-                $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
-                $response->setData($data);
-                return $response;
-            
-            }  
 // dd($data);
 
+        $response = new JsonResponse();
+            
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data);
+        return $response;
 
         }
 
