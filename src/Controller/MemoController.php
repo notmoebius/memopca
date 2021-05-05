@@ -303,8 +303,7 @@ class MemoController extends AbstractController
             // EXPORT EN JSON
         public function JsonMemo(): Response
         {
-            
-            
+
             // $user = $this->getUser();
             $em = $this->getDoctrine()->getManager();
             $memo = $this->getDoctrine()->getRepository(Memo::class)->findAll();
@@ -315,88 +314,85 @@ class MemoController extends AbstractController
                 $serializer = new Serializer();
                 $data[$key]['qui'] = "id".$memo->getUsers()->getId();
 
-            // if((null === $memo->getInformed1()) || (null === $memo->getInformed2()) || (null === $memo->getInform1()) || (null === $memo->getInform2())){
-            //     if($memo->getInformed1() === null){
+            if((null === $memo->getInformed1()) || (null === $memo->getInformed2()) || (null === $memo->getInform1()) || (null === $memo->getInform2())){
+                if(is_null($memo->getInformed1()) === true && is_null($memo->getInformed2()) === false && is_null($memo->getInform1()) === false && is_null($memo->getInform2()) === false){
 
-            //         $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
-            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
+                    $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
+                    $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
 
-            //     }elseif(null === $memo->getInformed2()){
-            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
-            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
-            //     }elseif(null === $memo->getInform1()){
-            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
-            //         $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId().""];
+                }elseif(null === $memo->getInformed2() && is_null($memo->getInformed1()) === false && is_null($memo->getInform1()) === false && is_null($memo->getInform2()) === false){
+                    $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
+                    $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
+                }elseif(null === $memo->getInform1() && is_null($memo->getInformed1()) === false && is_null($memo->getInformed2()) === false && is_null($memo->getInform2()) === false){
+                    $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
+                    $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
 
-            //     }elseif(null === $memo->getInform2()){
-            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
-            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."".""];
+                }elseif(null === $memo->getInform2() && is_null($memo->getInformed1()) === false && is_null($memo->getInformed2()) === false && is_null($memo->getInform1()) === false){
+                    $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
+                    $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".""];
 
-            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2())){
-            //         $data[$key]['prevenu'] = ["".", ".""];
-            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
+                }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && is_null($memo->getInform1()) === false && is_null($memo->getInform2()) === false){
+                    $data[$key]['prevenu'] = ["".", ".""];
+                    $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
 
-            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInform1())){
-            //         $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
-            //         $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
+                }elseif( (null === $memo->getInformed1()) && (null === $memo->getInform1()) && is_null($memo->getInformed2()) === false && is_null($memo->getInform2()) === false){
+                    $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
+                    $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
 
-            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInform2()) ){
-            //         $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
-            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".""];
+                }elseif( (null === $memo->getInformed1()) && (null === $memo->getInform2()) && is_null($memo->getInformed2()) === false && is_null($memo->getInform1()) === false ){
+                    $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
+                    $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".""];
                     
 
-            //     }elseif( (null === $memo->getInformed2()) && (null === $memo->getInform1()) ){
-            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
-            //         $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
+                }elseif( (null === $memo->getInformed2()) && (null === $memo->getInform1()) && is_null($memo->getInformed1()) === false && is_null($memo->getInform2()) === false){
+                    $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
+                    $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
                     
-            //     }elseif( (null === $memo->getInformed2()) && (null === $memo->getInform2()) ){
-            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
-            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".""];
+                }elseif( (null === $memo->getInformed2()) && (null === $memo->getInform2()) && is_null($memo->getInformed1()) === false && is_null($memo->getInform1()) === false){
+                    $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
+                    $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".""];
                 
-            //     }elseif( (null === $memo->getInform1()) && (null === $memo->getInform2()) ){
-            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
-            //         $data[$key]['previent'] = ["".", ".""];
+                }elseif( (null === $memo->getInform1()) && (null === $memo->getInform2()) && is_null($memo->getInformed1()) === false && is_null($memo->getInformed2()) === false){
+                    $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
+                    $data[$key]['previent'] = ["".", ".""];
 
-            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && (null === $memo->getInform1()) ){
-            //         $data[$key]['prevenu'] = ["".", ".""];
-            //         $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
+                }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && (null === $memo->getInform1())  && is_null($memo->getInform2()) === false){
+                    $data[$key]['prevenu'] = ["".", ".""];
+                    $data[$key]['previent'] = ["".", "."id".$memo->getInform2()->getId()];
 
-            //     }elseif( (null === $memo->getInformed2()) && (null === $memo->getInform1()) && (null === $memo->getInform2()) ){
-            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
-            //         $data[$key]['previent'] = ["".", ".""];
+                }elseif( (null === $memo->getInformed2()) && (null === $memo->getInform1()) && (null === $memo->getInform2()) && is_null($memo->getInformed1()) === false ){
+                    $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", ".""];
+                    $data[$key]['previent'] = ["".", ".""];
 
-            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInform1()) && (null === $memo->getInform2()) ){
-            //         $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
-            //         $data[$key]['previent'] = ["".", ".""];
+                }elseif( (null === $memo->getInformed1()) && (null === $memo->getInform1()) && (null === $memo->getInform2()) && is_null($memo->getInformed2()) === false){
+                    $data[$key]['prevenu'] = ["".", "."id".$memo->getInformed2()->getId()];
+                    $data[$key]['previent'] = ["".", ".""];
 
 
-            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && (null === $memo->getInform2()) ){
-            //         $data[$key]['prevenu'] = ["".", ".""];
-            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".""];
+                }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && (null === $memo->getInform2()) && is_null($memo->getInform1()) === false ){
+                    $data[$key]['prevenu'] = ["".", ".""];
+                    $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", ".'"'];
 
-            //     }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && (null === $memo->getInform1()) && (null === $memo->getInform2())){
-            //         $data[$key]['prevenu'] = ["".", ".""];
-            //         $data[$key]['previent'] = ["".", ".""];
-            //     }    
+                }elseif( (null === $memo->getInformed1()) && (null === $memo->getInformed2()) && (null === $memo->getInform1()) && (null === $memo->getInform2())){
+                    $data[$key]['prevenu'] = ["".", ".""];
+                    $data[$key]['previent'] = ["".", ".""];
+                }    
 
-            //     }else{
-            //         $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
-            //         $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
-            //     }
+                }else{
+                    $data[$key]['prevenu'] = ["id".$memo->getInformed1()->getId().", "."id".$memo->getInformed2()->getId()];
+                    $data[$key]['previent'] = ["id".$memo->getInform1()->getId().", "."id".$memo->getInform2()->getId()];
+                }
             }
-            dd($data);
+
             
 // dd($data);
-
         $response = new JsonResponse();
             
         $response->headers->set('Content-Type', 'application/json');
         $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
         $response->setData($data);
         return $response;
-
         }
-
 
     }
 
