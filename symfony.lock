@@ -2,6 +2,9 @@
     "alchemy/zippy": {
         "version": "1.0.0"
     },
+    "almasaeed2010/adminlte": {
+        "version": "v2.4.3"
+    },
     "cnam/authapp-bundle": {
         "version": "5.0.0"
     },
@@ -13,6 +16,9 @@
     },
     "cnam/validator-bundle": {
         "version": "5.0.0"
+    },
+    "composer/installers": {
+        "version": "v1.11.0"
     },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
