@@ -127,6 +127,18 @@
     "fzaninotto/faker": {
         "version": "v1.9.2"
     },
+    "kevinpapst/adminlte-bundle": {
+        "version": "0.9",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "0.9",
+            "ref": "dca6a91efc23d844326d2e90b47bdf48a5038fcf"
+        },
+        "files": [
+            "./config/packages/admin_lte.yaml"
+        ]
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
@@ -171,6 +183,9 @@
     },
     "swiftmailer/swiftmailer": {
         "version": "v6.2.7"
+    },
+    "symfony/asset": {
+        "version": "v5.2.7"
     },
     "symfony/cache": {
         "version": "v5.2.6"

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aad8e60d2287d35e2c81c59c2a3aebcd",
+    "content-hash": "dc0bae17105778032b022fd872a9d140",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1914,6 +1914,70 @@
             "time": "2020-12-11T09:56:16+00:00"
         },
         {
+            "name": "kevinpapst/adminlte-bundle",
+            "version": "3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kevinpapst/AdminLTEBundle.git",
+                "reference": "d1e0d21b497b7bf864138aba4b645379e6b51b83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "http://artifactory.f5.cnqd.cnamts.fr:80/artifactory/api/composer/php-remote/vcs-dists/zip/kevinpapst/AdminLTEBundle/d1e0d21b497b7bf864138aba4b645379e6b51b83",
+                "reference": "d1e0d21b497b7bf864138aba4b645379e6b51b83",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/config": ">4.1",
+                "symfony/dependency-injection": ">4.0",
+                "symfony/event-dispatcher": ">4.3",
+                "symfony/http-foundation": ">4.0",
+                "symfony/http-kernel": ">4.0",
+                "symfony/options-resolver": ">4.0",
+                "symfony/security-core": ">4.0",
+                "twig/twig": ">2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.10",
+                "knplabs/knp-menu-bundle": "^2.2",
+                "phpspec/prophecy": "^1.6",
+                "phpstan/phpstan": "^0.11.8",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpunit/phpunit": "^7.3",
+                "symfony/framework-bundle": ">4.0"
+            },
+            "suggest": {
+                "friendsofsymfony/user-bundle": "Allows easy user management and security support",
+                "knplabs/knp-menu-bundle": "Allows easy menu integration"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "KevinPapst\\AdminLTEBundle\\": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Papst",
+                    "homepage": "https://www.kevinpapst.de"
+                },
+                {
+                    "name": "Marc Bach",
+                    "homepage": "http://www.avanzu.de"
+                },
+                {
+                    "name": "Ángel Guzmán Maeso",
+                    "homepage": "https://shakaran.net/blog"
+                }
+            ],
+            "description": "Admin theme bundle for Symfony 4 based on AdminLTE 2.4.8 with FOSUserBundle support",
+            "time": "2019-09-25T16:11:41+00:00"
+        },
+        {
             "name": "laminas/laminas-code",
             "version": "3.4.1",
             "source": {
@@ -2520,6 +2584,71 @@
                 }
             ],
             "time": "2021-03-09T12:30:35+00:00"
+        },
+        {
+            "name": "symfony/asset",
+            "version": "v5.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/asset.git",
+                "reference": "e6676acfabf011dca2beaa5f9b8d519c8aea2870"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "http://artifactory.f5.cnqd.cnamts.fr:80/artifactory/api/composer/php-remote/vcs-dists/zip/symfony/asset/e6676acfabf011dca2beaa5f9b8d519c8aea2870",
+                "reference": "e6676acfabf011dca2beaa5f9b8d519c8aea2870",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "symfony/http-client": "^4.4|^5.0",
+                "symfony/http-foundation": "^4.4|^5.0",
+                "symfony/http-kernel": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/http-foundation": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Asset\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Manages URL generation and versioning of web assets such as CSS stylesheets, JavaScript files and image files",
+            "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-04-07T16:07:52+00:00"
         },
         {
             "name": "symfony/cache",

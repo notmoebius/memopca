@@ -14,4 +14,5 @@ return [
     Cnam\CryptographieBundle\CryptographieBundle::class => ['all' => true],
     Cnam\AuthAppBundle\AuthAppBundle::class => ['all' => true],
     Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle::class => ['all' => true],
+    KevinPapst\AdminLTEBundle\AdminLTEBundle::class => ['all' => true],
 ];

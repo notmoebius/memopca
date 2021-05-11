@@ -127,3 +127,9 @@ login_controller:
 forget_controller:
     path: /mot-de-passe-oublie
     controller: App\Controller\SecurityController::ForgetPass
+
+# ADMIN
+
+admin_controller:
+    path: /administration
+    controller: App\Controller\AdminController::Admin
