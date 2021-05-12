@@ -8,14 +8,16 @@
 
 admin_lte:
     options:
-        skin: skin-blue-light
+        skin: skin-blue
         fixed_layout: false
         boxed_layout: false
         collapsed_sidebar: false
         mini_sidebar: false
 
-    knp_menu:
+    knp_menu: 
         enable: false
+        main_menu: admin_controller
+        breadcrumb_menu: false
 
     routes:
         adminlte_welcome: admin_controller

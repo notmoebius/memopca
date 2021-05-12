@@ -82,8 +82,35 @@ class UserController extends AbstractController
                 if(!isset($safe['organization'])){ // Validation organisation
                     $errors[] = 'Vous devez choisir votre organisme.';
                 }
+
+                if(isset($_FILES['photo']) && $_FILES['photo']['error'] != UPLOAD_ERR_NO_FILE){
+
+                if($_FILES['photo']['error'] != UPLOAD_ERR_OK){
+
+                    $errors[] = 'Une erreur est survenue lors du transfert de l\'image'; 
+
+                }else{
     
-                if(count($errors) === 0){
+                    $maxSize = 3 * 1000 * 1000; 
+    
+                if($_FILES['photo']['size'] > $maxSize){
+
+                    $errors[] = 'L\'image est trop volumineuse, maximum 3Mo';
+
+                }else{
+    
+                    $allowMimesTypes = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png'];
+
+                if(!in_array($_FILES['photo']['type'], $allowMimesTypes)){
+
+                    $errors[] = 'Le type de fichier est invalide';
+
+                    }
+                }
+            }
+        } // endif isset($_FILES['profilPicture']) && !empty($_FILES['profilPicture']) && $_FILES['profilPicture']['error'] != UPLOAD_ERR_NO_FILE
+          
+        if(count($errors) === 0){
     
                     $em = $this->getDoctrine()->getManager();
                     $organization = $em ->getRepository(Organization::Class);
@@ -100,7 +127,33 @@ class UserController extends AbstractController
                         $login,
                         $safe['password']
                     ));
+                     // PHOTO
+                    if($_FILES['photo']['error'] === UPLOAD_ERR_OK){
+                        $rootPublic = $_SERVER['DOCUMENT_ROOT']; // Chemin jusqu'à "public"                    
+                        $publicOutput = 'asset/uploads/admin/'; // Chemin à partir de public
+                        $dirOutput = $rootPublic.$publicOutput;
+    
+                        switch ($_FILES['photo']['type']) {
+                            case 'image/jpg':
+                            case 'image/jpeg':
+                            case 'image/pjpeg':
+                                $extension = 'jpg';
+                            break;
+    
+                            case 'image/png':
+                                $extension = 'png';
+                            break;
+    
+                        }
+    
+                        $filename = uniqid().'.'.$extension;
+                
+                if(!move_uploaded_file($_FILES['photo']['tmp_name'], $dirOutput.$filename)){
+                    die('Erreur d\'upload fichier Images');
+                }
 
+                $login->setPhoto($publicOutput.$filename);
+            }
                     $em->persist($login);
                     $em->flush();
                     $_POST = array();

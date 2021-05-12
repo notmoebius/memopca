@@ -8,7 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "alchemy/zippy": "^1.0",
-        "almasaeed2010/adminlte": "~2.4",
+        "almasaeed2010/adminlte": "~3.1",
         "cnam/authapp-bundle": "^5.0",
         "cnam/authsrvsec-bundle": "^5.0",
         "cnam/cryptographie-bundle": "^5.0",

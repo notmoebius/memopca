@@ -133,3 +133,7 @@ forget_controller:
 admin_controller:
     path: /administration
     controller: App\Controller\AdminController::Admin
+
+profil_admin_controller:
+    path: /profil
+    controller: App\Controller\AdminController::ProfilAdmin

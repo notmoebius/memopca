@@ -1,50 +1,49 @@
 {% extends '@AdminLTE/layout/default-layout.html.twig' %}
 
+
 {% block page_title %}Administration{% endblock %}
+{% block page_subtitle %}Bienvenue sur l'administration de MémoPCA{% endblock %}
 
-
+{# NAVBAR #}
 
 {% block navbar_start %}
+
      <li class="dropdown user user-menu">
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              {% if login.photo is empty %}
+              <img src="\asset\images\Photos\Pasdephoto.jpeg" class="user-image" alt="User Image">
+              {% else %}
+              <img src="{{ login.photo }}" class="user-image" alt="User Image">
+              {% endif %}
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs">{{ login.firstname }} {{ login.lastname }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="https://almsaeedstudio.com/themes/AdminLTE/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+            {% if login.photo is empty %}
+                <img src="\asset\images\Photos\Pasdephoto.jpeg" class="img-circle" alt="User Image">
+            {% else %}
+                <img src="{{ login.photo }}" class="img-circle" alt="User Image">
+            {% endif %}
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  {{ login.firstname }} {{ login.lastname }} - {{ login.status }}
+                  <small>{{ login.organization.name }}</small>
                 </p>
               </li>
               <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="{{ path('profil_admin_controller') }}" class="btn btn-default btn-flat">Profil</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                        <a href="{{ path('app_logout') }}" class="btn btn-danger active" role="button">Se déconnecter</a>
                 </div>
               </li>
             </ul>
@@ -59,7 +58,6 @@
         <ul class="text-center dropdown-menu">
             <li class="header container">Options</li>
                 <p class="menu text-center row">
-                        <a href="{{ path('app_logout') }}" class="btn btn-danger active col-4" role="button">Se déconnecter</a>
                         <a href="{{ path('home_connexion_controller') }}" class="btn btn-warning active col-4" role="button">Retour sur l'application</a>
                 </p>
             </li>
@@ -67,6 +65,52 @@
         </li>
 
 {% endblock %}
+
+{# FIN NAV #}
+
+{# SIDEBAR #}
+
+
+{% block sidebar_nav %}
+
+<ul>
+    <li><a href="">Général</a></li>
+    <li><a href="">Organisme</a></li>
+    <li><a href="">Sites</a></li>
+    <li><a href="">Salle de crises</a></li>
+    <li><a href="">To do list</a></li>
+</ul>
+
+{% endblock %}
+
+{# FIN SIDEBAR #}
+
+{% block page_content %}
+<section class="row" style="margin-top: 60px;">
+    <div class="box box-success col-md-3 col-md-offset-1" style="max-width: 250px">
+        <h3 class="text-success">Nombre de contacts:</h3>
+        {% if status == 'SNPCA' %}
+        <h1 class="text-center text-success">{{ users|length }}</h1>
+        {% elseif status == 'RPCA' %}
+        <h1 class="text-center text-success">{{ user|length }}</h1>
+        {% endif %}
+    </div>
+    <div class="box box-info col-md-3 col-md-offset-1" style="max-width: 250px">
+        <h3 class="text-info">Nombre d'annuaires:</h3>
+        <h1 class="text-center text-info">{{ directory|length }}</h1>
+    </div>
+    <div class="box box-danger col-md-3 col-md-offset-1" style="max-width: 250px">
+        <h3 class="text-danger">Organismes:</h3>
+        {% if status == 'SNPCA' %}
+            <h1 class="text-center text-danger">{{ organizations|length }}</h1>
+        {% elseif status == 'RPCA' %}
+            <h1 class="text-center text-danger">{{ login.organization|length }}</h1>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+
 
 {% block javascripts %}
     {{ parent() }}

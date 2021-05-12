@@ -60,6 +60,11 @@ class Login implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private $photo;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private $reset_token;
 
     /**
@@ -207,6 +212,18 @@ class Login implements UserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }
