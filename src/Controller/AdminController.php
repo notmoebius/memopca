@@ -11,6 +11,7 @@ use App\Entity\Organization;
 use App\Entity\Login;
 use App\Entity\User;
 use App\Entity\Directory;
+use App\Entity\Memo;
 
 
 class AdminController extends AbstractController
@@ -24,6 +25,11 @@ class AdminController extends AbstractController
         $organization = $login->getOrganization()->getId();
         $user = $this->getDoctrine()->getRepository(User::class)->findBy(['organization' => $organization]);
         $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+
+        $organizationMemo = $this->getDoctrine()->getRepository(User::class)->findBy(['organization' => $organization]);
+        $memo = $this->getDoctrine()->getRepository(Memo::class)->findBy(['users' => $organizationMemo]);
+        $memos = $this->getDoctrine()->getRepository(Memo::class)->findAll();
+        
         $directory = $this->getDoctrine()->getRepository(Directory::class)->findAll();
         $organizations = $this->getDoctrine()->getRepository(Organization::class)->findAll();
 
@@ -33,6 +39,8 @@ class AdminController extends AbstractController
             'status' =>$status,
             'user' => $user,
             'users' =>$users,
+            'memo' => $memo,
+            'memos' =>$memos,
             'directory' => $directory,
             'organizations' => $organizations,
         ]);

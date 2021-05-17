@@ -137,8 +137,8 @@
 {# FIN SIDEBAR #}
 
 {% block page_content %}
-<section class="row" style="margin-top: 60px;">
-    <div class="box box-success col-md-3 col-md-offset-1" style="max-width: 250px">
+<section class="row text-center" style="margin-top: 60px; display: flex; justify-content:center;">
+    <div class="box box-success col-md-3" style="max-width: 250px; margin-right: 30px;">
         <h3 class="text-success">Nombre de contacts:</h3>
         {% if status == 'SNPCA' %}
         <h1 class="text-center text-success">{{ users|length }}</h1>
@@ -146,11 +146,22 @@
         <h1 class="text-center text-success">{{ user|length }}</h1>
         {% endif %}
     </div>
-    <div class="box box-info col-md-3 col-md-offset-1" style="max-width: 250px">
+    
+    <div class="box box-info col-md-3" style="max-width: 250px; margin-right: 30px;">
         <h3 class="text-info">Nombre d'annuaires:</h3>
         <h1 class="text-center text-info">{{ directory|length }}</h1>
     </div>
-    <div class="box box-danger col-md-3 col-md-offset-1" style="max-width: 250px">
+
+     <div class="box box-warning col-md-3 " style="max-width: 250px; margin-right: 30px;">
+        <h3 class="text-warning">Mémos:</h3>
+        {% if status == 'SNPCA' %}
+            <h1 class="text-center text-warning">{{ memos|length }}</h1>
+        {% elseif status == 'RPCA' %}
+            <h1 class="text-center text-warning">{{ memo|length }}</h1>
+        {% endif %}
+    </div>
+
+    <div class="box box-danger col-md-3 " style="max-width: 250px; margin-right: 30px;">
         <h3 class="text-danger">Organismes:</h3>
         {% if status == 'SNPCA' %}
             <h1 class="text-center text-danger">{{ organizations|length }}</h1>
@@ -158,6 +169,7 @@
             <h1 class="text-center text-danger">{{ login.organization|length }}</h1>
         {% endif %}
     </div>
+
 </section>
 {% endblock %}
 
