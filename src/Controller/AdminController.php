@@ -38,6 +38,78 @@ class AdminController extends AbstractController
         ]);
     }
 
+    public function AdminOrganization(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+
+        return $this->render('admin/content/organization/adminOrganization.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+        ]);
+    }
+
+    public function AdminCrisis(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+
+        return $this->render('admin/content/crisis/adminCrisis.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+        ]);
+    }
+
+    public function AdminAgency(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+
+        return $this->render('admin/content/agency/adminAgency.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+        ]);
+    }
+
+    public function AdminProcess(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+
+        return $this->render('admin/content/process/adminProcess.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+        ]);
+    }
+
+    public function AdminList(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+
+        return $this->render('admin/content/todolist/adminList.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+        ]);
+    }
+
+    public function AdminDocuments(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+
+        return $this->render('admin/content/documents/adminDocuments.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+        ]);
+    }
+
     public function ProfilAdmin(Request $request): Response
     {
         $login = $this->getUser();

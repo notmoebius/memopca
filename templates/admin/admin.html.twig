@@ -4,6 +4,11 @@
 {% block page_title %}Administration{% endblock %}
 {% block page_subtitle %}Bienvenue sur l'administration de MémoPCA{% endblock %}
 
+{% block logo_large  %}
+
+<span class="logo-lg"><b>Admin</b>MémoPCA</span>
+
+{% endblock %}
 {# NAVBAR #}
 
 {% block navbar_start %}
@@ -52,13 +57,19 @@
 
     <li class="dropdown messages-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="fas fa-cogs"></i>
+            <i class="fas fa-cog"></i>
             <span class="label label-primary"></span>
         </a>
-        <ul class="text-center dropdown-menu">
-            <li class="header container">Options</li>
+        <ul class="text-center dropdown-menu" style="width: 400px;">
+            <li class="header container" >Paramètres</li>
                 <p class="menu text-center row">
-                        <a href="{{ path('home_connexion_controller') }}" class="btn btn-warning active col-4" role="button">Retour sur l'application</a>
+                    <div class="pull-left" style="margin-bottom: 20px; margin-left: 5px;">
+                        <a href="{{ path('home_connexion_controller') }}" class="btn btn-warning active" role="button" style="margin-top: 10px;">Retour sur l'application</a>
+                    </div> 
+
+                    <div class="pull-right" style="margin-bottom: 20px; margin-right: 5px;">
+                        <a href="#" class="btn btn-default active" role="button" style="margin-top: 10px;">Changez votre Mot de passe</a>
+                    </div>
                 </p>
             </li>
         </ul>
@@ -73,13 +84,53 @@
 
 {% block sidebar_nav %}
 
-<ul>
-    <li><a href="">Général</a></li>
-    <li><a href="">Organisme</a></li>
-    <li><a href="">Sites</a></li>
-    <li><a href="">Salle de crises</a></li>
-    <li><a href="">To do list</a></li>
+<ul style="padding-left: 0px; padding-top: 30px;">
+
+    {% if  "/administration" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Général</a></li>
+    {% else %}
+        <li style="padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_controller') }}"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Général</a></li>
+    {% endif %}
+
+    {% if  "/admin_organisme" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_organization_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Organisme</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_organization_controller') }}"><i class="fas fa-ticket-alt" style="padding-right: 20px;"></i> Organisme</a></li>
+    {% endif %}
+
+    {% if  "/admin_salle_de_crises" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_crisis_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Salle de crises</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_crisis_controller') }}"><i class="fas fa-users" style="padding-right: 18px;"></i> Salle de crises</a></li>
+    {% endif %}
+
+    {% if  "/admin_sites_agences" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_agency_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Sites/Agences</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_agency_controller') }}"><i class="fas fa-lightbulb" style="padding-right: 25px;"></i> Sites/Agences</a></li>
+    {% endif %}
+
+    {% if  "/admin_processus" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_process_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Processus et FP</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_process_controller') }}"><i class="fas fa-book" style="padding-right: 23px;"></i> Processus et FP</a></li>
+    {% endif %}
+
+
+    {% if  "/admin_to_do_List" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_list_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> To do list</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_list_controller') }}"><i class="fas fa-list-ul" style="padding-right: 20px;"></i> To do list</a></li>
+    {% endif %}
+
+
+    {% if  "/admin_documents" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_documents_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Base documentaire</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_documents_controller') }}"><i class="fas fa-folder-open" style="padding-right: 20px;"></i> Base documentaire</a></li>
+    {% endif %}
 </ul>
+
 
 {% endblock %}
 
@@ -111,8 +162,15 @@
 {% endblock %}
 
 
+{% block footer %}
+
+    {% include 'admin/basePartials/footerAdmin.html.twig' %}
+
+{% endblock %}
 
 {% block javascripts %}
+
     {{ parent() }}
     {% include 'admin/includes/javascript.html.twig' %}
+
 {% endblock %}

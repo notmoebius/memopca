@@ -134,6 +134,30 @@ admin_controller:
     path: /administration
     controller: App\Controller\AdminController::Admin
 
+admin_organization_controller:
+    path: /admin_organisme
+    controller: App\Controller\AdminController::AdminOrganization
+
+admin_crisis_controller:
+    path: /admin_salle_de_crises
+    controller: App\Controller\AdminController::AdminCrisis
+
+admin_agency_controller:
+    path: /admin_sites_agences
+    controller: App\Controller\AdminController::AdminAgency
+
+admin_process_controller:
+    path: /admin_processus
+    controller: App\Controller\AdminController::AdminProcess
+
+admin_list_controller:
+    path: /admin_to_do_List
+    controller: App\Controller\AdminController::AdminList
+
+admin_documents_controller:
+    path: /admin_documents
+    controller: App\Controller\AdminController::AdminDocuments
+
 profil_admin_controller:
     path: /profil
     controller: App\Controller\AdminController::ProfilAdmin
