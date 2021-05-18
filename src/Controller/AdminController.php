@@ -125,7 +125,7 @@ class AdminController extends AbstractController
 
         $errors = [];
     
-        if(!empty($_POST['email'])){
+        if(!empty($_POST)){
 
             $safe = array_map('trim', array_map('strip_tags', $_POST));
             $em = $this->getDoctrine()->getManager();
@@ -139,10 +139,6 @@ class AdminController extends AbstractController
 
             if(!v::length(2, 50)->validate($safe['lastname'])){
                 $errors[]= 'Votre nom doit contenir entre 2 et 50 caracteres';
-            }
-
-            if(!v::notEmpty()->email()->validate($safe['email'])){ // Validation email
-                $errors[] = 'Votre email est invalide';
             }
 
 
@@ -187,7 +183,6 @@ class AdminController extends AbstractController
 
                 $login->setFirstname($safe['firstname']);
                 $login->setLastname($safe['lastname']);
-                $login->setEmail($safe['email']);
                 $login->setStatus($status);
                 $login->setOrganization($safe['organization']);
                 

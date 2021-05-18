@@ -62,15 +62,15 @@
         </a>
         <ul class="text-center dropdown-menu" style="width: 400px;">
             <li class="header container" >Paramètres</li>
-                <p class="menu text-center row">
-                    <div class="pull-left" style="margin-bottom: 20px; margin-left: 5px;">
+                <div class="menu text-center row" style="display: flex; justify-content: space-between;">
+                    <div class="" style="margin-bottom: 20px;">
                         <a href="{{ path('home_connexion_controller') }}" class="btn btn-warning active" role="button" style="margin-top: 10px;">Retour sur l'application</a>
                     </div> 
 
-                    <div class="pull-right" style="margin-bottom: 20px; margin-right: 5px;">
-                        <a href="#" class="btn btn-default active" role="button" style="margin-top: 10px;">Changez votre Mot de passe</a>
+                    <div class="" style="margin-bottom: 20px;">
+                        <a href="{{ path('account_controller') }}" class="btn btn-default active" role="button" style="margin-top: 10px;">Mon compte</a>
                     </div>
-                </p>
+                </div>
             </li>
         </ul>
         </li>

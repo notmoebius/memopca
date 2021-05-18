@@ -161,3 +161,13 @@ admin_documents_controller:
 profil_admin_controller:
     path: /profil
     controller: App\Controller\AdminController::ProfilAdmin
+
+# Mon compte
+
+account_controller:
+    path: /mon-compte
+    controller: App\Controller\AccountController::Account
+
+delete_account_controller:
+    path: /supprimer-mon-compte
+    controller: App\Controller\AccountController::DeleteAccount

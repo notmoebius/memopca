@@ -43,6 +43,17 @@ label{
 {% block body %}
 
 <section class="container py-5">
+    <div class="w-50 mx-auto ">
+
+        {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    
     <div class="mb-3 text-center">
         <h1 class="mb-3 font-weight-normal">Connexion</h1>
 
