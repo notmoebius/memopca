@@ -7,10 +7,14 @@ parameters:
 
 services:
     # default configuration for services in *this* file
+    console_command.csv_import:
+        class: App\Command\CSVimportCommand;
+
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+        bind:
+            string $dataUsers: '%kernel.project_dir%/public/asset/uploads/data'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
