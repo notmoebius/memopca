@@ -134,9 +134,23 @@ admin_controller:
     path: /administration
     controller: App\Controller\AdminController::Admin
 
+# ORGANIZATION
 admin_organization_controller:
     path: /admin_organisme
     controller: App\Controller\AdminController::AdminOrganization
+
+add_admin_organization_controller:
+    path: /admin_ajout_organisme
+    controller: App\Controller\AdminController::AddAdminOrganization
+
+update_admin_organization_controller:
+    path: /admin_modification_organisme
+    controller: App\Controller\AdminController::UpdateAdminOrganization
+
+delete_admin_organization_controller:
+    path: /admin_suppression_organisme
+    controller: App\Controller\AdminController::DeleteAdminOrganization
+
 
 admin_crisis_controller:
     path: /admin_salle_de_crises

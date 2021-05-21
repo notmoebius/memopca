@@ -1,0 +1,34 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block page_title %}Ajoutez un organisme{% endblock %}
+{% block page_subtitle %}En tant que SNPCA, vous pouvez ajoutez un organisme{% endblock %}
+
+{% block page_content %}
+<h1 class="text-center" style="color:#25a9d9;">Formulaire d'ajout d'un organisme</h1>
+
+<div class="row form-group" style="display:flex; justify-content:center;">
+    <img src="\asset\images\logo\batiment.png" class="img-circle col-xs-12 col-md-6" alt="" style="max-width: 200px;">
+</div>
+
+
+<div style="display: flex; justify-content:center;">
+<form method="POST" class="col-md-6">
+
+    <div class="col-6 form-group">
+        <label for="name" class="text-uppercase">Nom de l'organisme : </label>
+        <input type="text" name="name" id="name" class="form-control mb-3" placeholder="Nom de l'organisme" required>
+    </div>
+
+    <div class="col-6 form-group">
+        <label for="coded" class="text-uppercase">Code de l'organisme : </label>
+        <input type="text" name="coded" id="coded" class="form-control mb-3" placeholder="Code de l'organisme"  required>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-lg btn-info" type="submit">Créer</button>
+    </div>
+
+</form>
+</div>
+
+{% endblock %}

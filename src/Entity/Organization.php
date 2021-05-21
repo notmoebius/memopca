@@ -25,6 +25,11 @@ class Organization
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $coded;
+
+    /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="organization")
      */
     private $users;
@@ -54,6 +59,18 @@ class Organization
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCoded(): ?string
+    {
+        return $this->coded;
+    }
+
+    public function setCoded(string $coded): self
+    {
+        $this->coded = $coded;
 
         return $this;
     }
