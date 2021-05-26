@@ -331,12 +331,25 @@ class AdminController extends AbstractController
         ]);
     }
 
+    // SITES/AGENCES
     public function AdminAgency(): Response
     {
         $login = $this->getUser();
         $status = $this->getUser()->getStatus();
 
         return $this->render('admin/content/agency/adminAgency.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+        ]);
+    }
+
+    public function AddAdminAgency(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+
+        return $this->render('admin/content/agency/addAdminAgency.html.twig', [
             'controller_name' => 'AdminController',
             'login' => $login,
             'status' =>$status,

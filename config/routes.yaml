@@ -156,9 +156,14 @@ admin_crisis_controller:
     path: /admin_salle_de_crises
     controller: App\Controller\AdminController::AdminCrisis
 
+# SITES/AGENCES
 admin_agency_controller:
     path: /admin_sites_agences
     controller: App\Controller\AdminController::AdminAgency
+
+add_admin_agency_controller:
+    path: /admin_ajout_sites_agences
+    controller: App\Controller\AdminController::AddAdminAgency
 
 admin_process_controller:
     path: /admin_processus

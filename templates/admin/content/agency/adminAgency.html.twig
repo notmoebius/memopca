@@ -5,4 +5,9 @@
 
 {% block page_content %}
     {% import "@AdminLTE/Macros/default.html.twig" as macro %}
+    <div class="text-center">
+        <h1>Sites/Agences</h1>
+        <a href="{{ path('add_admin_agency_controller') }}" class="text-center btn btn-lg btn-info " style="margin-top: 10px;">Ajoutez un site <i class="fas fa-plus" style="margin-left: 10px;"></i></a>
+    </div>
+    <h1>Listes des sites et agences</h1>
 {% endblock %}
