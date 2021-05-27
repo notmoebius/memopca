@@ -7,15 +7,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Respect\Validation\Validator as v;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Organization;
 use App\Entity\Login;
 use App\Entity\User;
 use App\Entity\Directory;
 use App\Entity\Memo;
+use App\Entity\Agency;
 
 
 class AdminController extends AbstractController
 {
+
+    // 
+    // 
+    // ACCUEIL
+    // 
+    // 
 
     public function Admin(): Response
     {
@@ -48,7 +56,14 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // ADMIN ORGANIZATION
+
+    // 
+    // 
+    // ORGANISATION
+    // 
+    // 
+
+
     public function AdminOrganization(): Response
     {
         $login = $this->getUser();
@@ -319,6 +334,13 @@ class AdminController extends AbstractController
     }
     
 
+    // 
+    // 
+    // SALLES DE CRISES
+    // 
+    // 
+
+
     public function AdminCrisis(): Response
     {
         $login = $this->getUser();
@@ -331,16 +353,25 @@ class AdminController extends AbstractController
         ]);
     }
 
+
+    // 
+    // 
     // SITES/AGENCES
+    // 
+    // 
+
+
     public function AdminAgency(): Response
     {
         $login = $this->getUser();
         $status = $this->getUser()->getStatus();
+        $agency = $this->getDoctrine()->getRepository(Agency::class)->findAll();
 
         return $this->render('admin/content/agency/adminAgency.html.twig', [
             'controller_name' => 'AdminController',
             'login' => $login,
             'status' =>$status,
+            'agency' =>$agency,
         ]);
     }
 
@@ -348,13 +379,322 @@ class AdminController extends AbstractController
     {
         $login = $this->getUser();
         $status = $this->getUser()->getStatus();
+        $agency = $this->getDoctrine()->getRepository(Agency::class)->findAll();
 
+        $errors = [];
+        if(!empty($_POST)){
+
+            $safe = array_map('trim', array_map('strip_tags', $_POST));
+            $em = $this->getDoctrine()->getManager();
+            $organization = $em ->getRepository(Organization::Class);
+            $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+            $status = $login->getStatus();
+            
+            if(!v::length(2, 50)->validate($safe['site'])){
+                $errors[]= 'Le libellée du site doit contenir entre 2 et 50 caracteres';
+            }
+
+
+            if(!isset($safe['organization'])){ // Validation organisation
+                $errors[] = 'Vous devez choisir l\'organisme auquel le site est rattaché.';
+            }
+
+
+            if(isset($_FILES['planAgency']) && $_FILES['planAgency']['error'] != UPLOAD_ERR_NO_FILE){
+
+            if($_FILES['planAgency']['error'] != UPLOAD_ERR_OK){
+
+                $errors[] = 'Une erreur est survenue lors du transfert du plan'; 
+
+            }else{
+
+                $maxSize = 3 * 1000 * 1000; 
+
+            if($_FILES['planAgency']['size'] > $maxSize){
+
+                $errors[] = 'Le plan est trop volumineus, maximum 3Mo';
+
+            }else{
+
+                $allowMimesTypes = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'application/pdf'];
+
+            if(!in_array($_FILES['planAgency']['type'], $allowMimesTypes)){
+
+                $errors[] = 'Le type de fichier est invalide';
+
+                }
+            }
+        }
+    }
+        if(count($errors) === 0){
+
+            $login = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $organization = $em ->getRepository(Organization::Class);
+            $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+            
+
+            $agency = New Agency;
+
+            $agency->setName($safe['site']);
+
+                // PHOTO
+                if($_FILES['planAgency']['error'] === UPLOAD_ERR_OK && !empty($_FILES['planAgency'])){
+
+                    $rootPublic = $_SERVER['DOCUMENT_ROOT']; // Chemin jusqu'à "public"                    
+                    $publicOutput = 'Documents_Locaux/Batiments/Plans/'; // Chemin à partir de public
+                    $dirOutput = $rootPublic.$publicOutput;
+
+                    
+                    switch ($_FILES['planAgency']['type']) {
+                        case 'image/jpg':
+                        case 'image/jpeg':
+                        case 'image/pjpeg':
+                            $extension = 'jpg';
+                        break;
+
+                        case 'image/png':
+                            $extension = 'png';
+                        break;
+
+                        case 'application/pdf':
+                            $extension = 'pdf';
+                        break;                
+                    }
+                    
+
+                    $filename = basename($_FILES['planAgency']['name']);
+            
+                if(!move_uploaded_file($_FILES['planAgency']['tmp_name'], $dirOutput.$filename)){
+                    die('Erreur d\'upload fichier Plan');
+                }
+            
+                $agency->setPlan($publicOutput.$filename);
+            }
+
+            $agency->setOrganization($safe['organization']); 
+
+            $em->persist($agency);
+            $em->flush();
+            $_POST = array();
+
+            $this->addFlash('success',  'La site a été créé avec succès.');
+                
+            return $this->render('admin/content/agency/adminAgency.html.twig', [
+                'controller_name' => 'AdminController',
+                'login' => $login,
+                'status' =>$status,
+                'agency' =>$agency,
+            ]);
+                
+            } // endif count($errors) === 0
+            else {
+                $this->addFlash('danger', implode('<br>', $errors));
+            }
+
+        }
         return $this->render('admin/content/agency/addAdminAgency.html.twig', [
             'controller_name' => 'AdminController',
             'login' => $login,
             'status' =>$status,
+            'agency' =>$agency,
         ]);
     }
+
+    public function UpdateAdminAgency(Request $request): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+        $em = $this->getDoctrine()->getManager();
+        $agency= $em->getRepository(Agency::class)->findOneBy(['id'=> $_GET['agency']]);
+
+        $errors = [];
+        if(!empty($_POST)){
+
+            $safe = array_map('trim', array_map('strip_tags', $_POST));
+            $em = $this->getDoctrine()->getManager();
+
+            $status = $login->getStatus();
+            
+            if(!v::length(2, 50)->validate($safe['site'])){
+                $errors[]= 'Le libellé doit contenir entre 2 et 50 caracteres';
+            }
+
+
+            if(!isset($safe['organization'])){ // Validation organisation
+                $errors[] = 'Vous devez choisir l\'organisme auquel le site est rattaché.';
+            }
+
+
+            if(isset($_FILES['planAgency']) && $_FILES['planAgency']['error'] != UPLOAD_ERR_NO_FILE){
+
+            if($_FILES['planAgency']['error'] != UPLOAD_ERR_OK){
+
+                $errors[] = 'Une erreur est survenue lors du transfert du plan'; 
+
+            }else{
+
+                $maxSize = 3 * 1000 * 1000; 
+
+            if($_FILES['planAgency']['size'] > $maxSize){
+
+                $errors[] = 'Le plan est trop volumineus, maximum 3Mo';
+
+            }else{
+
+                $allowMimesTypes = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'application/pdf'];
+
+            if(!in_array($_FILES['planAgency']['type'], $allowMimesTypes)){
+
+                $errors[] = 'Le type de fichier est invalide';
+
+                }
+            }
+        }
+    }
+        if(count($errors) === 0){
+
+            $login = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $organization = $em ->getRepository(Organization::Class);
+            $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+            
+
+
+
+            $agency->setName($safe['site']);
+
+                // PHOTO
+                if($_FILES['planAgency']['error'] === UPLOAD_ERR_OK && !empty($_FILES['planAgency'])){
+
+                    $rootPublic = $_SERVER['DOCUMENT_ROOT']; // Chemin jusqu'à "public"                    
+                    $publicOutput = 'Documents_Locaux/Batiments/Plans/'; // Chemin à partir de public
+                    $dirOutput = $rootPublic.$publicOutput;
+
+                    
+                    switch ($_FILES['planAgency']['type']) {
+                        case 'image/jpg':
+                        case 'image/jpeg':
+                        case 'image/pjpeg':
+                            $extension = 'jpg';
+                        break;
+
+                        case 'image/png':
+                            $extension = 'png';
+                        break;
+
+                        case 'application/pdf':
+                            $extension = 'pdf';
+                        break;                
+                    }
+                    
+
+                    $filename = basename($_FILES['planAgency']['name']);
+            
+                if(!move_uploaded_file($_FILES['planAgency']['tmp_name'], $dirOutput.$filename)){
+                    die('Erreur d\'upload fichier Plan');
+                }
+            
+                $agency->setPlan($publicOutput.$filename);
+            }
+
+            $agency->setOrganization($safe['organization']); 
+
+            if($request->isMethod('POST'))
+
+            $em->persist($agency);
+            $em->flush();
+            $_POST = array();
+
+            $this->addFlash('success',  'La site a été modifié avec succès.');
+                
+            return $this->redirectToRoute('admin_agency_controller');
+                
+            } // endif count($errors) === 0
+            else {
+                $this->addFlash('danger', implode('<br>', $errors));
+            }
+
+        }
+        return $this->render('admin/content/agency/updateAdminAgency.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+            'agency' =>$agency,
+        ]);
+    }
+        
+    public function DeleteAdminAgency(): Response
+    {
+
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+
+        $em = $this->getDoctrine()->getManager();
+        $agency = $em->getRepository(Agency::class)->findOneBy(['id'=> $_GET['agency']]);
+
+        $em->remove($agency);
+
+        $em->flush();
+
+        $this->addFlash('success',  'Le site a bien été supprimé.');
+
+        return $this->redirectToRoute('admin_agency_controller');
+    }
+
+    public function JsonAgency(): Response
+    {
+        
+        // $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $agency = $this->getDoctrine()->getRepository(Agency::class)->findAll();
+
+        $data = array();
+
+        foreach ($agency as $key => $agency){
+            $data[$key]['sites'] = array($agency->getName(),
+            $agency->getPlan());
+        }        
+        
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data);
+        return $response;
+
+    }
+
+    // public function JsonAgency1(): Response
+    // {
+        
+    //     // $user = $this->getUser();
+    //     $em = $this->getDoctrine()->getManager();
+    //     $agency = $this->getDoctrine()->getRepository(Agency::class)->findAll();
+
+    //     $data = array();
+        
+    //     foreach ($agency as $key => $agency){
+    //         $data[$key]['id'] = "id".$user->getName();
+    //         $data[$key]['fonction'] = $user->getPlan();
+    //     }        
+        
+    //     $response = new JsonResponse();
+        
+    //     $response->headers->set('Content-Type', 'application/json');
+    //     $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+    //     $response->setData($data);
+    //     return $response;
+
+    // }
+
+
+    // 
+    // 
+    // PROCESSUS
+    // 
+    // 
+
 
     public function AdminProcess(): Response
     {
@@ -368,6 +708,14 @@ class AdminController extends AbstractController
         ]);
     }
 
+
+    // 
+    // 
+    // TO DO LIST
+    // 
+    // 
+
+
     public function AdminList(): Response
     {
         $login = $this->getUser();
@@ -379,6 +727,14 @@ class AdminController extends AbstractController
             'status' =>$status,
         ]);
     }
+
+
+    // 
+    // 
+    // BASES DOCUMENTAIRE
+    // 
+    // 
+
 
     public function AdminDocuments(): Response
     {
@@ -392,13 +748,21 @@ class AdminController extends AbstractController
         ]);
     }
 
+
+    // 
+    // 
+    // PROFIL ADMIN
+    // 
+    // 
+
+
     public function ProfilAdmin(Request $request): Response
     {
         $login = $this->getUser();
         // dd($login);
 
         $errors = [];
-    
+        
         if(!empty($_POST)){
 
             $safe = array_map('trim', array_map('strip_tags', $_POST));

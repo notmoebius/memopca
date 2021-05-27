@@ -165,18 +165,34 @@ add_admin_agency_controller:
     path: /admin_ajout_sites_agences
     controller: App\Controller\AdminController::AddAdminAgency
 
+update_admin_agency_controller:
+    path: /admin_modification_agence
+    controller: App\Controller\AdminController::UpdateAdminAgency
+
+delete_admin_agency_controller:
+    path: /admin_suppression_agence
+    controller: App\Controller\AdminController::DeleteAdminAgency
+
+json_admin_agency_controller:
+    path: /exporter-sites
+    controller: App\Controller\AdminController::JsonAgency
+
+# PROCESSUS
 admin_process_controller:
     path: /admin_processus
     controller: App\Controller\AdminController::AdminProcess
 
+# TO DO LIST
 admin_list_controller:
     path: /admin_to_do_List
     controller: App\Controller\AdminController::AdminList
 
+# BASE DOCUMENTAIRE
 admin_documents_controller:
     path: /admin_documents
     controller: App\Controller\AdminController::AdminDocuments
 
+# PROFIL
 profil_admin_controller:
     path: /profil
     controller: App\Controller\AdminController::ProfilAdmin

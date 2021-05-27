@@ -134,4 +134,34 @@ class Organization
 
         return $this;
     }
+
+    /**
+     * @return Collection|Agency[]
+     */
+    public function getAgency(): Collection
+    {
+        return $this->agency;
+    }
+
+    public function addAgency(Agency $agency): self
+    {
+        if (!$this->agency->contains($agency)) {
+            $this->agency[] = $agency;
+            $agency->setOrganization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgency(Agency $agency): self
+    {
+        if ($this->agency->removeElement($agency)) {
+            // set the owning side to null (unless already changed)
+            if ($agency->getOrganization() === $this) {
+                $agency->setOrganization(null);
+            }
+        }
+
+        return $this;
+    }
 }
