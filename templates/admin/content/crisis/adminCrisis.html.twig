@@ -5,4 +5,9 @@
 
 {% block page_content %}
     {% import "@AdminLTE/Macros/default.html.twig" as macro %}
+
+    <div class="text-center">
+        <h1>Salle de crises</h1>
+        <a href="{{ path('add_admin_crisis_controller') }}" class="text-center btn btn-lg btn-info " style="margin-top: 10px;">Ajoutez une salle de crise <i class="fas fa-plus" style="margin-left: 10px;"></i></a>
+    </div>
 {% endblock %}

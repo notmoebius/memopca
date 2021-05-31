@@ -14,6 +14,7 @@ use App\Entity\User;
 use App\Entity\Directory;
 use App\Entity\Memo;
 use App\Entity\Agency;
+use App\Entity\CrisisRoom;
 
 
 class AdminController extends AbstractController
@@ -341,12 +342,159 @@ class AdminController extends AbstractController
     // 
 
 
-    public function AdminCrisis(): Response
+    public function AdminCrisisRoom(): Response
     {
         $login = $this->getUser();
         $status = $this->getUser()->getStatus();
 
         return $this->render('admin/content/crisis/adminCrisis.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+        ]);
+    }
+
+    public function AddAdminCrisisRoom(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+        $crisisRoom = $this->getDoctrine()->getRepository(CrisisRoom::class)->findAll();
+        
+        $errors = [];
+        if(!empty($_POST)){
+
+            $safe = array_map('trim', array_map('strip_tags', $_POST));
+            $em = $this->getDoctrine()->getManager();
+            $organization = $em ->getRepository(Organization::Class);
+            $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+            $status = $login->getStatus();
+
+            if(!v::length(2, 50)->validate($safe['reference'])){
+                $errors[]= 'Le libellée du site doit contenir entre 2 et 50 caracteres';
+            }
+
+            if(!isset($safe['phonenumber'])){
+                if(!v::length(10)->validate($safe['phonenumber'])){
+                    $errors[]= 'le numéro de téléphone doit contenir exactement 10 chiffres';
+                }
+                if(!v::length(10)->validate($safe['faxnumber'])){
+                    $errors[]= 'le numéro de téléphone doit contenir exactement 10 chiffres';
+                }
+            }
+
+            if(!isset($safe['typecrisis'])){ // Validation grade
+                $errors[] = 'Vous devez choisir si cette salle de crise est "Interne" ou "Externe".';
+            }
+
+            if(!v::length(2, 50)->validate($safe['address1'])){
+                $errors[]= 'L\'adresse doit contenir entre 2 et 50 caracteres';
+            }
+
+            if(!v::length(5, 30)->validate($safe['address2'])){
+                $errors[]= 'L\'adresse doit contenir entre 5 et 30 caracteres';
+            }
+
+            if(!v::length(0, 20)->validate($safe['address3'])){
+                $errors[]= 'L\'adresse doit contenir entre 0 et 20 caracteres';
+            }
+
+            if(!isset($safe['organization'])){ // Validation organisation
+                $errors[] = 'Vous devez choisir l\'organisme auquel le site est rattaché.';
+            }
+
+
+            if(isset($_FILES['planCrisisRoom']) && $_FILES['planCrisisRoom']['error'] != UPLOAD_ERR_NO_FILE){
+
+            if($_FILES['planCrisisRoom']['error'] != UPLOAD_ERR_OK){
+
+                $errors[] = 'Une erreur est survenue lors du transfert du plan'; 
+
+            }else{
+
+                $maxSize = 3 * 1000 * 1000; 
+
+            if($_FILES['planCrisisRoom']['size'] > $maxSize){
+
+                $errors[] = 'Le plan est trop volumineus, maximum 3Mo';
+
+            }else{
+
+                $allowMimesTypes = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'application/pdf'];
+
+            if(!in_array($_FILES['planCrisisRoom']['type'], $allowMimesTypes)){
+
+                $errors[] = 'Le type de fichier est invalide';
+
+                }
+            }
+        }
+    }
+        if(count($errors) === 0){
+
+            $login = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $organization = $em ->getRepository(Organization::Class);
+            $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+
+            $crisisRoom = new CrisisRoom;
+
+            $crisisRoom->setReference($safe['reference']);
+            $crisisRoom->setTypeCrisisRoom($safe['typecrisis']);
+            $crisisRoom->setPhonenumber($safe['phonenumber']);
+            $crisisRoom->setFaxnumber($safe['faxnumber']);
+            $crisisRoom->setAddres1($safe['address1']);
+            $crisisRoom->setAddress2($safe['address2']);
+            $crisisRoom->setAddress3($safe['address3']);
+            // PHOTO
+            if($_FILES['planCrisisRoom']['error'] === UPLOAD_ERR_OK && !empty($_FILES['planCrisisRoom'])){
+
+                $rootPublic = $_SERVER['DOCUMENT_ROOT']; // Chemin jusqu'à "public"                    
+                $publicOutput = 'Documents_Locaux/Batiments/Plans/'; // Chemin à partir de public
+                $dirOutput = $rootPublic.$publicOutput;
+
+                
+                switch ($_FILES['planCrisisRoom']['type']) {
+                    case 'image/jpg':
+                    case 'image/jpeg':
+                    case 'image/pjpeg':
+                        $extension = 'jpg';
+                    break;
+
+                    case 'image/png':
+                        $extension = 'png';
+                    break;
+
+                    case 'application/pdf':
+                        $extension = 'pdf';
+                    break;                
+                }
+                
+
+                $filename = basename($_FILES['planCrisisRoom']['name']);
+        
+            if(!move_uploaded_file($_FILES['planCrisisRoom']['tmp_name'], $dirOutput.$filename)){
+                die('Erreur d\'upload fichier Plan');
+            }
+        
+            $crisisRoom->setPlan($publicOutput.$filename);
+        }
+            $crisisRoom->setOrganization($safe['organization']);
+
+            $em->persist($crisisroom);
+            $em->flush();
+            $_POST = array();
+
+            $this->addFlash('success',  'La site a été créé avec succès.');
+                
+            return $this->redirectToRoute('admin_crisis_controller');
+                
+            } // endif count($errors) === 0
+            else {
+                $this->addFlash('danger', implode('<br>', $errors));
+            }
+
+        }
+        return $this->render('admin/content/crisis/addAdminCrisis.html.twig', [
             'controller_name' => 'AdminController',
             'login' => $login,
             'status' =>$status,
@@ -480,12 +628,7 @@ class AdminController extends AbstractController
 
             $this->addFlash('success',  'La site a été créé avec succès.');
                 
-            return $this->render('admin/content/agency/adminAgency.html.twig', [
-                'controller_name' => 'AdminController',
-                'login' => $login,
-                'status' =>$status,
-                'agency' =>$agency,
-            ]);
+            return $this->redirectToRoute('admin_agency_controller');
                 
             } // endif count($errors) === 0
             else {

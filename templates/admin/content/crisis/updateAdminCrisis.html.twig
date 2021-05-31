@@ -1,0 +1,92 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block page_title %}Ajoutez les salles de crises{% endblock %}
+{% block page_subtitle %}Vous pouvez ajouter vos salles de crises{% endblock %}
+
+{% block page_content %}
+    {% import "@AdminLTE/Macros/default.html.twig" as macro %}
+
+    <h1 class="text-center" style="color:#25a9d9;">Modification de la salle de crise:</h1>
+
+<div class="row form-group" style="display:flex; justify-content:center;">
+    <img src="\asset\images\logo\crise.png" class="img-circle col-xs-12 col-md-6" alt="" style="max-width: 200px;">
+</div>
+
+
+<div style="display: flex; justify-content:center;">
+<form method="post" enctype="multipart/form-data" class="col-md-6">
+
+    <div class="col-6 form-group">
+        <label for="reference" class="text-uppercase">Référence de la salle de crise: </label>
+        <input type="text" name="reference" id="reference" class="form-control mb-3" placeholder="Référence de la salle de crise" required>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-12 text-center text-uppercase" for="typecrisis">Type de la salle : </label>
+    
+
+        <div class="text-center ">
+            <div class="form-check form-check-inline col-sm-6">
+                <input class="form-check-input" type="radio" name="typecrisis" id="typecrisis1" value="1">
+                <p class="form-check-label" for="internal">Interne</p>
+            </div>
+
+            <div class="form-check col-sm-6">
+                <input class="form-check-input" type="radio" name="typecrisis" id="typecrisis2" value="2">
+                <p class="form-check-label " for="external">Externe</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-6">
+            <label for="phonenumber" class="text-uppercase">Numéro de téléphone: <span style="font-style: italic;">(Optionnel)</span></label>
+            <input type="text" name="phonenumber" id="phonenumber" class="form-control mb-3 col-sm-6" placeholder="Numéro de téléphone" required>
+        </div>
+        <div class="col-sm-6">
+            <label for="faxnumber" class="text-uppercase">Numéro de fax: <span style="font-style: italic;">(Optionnel)</span></label>
+            <input type="text" name="faxnumber" id="faxnumber" class="form-control mb-3" placeholder="Numéro de Fax" required>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-4">
+            <label for="address1" class="text-uppercase">Adresse: </label>
+            <input type="text" name="address1" id="address1" class="form-control mb-3 col-sm-6" placeholder="Adresse" required>
+        </div>
+
+        <div class="col-sm-4">
+            <label for="address2" class="text-uppercase">Code Postal et ville: </label>
+            <input type="text" name="address2" id="address2" class="form-control mb-3" placeholder="Code Postal et ville" required>
+        </div>
+
+        <div class="col-sm-4">
+            <label for="address3" class="text-uppercase">Complément: <span style="font-style: italic;">(Optionnel)</span></label>
+            <input type="text" name="address3" id="address3" class="form-control mb-3" placeholder="Complément d'adresse" required>
+        </div>
+    
+    </div>
+
+    <div class="col-6 form-group">
+        <label for="planCrisisRoom" class="text-uppercase">Insérez le plan de la salle: </label>
+        <input type="file" name="planCrisisRoom" id="planCrisisRoom" class="form-control-file mb-3" placeholder="Inserer le plan de la salle" accept="image/* ,application/pdf" required>
+    </div>
+
+    <div class="form-group">
+        <label for="organization" class="text-uppercase">A quel organisme cette salle de crise est-elle rattachée:</label>
+        <select class="form-control mb-4" name="organization" id="organization" aria-label=".form-select" required>
+            <option value="0" selected>Quel organisme :</option>
+                <option value="1">CPAM National</option>
+                <option value="2">CPAM Haute-Garonne</option>
+        </select>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-lg btn-info" type="submit">Modifier</button>
+    </div>
+
+</form>
+</div>
+
+{% endblock %}

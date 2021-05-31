@@ -24,7 +24,7 @@
 
   </thead>
   <tbody>
-  {% for agency in agency|sort((a, b) => a.id <=> b.id) %} 
+  {% for agency in agency %} 
     <tr>
         <th scope="row">{{ agency.id }} </th>
         <td scope="row">{{ agency.name }}</td>
@@ -45,11 +45,11 @@
       </div>
 
       <div class="modal-body text-center">
-        <img src="{{ agency.plan }}" alt="Plan du site {{ agency.name}}" style="min-width: 500px;">
+        <img src="{{ agency.plan }}" alt="Plan du site {{ agency.name }}" style="min-width: 500px; max-width: 500px;" codetype="application/pdf">
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
       </div>
 
     </div>

@@ -692,15 +692,15 @@ class DirectoriesController extends AbstractController
             $errors[]= 'Votre Etage ne peut pas excéder 15 caracteres';
         }
 
-        if(!isset($safe['role'])){ // Validation organisation
+        if(!isset($safe['role'])){ // Validation role
                 $errors[] = 'Vous devez choisir votre rôle au sein de MemoPCA.';
         }
 
-        if(!isset($safe['directory'])){ // Validation organisation
+        if(!isset($safe['directory'])){ // Validation annuaire
                 $errors[] = 'Vous devez choisir l\'annuaire auquel vous appartenez au sein de MemoPCA.';
         }
 
-        if(!isset($safe['grade'])){ // Validation organisation
+        if(!isset($safe['grade'])){ // Validation grade
                 $errors[] = 'Vous devez choisir si vous êtes "Titulaire" ou "Suppléant".';
         }
 

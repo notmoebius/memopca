@@ -151,10 +151,14 @@ delete_admin_organization_controller:
     path: /admin_suppression_organisme
     controller: App\Controller\AdminController::DeleteAdminOrganization
 
-
+# Salle de Crise
 admin_crisis_controller:
     path: /admin_salle_de_crises
-    controller: App\Controller\AdminController::AdminCrisis
+    controller: App\Controller\AdminController::AdminCrisisRoom
+
+add_admin_crisis_controller:
+    path: /admin_ajout_salle_de_crises
+    controller: App\Controller\AdminController::AddAdminCrisisRoom
 
 # SITES/AGENCES
 admin_agency_controller:

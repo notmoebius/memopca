@@ -28,7 +28,7 @@ class Agency
     private $plan;
 
      /**
-     * @ORM\ManyToOne(targetEntity=Organization::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Organization::class, inversedBy="organizationAgency")
      * @ORM\JoinColumn(nullable=false)
      */
     private $organization;

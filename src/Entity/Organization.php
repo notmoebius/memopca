@@ -164,4 +164,34 @@ class Organization
 
         return $this;
     }
+
+    /**
+     * @return Collection|CrisisRoom[]
+     */
+    public function getCrisisRoom(): Collection
+    {
+        return $this->crisisroom;
+    }
+
+    public function addCrisisRoom(CrisisRoom $crisisroom): self
+    {
+        if (!$this->crisisroom->contains($crisisroom)) {
+            $this->crisisroom[] = $crisisroom;
+            $crisisroom->setOrganization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCrisisRoom(CrisisRoom $crisisroom): self
+    {
+        if ($this->crisisroom->removeElement($crisisroom)) {
+            // set the owning side to null (unless already changed)
+            if ($crisisroom->getOrganization() === $this) {
+                $crisisroom->setOrganization(null);
+            }
+        }
+
+        return $this;
+    }
 }
