@@ -15,6 +15,9 @@ use App\Entity\Directory;
 use App\Entity\Memo;
 use App\Entity\Agency;
 use App\Entity\CrisisRoom;
+use App\Entity\TypeCrisisRoom;
+use League\Csv\Reader;
+use League\Csv\Writer;
 
 
 class AdminController extends AbstractController
@@ -71,121 +74,6 @@ class AdminController extends AbstractController
         $status = $this->getUser()->getStatus();
         $organization = $this->getDoctrine()->getRepository(Organization::class)->findAll();
 
-        $user = $this->getDoctrine()->getRepository(User::class);
-        // dd($user);
-        $errors = [];
-        
-        if(!empty($_POST['importcsv'])){
-            $safe= array_map('trim', array_map('strip_tags', $_POST));
-
-            $em = $this->getDoctrine()->getManager();
-
-            dd($_POST);
-
-            // Verification CSV
-            if(isset($_FILES['importcsv']) && $_FILES['importcsv']['error'] != UPLOAD_ERR_NO_FILE){
-
-                if($_FILES['importcsv']['error'] != UPLOAD_ERR_OK){
-                    $errors[] = 'Une erreur est survenue lors du transfert du fichier csv'; 
-                }
-                else {
-                   
-                    $maxSize = 3 * 10000 * 10000; 
-
-                    if($_FILES['importcsv']['size'] > $maxSize){
-                        $errors[] = 'L\'image est trop volumineuse, maximum 300Mo';
-                    }
-                    else {
-                        $allowMimesTypes = ['text/csv',
-                        'text/plain',
-                        'application/csv',
-                        'text/comma-separated-values',
-                        'application/excel',
-                        'application/vnd.ms-excel',
-                        'application/vnd.msexcel',
-                        'text/anytext',
-                        'application/octet-stream',
-                        'application/txt'];
-
-                        if(!in_array($_FILES['importcsv']['type'], $allowMimesTypes)){
-                            $errors[] = 'Le type de fichier est invalide';
-                        }
-                    }
-                }
-                
-            }
-
-            if(count($errors) === 0){   
-
-            if($_FILES['importcsv']['error'] === UPLOAD_ERR_OK){
-
-            $rootPublic = $_SERVER['DOCUMENT_ROOT']; // Chemin jusqu'à "public"                    
-            $publicOutput = 'asset/uploads/csv/'; // Chemin à partir de public
-
-            $dirOutput = $rootPublic.$publicOutput;
-
-            switch ($_FILES['.csv']['type']) {
-                case 'text/csv':
-                case 'application/csv':
-                    $extension = 'csv';
-                break;
-
-                case 'application/excel':
-                case 'application/vnd.ms-excel':
-                case 'application/vnd.msexcel';
-                case 'application/octet-stream';
-                    $extension = 'xls';                  
-                break;
-                
-                case 'application/excel':
-                case 'application/vnd.ms-excel':
-                case 'application/vnd.msexcel';
-                case 'application/octet-stream';
-                    $extension = 'xlsx';
-                break;
-            }
-
-            $filename = uniqid().'.'.$extension;
-            
-            if(!move_uploaded_file($_FILES['importcsv']['tmp_name'], $dirOutput.$filename)){
-                die('Erreur d\'upload fichier Images');
-            }
-        }
-
-        $reader = Reader::createFromPath('%kernel.root.dir%/../public/asset/uploads/csv'.$fileName);
-        $result = $reader->fetchAssoc();
-
-            foreach ($result as $row){
-
-                $user = new User();
-
-                $user->setFirstname($row['prenom']);
-                $user->setLastname($row['nom']);
-                $user->setProfession($row['profession']);
-                $user->setMobilenumber($row['mobile']);
-                $user->setPhonenumber($row['telephone']);
-                $user->setStructure($row['batiment']);
-                $user->setFloor($row['etage']);
-                $user->setRole($row['role']);
-                $user->setGrade($row['grade']);
-                $user->setDirectory($row['annuaire']);
-                $user->setOrganization($row['organisme']);
-
-                $this->em->persist($user);
-            }
-            
-            
-            $this->em->flush();
-
-            $this->addFlash('success', 'L\'ajout des contacts via le fichier CSV a été réalisé avec succès.');
-
-            $this->redirectToRoute('admin_organization_controller');
-
-        }else{
-
-            $this->addFlash('danger',  implode('<br>', $errors));
-        }
-    }
 
         return $this->render('admin/content/organization/adminOrganization.html.twig', [
             'controller_name' => 'AdminController',
@@ -216,6 +104,9 @@ class AdminController extends AbstractController
             if(!v::length(2, 50)->validate($safe['name'])){
                 $errors[]= 'Le nom de l\'organisme doit contenir entre 2 et 50 caractères';
             }
+            if(!v::length(2, 3)->validate($safe['department'])){
+                $errors[]= 'Le numéro de département doit contenir entre 2 et 3caractères';
+            }
 
             if(!v::length(6)->validate($safe['coded'])){
                 $errors[]= 'Le code de l\'organisme doit contenir exactement 6 chiffres';
@@ -227,6 +118,7 @@ class AdminController extends AbstractController
             $organization = new Organization;
 
             $organization->setName($safe['name']);
+            $organization->setDepartment($safe['department']);
             $organization->setCoded($safe['coded']);
 
                 // Je prepare la sauvegarde en base de donnée
@@ -274,6 +166,9 @@ class AdminController extends AbstractController
             if(!v::length(2, 50)->validate($safe['name'])){
                 $errors[]= 'Le nom de l\'organisme doit contenir entre 2 et 50 caractères';
             }
+            if(!v::length(2, 3)->validate($safe['department'])){
+                $errors[]= 'Le numéro de département doit contenir entre 2 et 3caractères';
+            }
 
             if(!v::length(6)->validate($safe['coded'])){
                 $errors[]= 'Le code de l\'organisme doit contenir exactement 6 chiffres';
@@ -283,6 +178,7 @@ class AdminController extends AbstractController
         if(count($errors) === 0){
 
             $organization->setName($safe['name']);
+            $organization->setDepartment($safe['department']);
             $organization->setCoded($safe['coded']);
 
         if($request->isMethod('POST'))
@@ -334,6 +230,139 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_organization_controller');
     }
     
+    public function ImportAdminOrganization(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+        $organization = $this->getDoctrine()->getRepository(Organization::class)->findAll();
+
+        $user = $this->getDoctrine()->getRepository(User::class);
+        // dd($user);
+        $errors = [];
+        
+        if(!empty($_POST)){
+            $safe= array_map('trim', array_map('strip_tags', $_POST));
+
+            $em = $this->getDoctrine()->getManager();
+
+        
+
+            // Verification CSV
+            if(isset($_FILES['importcsv']) && $_FILES['importcsv']['error'] != UPLOAD_ERR_NO_FILE){
+
+                if($_FILES['importcsv']['error'] != UPLOAD_ERR_OK){
+                    $errors[] = 'Une erreur est survenue lors du transfert du fichier csv'; 
+                }
+                else {
+                   
+                    $maxSize = 3 * 10000 * 10000; 
+
+                    if($_FILES['importcsv']['size'] > $maxSize){
+                        $errors[] = 'L\'image est trop volumineuse, maximum 300Mo';
+                    }
+                    else {
+                        $allowMimesTypes = ['text/csv',
+                        'text/plain',
+                        'application/csv',
+                        'text/comma-separated-values',
+                        'application/excel',
+                        'application/vnd.ms-excel',
+                        'application/vnd.msexcel',
+                        'text/anytext',
+                        'application/octet-stream',
+                        'application/txt'];
+
+                        if(!in_array($_FILES['importcsv']['type'], $allowMimesTypes)){
+                            $errors[] = 'Le type de fichier est invalide';
+                        }
+                    }
+                }
+                
+            }
+
+            if(count($errors) === 0){   
+
+            if($_FILES['importcsv']['error'] === UPLOAD_ERR_OK && !empty($_FILES['importcsv'])){
+
+            $rootPublic = $_SERVER['DOCUMENT_ROOT']; // Chemin jusqu'à "public"                    
+            $publicOutput = 'asset/uploads/csv/'; // Chemin à partir de public
+
+            $dirOutput = $rootPublic.$publicOutput;
+
+            switch ($_FILES['importcsv']['type']) {
+                case 'text/csv':
+                case 'application/csv':
+                    $extension = 'csv';
+                break;
+
+                case 'application/excel':
+                case 'application/vnd.ms-excel':
+                case 'application/vnd.msexcel';
+                case 'application/octet-stream';
+                    $extension = 'xls';                  
+                break;
+                
+                case 'application/excel':
+                case 'application/vnd.ms-excel':
+                case 'application/vnd.msexcel';
+                case 'application/octet-stream';
+                    $extension = 'xlsx';
+                break;
+            }
+
+            $filename = uniqid().'.'.$extension;
+            
+            if(!move_uploaded_file($_FILES['importcsv']['tmp_name'], $dirOutput.$filename)){
+                die('Erreur d\'upload fichier Images');
+            }
+        }
+
+        $reader = Reader::createFromPath('asset/uploads/csv/'.$filename);
+        
+
+            foreach ($reader->fecthAssoc(0) as $row){
+                $writer = Writer::createFromPath('asset/uploads/csv/'.$filename);
+
+                $user = new User();
+
+                $user->setFirstname($row['prenom']);
+                $user->setLastname($row['nom']);
+                $user->setProfession($row['profession']);
+                $user->setMobilenumber($row['mobile']);
+                $user->setPhonenumber($row['telephone']);
+                $user->setStructure($row['batiment']);
+                $user->setFloor($row['etage']);
+                $user->setRole($row['role']);
+                $user->setGrade($row['grade']);
+                $user->setDirectory($row['annuaire']);
+                $user->setOrganization($row['organisme']);
+
+                $this->$em->persist($user);
+
+                dd($user);
+            }
+            
+            
+            $em->flush();
+
+            $this->addFlash('success', 'L\'ajout des contacts via le fichier CSV a été réalisé avec succès.');
+
+            $this->redirectToRoute('admin_organization_controller');
+
+        }else{
+
+            $this->addFlash('danger',  implode('<br>', $errors));
+        }
+    }
+
+        return $this->render('admin/content/organization/importAdminOrganization.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+            'organization'=> $organization,
+        ]);
+    }
+
 
     // 
     // 
@@ -346,11 +375,13 @@ class AdminController extends AbstractController
     {
         $login = $this->getUser();
         $status = $this->getUser()->getStatus();
+        $crisisRoom = $this->getDoctrine()->getRepository(CrisisRoom::class)->findAll();
 
         return $this->render('admin/content/crisis/adminCrisis.html.twig', [
             'controller_name' => 'AdminController',
             'login' => $login,
             'status' =>$status,
+            'crisis' => $crisisRoom,
         ]);
     }
 
@@ -434,7 +465,9 @@ class AdminController extends AbstractController
             $login = $this->getUser();
             $em = $this->getDoctrine()->getManager();
             $organization = $em ->getRepository(Organization::Class);
+            $typecrisis = $em ->getRepository(TypeCrisisRoom::Class);
             $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+            $safe['typecrisis'] = $typecrisis->FindOneBy(['id' => $safe['typecrisis']]);
 
             $crisisRoom = new CrisisRoom;
 
@@ -442,7 +475,7 @@ class AdminController extends AbstractController
             $crisisRoom->setTypeCrisisRoom($safe['typecrisis']);
             $crisisRoom->setPhonenumber($safe['phonenumber']);
             $crisisRoom->setFaxnumber($safe['faxnumber']);
-            $crisisRoom->setAddres1($safe['address1']);
+            $crisisRoom->setAddress1($safe['address1']);
             $crisisRoom->setAddress2($safe['address2']);
             $crisisRoom->setAddress3($safe['address3']);
             // PHOTO
@@ -480,11 +513,11 @@ class AdminController extends AbstractController
         }
             $crisisRoom->setOrganization($safe['organization']);
 
-            $em->persist($crisisroom);
+            $em->persist($crisisRoom);
             $em->flush();
             $_POST = array();
 
-            $this->addFlash('success',  'La site a été créé avec succès.');
+            $this->addFlash('success',  'La salle de crise a été créée avec succès.');
                 
             return $this->redirectToRoute('admin_crisis_controller');
                 
@@ -498,9 +531,210 @@ class AdminController extends AbstractController
             'controller_name' => 'AdminController',
             'login' => $login,
             'status' =>$status,
+            'crisis' => $crisisRoom
         ]);
     }
 
+    public function UpdateAdminCrisisRoom(Request $request): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+        $crisisRoom = $this->getDoctrine()->getRepository(CrisisRoom::class)->findOneBy(['id'=> $_GET['crisis']]);
+        
+        $errors = [];
+        if(!empty($_POST)){
+
+            $safe = array_map('trim', array_map('strip_tags', $_POST));
+            $em = $this->getDoctrine()->getManager();
+            $organization = $em ->getRepository(Organization::Class);
+            $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+            $safe['typecrisis'] = $organization->FindOneBy(['id' => $safe['typecrisis']]);
+
+            $status = $login->getStatus();
+
+            if(!v::length(2, 50)->validate($safe['reference'])){
+                $errors[]= 'Le libellée du site doit contenir entre 2 et 50 caracteres';
+            }
+
+            if(!isset($safe['phonenumber'])){
+                if(!v::length(10)->validate($safe['phonenumber'])){
+                    $errors[]= 'le numéro de téléphone doit contenir exactement 10 chiffres';
+                }
+                if(!v::length(10)->validate($safe['faxnumber'])){
+                    $errors[]= 'le numéro de téléphone doit contenir exactement 10 chiffres';
+                }
+            }
+
+            if(!isset($safe['typecrisis'])){ // Validation grade
+                $errors[] = 'Vous devez choisir si cette salle de crise est "Interne" ou "Externe".';
+            }
+
+            if(!v::length(2, 50)->validate($safe['address1'])){
+                $errors[]= 'L\'adresse doit contenir entre 2 et 50 caracteres';
+            }
+
+            if(!v::length(5, 30)->validate($safe['address2'])){
+                $errors[]= 'L\'adresse doit contenir entre 5 et 30 caracteres';
+            }
+
+            if(!v::length(0, 20)->validate($safe['address3'])){
+                $errors[]= 'L\'adresse doit contenir entre 0 et 20 caracteres';
+            }
+
+            if(!isset($safe['organization'])){ // Validation organisation
+                $errors[] = 'Vous devez choisir l\'organisme auquel le site est rattaché.';
+            }
+
+
+            if(isset($_FILES['planCrisisRoom']) && $_FILES['planCrisisRoom']['error'] != UPLOAD_ERR_NO_FILE){
+
+            if($_FILES['planCrisisRoom']['error'] != UPLOAD_ERR_OK){
+
+                $errors[] = 'Une erreur est survenue lors du transfert du plan'; 
+
+            }else{
+
+                $maxSize = 3 * 1000 * 1000; 
+
+            if($_FILES['planCrisisRoom']['size'] > $maxSize){
+
+                $errors[] = 'Le plan est trop volumineus, maximum 3Mo';
+
+            }else{
+
+                $allowMimesTypes = ['image/jpeg', 'image/jpg', 'image/pjpeg', 'image/png', 'application/pdf'];
+
+            if(!in_array($_FILES['planCrisisRoom']['type'], $allowMimesTypes)){
+
+                $errors[] = 'Le type de fichier est invalide';
+
+                }
+            }
+        }
+    }
+        if(count($errors) === 0){
+
+            $login = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $organization = $em ->getRepository(Organization::Class);
+            $typecrisis = $em ->getRepository(TypeCrisisRoom::Class);
+            $safe['organization'] = $organization->FindOneBy(['id' => $safe['organization']]);
+            $safe['typecrisis'] = $typecrisis->FindOneBy(['id' => $safe['typecrisis']]);
+
+
+
+            $crisisRoom->setReference($safe['reference']);
+            $crisisRoom->setTypeCrisisRoom($safe['typecrisis']);
+            $crisisRoom->setPhonenumber($safe['phonenumber']);
+            $crisisRoom->setFaxnumber($safe['faxnumber']);
+            $crisisRoom->setAddress1($safe['address1']);
+            $crisisRoom->setAddress2($safe['address2']);
+            $crisisRoom->setAddress3($safe['address3']);
+            // PHOTO
+            if($_FILES['planCrisisRoom']['error'] === UPLOAD_ERR_OK && !empty($_FILES['planCrisisRoom'])){
+
+                $rootPublic = $_SERVER['DOCUMENT_ROOT']; // Chemin jusqu'à "public"                    
+                $publicOutput = 'Documents_Locaux/Batiments/Plans/'; // Chemin à partir de public
+                $dirOutput = $rootPublic.$publicOutput;
+
+                
+                switch ($_FILES['planCrisisRoom']['type']) {
+                    case 'image/jpg':
+                    case 'image/jpeg':
+                    case 'image/pjpeg':
+                        $extension = 'jpg';
+                    break;
+
+                    case 'image/png':
+                        $extension = 'png';
+                    break;
+
+                    case 'application/pdf':
+                        $extension = 'pdf';
+                    break;                
+                }
+                
+
+                $filename = basename($_FILES['planCrisisRoom']['name']);
+        
+            if(!move_uploaded_file($_FILES['planCrisisRoom']['tmp_name'], $dirOutput.$filename)){
+                die('Erreur d\'upload fichier Plan');
+            }
+        
+            $crisisRoom->setPlan($publicOutput.$filename);
+        }
+            $crisisRoom->setOrganization($safe['organization']);
+
+            if($request->isMethod('POST'))
+
+            $em->persist($crisisRoom);
+            $em->flush();
+            $_POST = array();
+
+            $this->addFlash('success',  'La salle de crise a été modifiée avec succès.');
+                
+            return $this->redirectToRoute('admin_crisis_controller');
+                
+            } // endif count($errors) === 0
+            else {
+                $this->addFlash('danger', implode('<br>', $errors));
+            }
+
+        }
+        return $this->render('admin/content/crisis/updateAdminCrisis.html.twig', [
+            'controller_name' => 'AdminController',
+            'login' => $login,
+            'status' =>$status,
+            'crisis' => $crisisRoom,
+        ]);
+    }
+
+    public function DeleteAdminCrisisRoom(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+        $em = $this->getDoctrine()->getManager();
+        
+        $crisisRoom = $this->getDoctrine()->getRepository(CrisisRoom::class)->findOneBy(['id'=> $_GET['crisis']]);
+
+        $em->remove($crisisRoom);
+
+        $em->flush();
+
+        $this->addFlash('success',  'La salle de crise a bien été supprimée.');
+
+        return $this->redirectToRoute('admin_crisis_controller');
+
+    }
+
+    public function JsonCrisisRoom(): Response
+    {
+        $login = $this->getUser();
+        $status = $this->getUser()->getStatus();
+        $em = $this->getDoctrine()->getManager();
+        $crisisRoom = $this->getDoctrine()->getRepository(CrisisRoom::class)->findAll();
+
+        $data = array();
+
+        foreach ($crisisRoom as $key => $crisisRoom){
+            $data[$key]['ref'] = $crisisRoom->getReference();
+            $data[$key]['type'] = $crisisRoom->getTypeCrisisRoom()->getName();
+            $data[$key]['tel'] = $crisisRoom->getPhonenumber();
+            $data[$key]['fax'] = $crisisRoom->getFaxnumber();
+            $data[$key]['addresse1'] = $crisisRoom->getAddress1();
+            $data[$key]['addresse2'] = $crisisRoom->getAddress2();
+            $data[$key]['addresse3'] = $crisisRoom->getAddress3();
+            $data[$key]['plan'] = $crisisRoom->getPlan();
+        }        
+        
+        $response = new JsonResponse();
+        
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        $response->setData($data);
+        return $response;
+
+    }
 
     // 
     // 

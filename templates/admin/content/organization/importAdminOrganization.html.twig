@@ -1,0 +1,36 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block page_title %}Import Annuaire{% endblock %}
+{% block page_subtitle %}Vous pouvez importer un annuaire en fichier CSV{% endblock %}
+    
+
+{% block page_content %}
+    {% import "@AdminLTE/Macros/default.html.twig" as macro %}
+
+    <h2 class="text-center">Importer l'annuaire</h2>
+    <h3 class="text-center" style="margin-top: 0px; color: #6c757d;">Vous pouvez importer l'annuaire uniquement en fichier CSV</h3>
+        <div class="row form-group" style="display:flex; justify-content:center;">
+            <img src="\asset\images\logo\Importlogo.png" class="img-circle col-xs-12 col-md-6" alt="" style="max-width: 200px;">
+        </div>
+
+<div style="display: flex; justify-content:center;">
+<form method="post" enctype="multipart/form-data"  class="col-md-6" style="margin:auto; ">
+
+    <div class="col-sm-12 text-center form-group" style="text-align: center;">
+        <label for="name">Fonction</label>
+        <input type="text" name="name" id="name" class="form-control text-center mb-3" value="Import CSV" readOnly="readOnly" style="margin:auto;" required>
+    </div>
+
+    <div class="col-sm-12 text-center form-group" style="text-align: center;">
+        <label for="importcsv" class="text-uppercase">Insérez votre fichier CSV :</label>
+        <input style="text-align: center; margin:auto;" type="file" name="importcsv" id="importcsv" class="form-control-file mb-3" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+    </div>
+{# accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" #}
+    <div class="col-sm-12 text-center">
+        <button class="btn btn-lg btn-info" type="submit">Importer</button>
+    </div>
+
+</form>
+</div>
+
+{% endblock %}

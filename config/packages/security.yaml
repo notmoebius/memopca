@@ -3,10 +3,6 @@ security:
         App\Entity\Login:
             algorithm: auto
 
-
-
-
-
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -21,6 +17,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         login:
+            pattern:  ^/authsrvsec
             security: false
         main:
             anonymous: true

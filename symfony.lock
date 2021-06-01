@@ -5,18 +5,6 @@
     "almasaeed2010/adminlte": {
         "version": "v2.4.3"
     },
-    "cnam/authapp-bundle": {
-        "version": "5.0.0"
-    },
-    "cnam/authsrvsec-bundle": {
-        "version": "5.0.2"
-    },
-    "cnam/cryptographie-bundle": {
-        "version": "5.0.0"
-    },
-    "cnam/validator-bundle": {
-        "version": "5.0.0"
-    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
@@ -144,6 +132,9 @@
     },
     "laminas/laminas-zendframework-bridge": {
         "version": "1.2.0"
+    },
+    "league/csv": {
+        "version": "9.0.0"
     },
     "nikic/php-parser": {
         "version": "v4.10.4"
@@ -426,19 +417,6 @@
     },
     "symfony/twig-pack": {
         "version": "v1.0.1"
-    },
-    "symfony/validator": {
-        "version": "4.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "4.3",
-            "ref": "d902da3e4952f18d3bf05aab29512eb61cabd869"
-        },
-        "files": [
-            "./config/packages/test/validator.yaml",
-            "./config/packages/validator.yaml"
-        ]
     },
     "symfony/var-dumper": {
         "version": "v5.2.6"

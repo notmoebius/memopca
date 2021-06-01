@@ -151,6 +151,10 @@ delete_admin_organization_controller:
     path: /admin_suppression_organisme
     controller: App\Controller\AdminController::DeleteAdminOrganization
 
+import_admin_organization_controller:
+    path: /admin_importer_annuaire
+    controller: App\Controller\AdminController::ImportAdminOrganization
+
 # Salle de Crise
 admin_crisis_controller:
     path: /admin_salle_de_crises
@@ -159,6 +163,18 @@ admin_crisis_controller:
 add_admin_crisis_controller:
     path: /admin_ajout_salle_de_crises
     controller: App\Controller\AdminController::AddAdminCrisisRoom
+
+update_admin_crisis_controller:
+    path: /admin_modification_salle_de_crise
+    controller: App\Controller\AdminController::UpdateAdminCrisisRoom
+
+delete_admin_crisis_controller:
+    path: /admin_suppression_salle_de_crise
+    controller: App\Controller\AdminController::DeleteAdminCrisisRoom
+
+json_admin_crisis_room_controller:
+    path: /salle_crise
+    controller: App\Controller\AdminController::JsonCrisisRoom
 
 # SITES/AGENCES
 admin_agency_controller:
@@ -178,7 +194,7 @@ delete_admin_agency_controller:
     controller: App\Controller\AdminController::DeleteAdminAgency
 
 json_admin_agency_controller:
-    path: /exporter-sites
+    path: /exporter_sites
     controller: App\Controller\AdminController::JsonAgency
 
 # PROCESSUS

@@ -29,11 +29,11 @@
         <th scope="row">{{ agency.id }} </th>
         <td scope="row">{{ agency.name }}</td>
         <td scope="row">Voir le plan:
-        <a href="" class="text-danger" data-toggle="modal" data-target="#{{ agency.name }}">
+        <a href="" class="text-danger" data-toggle="modal" data-target="#{{ agency.id }}">
         <i class="fas fa-file-pdf" style="font-size: 1.5em; margin-left: 20px;"></i>
         </a>
         {# <a href="{{ agency.plan }}" class="modal text-danger" id="exampleModal"></a> #}
-        <div class="modal fade" id="{{ agency.name }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="{{ agency.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

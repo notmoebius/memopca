@@ -40,7 +40,7 @@ class CrisisRoom
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $adress2;
+    private $address2;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -117,14 +117,14 @@ class CrisisRoom
         return $this;
     }
 
-    public function getAdress2(): ?string
+    public function getAddress2(): ?string
     {
-        return $this->adress2;
+        return $this->address2;
     }
 
-    public function setAdress2(string $adress2): self
+    public function setAddress2(string $address2): self
     {
-        $this->adress2 = $adress2;
+        $this->address2 = $address2;
 
         return $this;
     }

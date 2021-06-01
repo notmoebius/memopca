@@ -39,6 +39,11 @@ class Organization
      */
     private $login;
 
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $department;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -191,6 +196,18 @@ class Organization
                 $crisisroom->setOrganization(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDepartment(): ?string
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(?string $department): self
+    {
+        $this->department = $department;
 
         return $this;
     }

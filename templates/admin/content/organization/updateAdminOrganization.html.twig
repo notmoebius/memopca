@@ -20,6 +20,11 @@
     </div>
 
     <div class="col-6 form-group">
+        <label for="department" class="text-uppercase">Numéro de département de l'organisme : </label>
+        <input type="text" name="department" id="department" class="form-control mb-3" placeholder="{{ organization.department }}" value="{{ organization.department }}" required>
+    </div>
+
+    <div class="col-6 form-group">
         <label for="coded" class="text-uppercase">Code de l'organisme : </label>
         <input type="number" name="coded" id="coded" class="form-control mb-3" placeholder="{{ organization.coded }}" value="{{ organization.coded }}" required>
     </div>
