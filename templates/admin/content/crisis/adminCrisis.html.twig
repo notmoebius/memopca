@@ -14,9 +14,9 @@
     <h1>Listes des salles de crises</h1>
         <a href="{{ path('json_admin_crisis_room_controller') }}" class="text-center btn btn-lg btn-primary "  style="margin-top: 10px;" download="{{ path('json_admin_crisis_room_controller') }}">Exporter les salles de crise<i class="fas fa-download" style="margin-left: 10px;"></i></a>
 
-<div class="row" style="padding:15px;">
+<div class="row" style="padding:15px; margin-left:20px;">
 {% for crisis in crisis %} 
-    <div class="panel panel-default col-sm-4 col-md-4" style="min-width: 296px; max-width: 296px; border: solid 5px black; margin-top: 30px; margin-right: 54px; padding:0px;">
+    <div class="panel panel-default col-sm-4 col-md-4" style="min-width: 296px; max-width: 296px; border: solid 5px black; margin-top: 30px; margin-right: 45px; padding:0px;">
         <a href="" data-toggle="modal" data-target="#{{ crisis.id }}"><img class="card-img-top" src="{{ crisis.plan }}" alt="plan de la salle {{ crisis.reference }}" style="max-width: 286px; min-width: 286px; max-height: 180px; min-height: 180px;"></a>
             <div class="modal fade" id="{{ crisis.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

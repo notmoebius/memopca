@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Organization;
 use App\Entity\Login;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Entity\Directory;
 use App\Entity\Memo;
 use App\Entity\Agency;
@@ -267,6 +268,7 @@ class AdminController extends AbstractController
                         'text/comma-separated-values',
                         'application/excel',
                         'application/vnd.ms-excel',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                         'application/vnd.msexcel',
                         'text/anytext',
                         'application/octet-stream',
@@ -290,6 +292,8 @@ class AdminController extends AbstractController
             $dirOutput = $rootPublic.$publicOutput;
 
             switch ($_FILES['importcsv']['type']) {
+                case 'application/excel':
+                case 'application/vnd.ms-excel':
                 case 'text/csv':
                 case 'application/csv':
                     $extension = 'csv';
@@ -306,6 +310,7 @@ class AdminController extends AbstractController
                 case 'application/vnd.ms-excel':
                 case 'application/vnd.msexcel';
                 case 'application/octet-stream';
+                case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
                     $extension = 'xlsx';
                 break;
             }
@@ -317,12 +322,12 @@ class AdminController extends AbstractController
             }
         }
 
-        $reader = Reader::createFromPath('asset/uploads/csv/'.$filename);
         
+        $reader = Reader::createFromPath('asset/uploads/csv/'.$filename);
 
-            foreach ($reader->fecthAssoc(0) as $row){
-                $writer = Writer::createFromPath('asset/uploads/csv/'.$filename);
 
+        foreach ($reader as $index => $row) {
+                dd($row);
                 $user = new User();
 
                 $user->setFirstname($row['prenom']);
@@ -337,9 +342,9 @@ class AdminController extends AbstractController
                 $user->setDirectory($row['annuaire']);
                 $user->setOrganization($row['organisme']);
 
-                $this->$em->persist($user);
+                $em->persist($user);
 
-                dd($user);
+               dd($user);
             }
             
             
