@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-# memopca
-=======
-## Bonjour
->>>>>>> master
+# Bonjour
+
+## memopca
