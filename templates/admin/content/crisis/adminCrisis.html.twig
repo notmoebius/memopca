@@ -1,0 +1,85 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block page_title %}Salles de crises{% endblock %}
+{% block page_subtitle %}Vous pouvez consulter ou modifier vos salles de crises{% endblock %}
+
+{% block page_content %}
+    {% import "@AdminLTE/Macros/default.html.twig" as macro %}
+
+    <div class="text-center">
+        <h1>Salle de crises</h1>
+        <a href="{{ path('add_admin_crisis_controller') }}" class="text-center btn btn-lg btn-info " style="margin-top: 10px;">Ajoutez une salle de crise <i class="fas fa-plus" style="margin-left: 10px;"></i></a>
+    </div>
+
+    <h1>Listes des salles de crises</h1>
+        <a href="{{ path('json_admin_crisis_room_controller') }}" class="text-center btn btn-lg btn-primary "  style="margin-top: 10px;" download="{{ path('json_admin_crisis_room_controller') }}">Exporter les salles de crise<i class="fas fa-download" style="margin-left: 10px;"></i></a>
+
+<div class="row" style="padding:15px; margin-left:20px;">
+{% for crisis in crisis %} 
+    <div class="panel panel-default col-sm-4 col-md-4" style="min-width: 296px; max-width: 296px; border: solid 5px black; margin-top: 30px; margin-right: 45px; padding:0px;">
+        <a href="" data-toggle="modal" data-target="#{{ crisis.id }}"><img class="card-img-top" src="{{ crisis.plan }}" alt="plan de la salle {{ crisis.reference }}" style="max-width: 286px; min-width: 286px; max-height: 180px; min-height: 180px;"></a>
+            <div class="modal fade" id="{{ crisis.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Plan de la salle: {{ crisis.reference}} </h5>
+            
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+      </div>
+
+      <div class="modal-body text-center">
+        <img src="{{ crisis.plan }}" alt="Plan de la salle {{ crisis.reference }}" style="min-width: 500px; max-width: 500px;" codetype="application/pdf">
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+    
+    
+    
+    
+    <div class="panel-heading">
+        <h5 class="card-title text-center" style="font-weight: bold; font-size: 2rem; color: #e73256;">{{ crisis.reference }}</h5>
+        <p class="text-center" style="margin-bottom:0px;"><i class="fas fa-map-marker-alt" style="margin-bottom:0px; font-size: 2rem; color:red;"></i></p>
+        <p class="card-text text-center" style="margin-bottom:0px;">{{ crisis.address1 }}</p>
+        <p class="card-text text-center" style="margin-bottom:0px;">{{ crisis.address2 }}</p>
+        {% if crisis.address3 is empty %}
+            <p class="card-text text-center" style="margin-bottom:0px;"> <span style="font-style:italic; color: #6c757d;">Aucune information complémentaire</span></p>
+        {% else %}
+            <p class="card-text text-center" style="margin-bottom:0px;">{{ crisis.address3 }}</p>
+        {% endif %}
+    </div>
+        <ul class="list-group list-group-flush" >
+
+            <li class="list-group-item text-center">Type: <span class="text-uppercase" style="color: #753f04;">{{ crisis.typecrisisroom.name }}</span></li>
+
+            <li class="list-group-item" style="display:flex; justify-content: space-between; align-items:center;">
+        {% if crisis.phonenumber is empty %}
+            <span  style="margin-bottom:0px;"><i class="fas fa-phone" style="margin-right: 1px; color: green;"></i><span style="font-style:italic; color: #6c757d;"> Non Renseigné</span></span>
+        {% else %}
+            <span  style="margin-bottom:0px;"><i class="fas fa-phone" style="margin-right: 1px; color: green;"></i> {{ crisis.phonenumber }}</span>
+        {% endif %}
+
+        {% if crisis.faxnumber is empty %}
+            <span  style="margin-bottom:0px;"><i class="fas fa-fax" style="margin-right: 3px; color: blue;"></i><span style="font-style:italic; color: #6c757d;"> Non Renseigné</span></span>
+        {% else %}
+            <span  style="margin-bottom:0px;"><i class="fas fa-fax" style="margin-right: 3px; color: blue;"></i> {{ crisis.faxnumber }}</span>
+        {% endif %}
+            </li>
+            
+            <li class="list-group-item" style="display:flex; justify-content: space-between; align-items:center;"
+            
+            <span><a href="{{ path('update_admin_crisis_controller', {crisis: (crisis.id)} )}}" class="fs-4 text-info btn btn-info" style="font-size: 1.5em; margin-right: 20px;">Modifier</a></td></span>
+            <span><a href="{{ path('delete_admin_crisis_controller', {crisis: (crisis.id)} )}}" class="fs-4 text-danger btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cette salle de crise ?')" style="font-size: 1.5em;">Supprimer</a></span>
+            </li>
+        </ul>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

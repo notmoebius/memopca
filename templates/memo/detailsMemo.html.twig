@@ -1,0 +1,309 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails Mémo:  {{memo.users.firstname}}  {{memo.users.lastname}} {% endblock %}
+
+{% block stylesheets %}
+<style>
+        body{
+            font-family: 'Nunito', sans-serif;
+            background-color: #faf8f7;
+        } 
+        
+        h1{
+            color: #63929c !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+
+        .contact{
+            color: #f00d59 !important;
+        }
+
+        h2{
+            color: #78072c !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+
+        h3{
+            color: #63929c;
+        }
+
+        .profile-pic {
+            max-width: 100%;
+            height: auto;
+            min-width: 92px;
+            min-height: 92px;
+            max-width: 94px;
+            max-height: 94px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        
+        .circle {
+            border-radius: 50%;
+            background-color: #D0D3D4;
+            overflow: hidden;
+            width: 100px;
+            height: 100px;
+            border: 6px solid rgba(236, 236, 236, 0.7);
+            left: 50%;
+            transition: all .3s;
+        }
+
+        .logophone{
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            border: solid 0.1px #0d6efd;
+        }
+        .logomobile{
+            padding: 9px 12px 9px 12px;
+            border-radius: 50%;
+        }
+
+        .foo{
+            display: block;
+            vertical-align: middle;
+        }
+        .rectangle {
+            margin-left: 0px;
+            height: 80px;
+            width: 30px;
+            background-color: #555;
+        }
+
+        .triangle-down {
+
+	        width: 0;
+	        height: 0;
+	        border-left: 30px solid transparent;
+	        border-right: 30px solid transparent;
+	        border-top: 50px solid #555;
+
+        }
+
+        .usermemo{
+            width: 50%;
+            background-color: #ffffff;
+            border-radius: 25px;
+            border: solid 0.1px rgba(99, 146, 156, 0.5);
+        }
+
+        .foo2 {
+            display: block;
+            vertical-align: middle;
+        }
+        .rectangle2 {
+            margin-left: 0px;
+            height: 40px;
+            width: 30px;
+            background-color: #f00d59;
+        }
+
+        .triangle-down2 {
+
+	        width: 0;
+	        height: 0;
+	        border-left: 30px solid transparent;
+	        border-right: 30px solid transparent;
+	        border-top: 50px solid #f00d59;
+
+        }
+        .card{
+            max-height: 210px;
+        }
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+<section class="mt-4 container">
+    <div class="text-center">
+        {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <h1>Mémo individuelle de {{ memo.users.firstname }} <span class="text-uppercase">{{ memo.users.lastname }}</span></h1>
+        {% if (memo.informed1 is null == true) and (memo.informed2 is null == true) %}
+        {% else %}
+        <h2 class="contact mb-2">Je suis contacté par :</h2>
+        {% endif %}
+    </div>
+    {# debut de row #}
+<div class="row justify-content-between">
+
+{% if memo.informed1 is null == true %}
+
+{% else %}
+    <div class="card p-0 col-5 text-center">
+
+    <div class="card-header  col-12 d-flex text-center justify-content-center align-self-center align-items-center">
+
+        <div class="d-flex text-center align-self-center align-items-center">
+            <div class="circle">
+                {% if memo.informed1.photo is empty %}
+
+                <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                {% else %}
+                <img class="profile-pic" src="{{ memo.informed1.photo }}" >
+                {% endif %}
+            </div>
+        <div class="flex-column">
+            <h2 class="ps-3">{{ memo.informed1.firstname }} <span class="text-uppercase"> {{memo.informed1.lastname }} </span></h2>
+            <h3 class="ps-3 mb-0 pb-0">{{ memo.informed1.role.name }}</h3>
+        </div>        
+        </div>
+        
+    </div>
+        <div class="row card-body">
+            <h5 class="card-title text-secondary">{{ memo.informed1.profession }}</h5>
+
+            <div class="d-flex justify-content-around">
+                <p><i class="fs-6 logomobile bg-primary text-light fas fa-mobile-alt me-2"></i> {{ memo.informed1.mobilenumber }}</p>
+                <p><i class="text-start logophone fs-6 p-2 text-primary fas fa-phone me-2"></i> {{ memo.informed1.phonenumber }}</span></p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if memo.informed2 is null == true %}
+
+{% else %}
+    <div class="card p-0 col-5 text-center">
+    <div class="card-header col-12 d-flex text-center justify-content-center align-self-center align-items-center">
+
+        <div class="d-flex text-center align-self-center align-items-center">
+            <div class="circle">
+                {% if memo.informed2.photo is empty %}
+
+                <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                {% else %}
+                <img class="profile-pic" src="{{ memo.informed2.photo }}" >
+                {% endif %}
+            </div>
+        <div class="flex-column">
+            <h2 class="ps-3">{{ memo.informed2.firstname }} <span class="text-uppercase"> {{memo.informed2.lastname }} </span></h2>
+            <h3 class="ps-3 mb-0 pb-0">{{ memo.informed2.role.name }}</h3>
+        </div>        
+        </div>
+        
+    </div>
+        <div class="row card-body">
+            <h5 class="card-title text-secondary">{{ memo.informed2.profession }}</h5>
+
+            <div class="d-flex justify-content-around">
+                <p><i class="fs-6 logomobile bg-primary text-light fas fa-mobile-alt me-2"></i> {{ memo.informed2.mobilenumber }}</p>
+                <p><i class="text-start logophone fs-6 p-2 text-primary fas fa-phone me-2"></i> {{ memo.informed2.phonenumber }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{# fin de row #}
+</section>
+        {% if (memo.informed1 is null == true) and (memo.informed2 is null == true) %}
+        {% else %}
+<section class="container">
+
+    <div class="d-flex flex-column align-items-center text-center">
+        <div class="foo2 rectangle2"></div>
+        <div class="foo2 triangle-down2"></div>
+    </div>
+</section>
+        {% endif %}
+<section class="p-1 mt-1 mb-1 usermemo container text-center">
+    <h2>{{ memo.users.firstname }} <span class="text-uppercase">{{ memo.users.lastname }}</span></h2>
+    <h3>{{ memo.users.role.name }}</h3>
+</section>
+        {% if (memo.inform1 is null == true) and (memo.inform2 is null == true) %}
+        {% else %}
+<section class="container">
+
+    <div class="d-flex flex-column align-items-center text-center">
+        <div class="foo2 rectangle2"></div>
+        <div class="foo2 triangle-down2"></div>
+    </div>
+    <h2 class="text-center contact mb-2">Je contacte :</h2>
+</section>
+        {% endif %}
+<section class="container">
+
+<div class="row justify-content-between">
+{% if memo.inform1 is null == true %}
+
+{% else %}
+    <div class="card p-0 col-5 text-center">
+    <div class="card-header justify-content-center col-12 d-flex text-center align-self-center align-items-center">
+
+        <div class="d-flex text-center align-self-center align-items-center">
+            <div class="circle">
+                {% if memo.inform1.photo is empty  %}
+
+                <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                {% else %}
+                <img class="profile-pic" src="{{ memo.inform1.photo }}" >
+                {% endif %}
+            </div>
+        <div class="flex-column">
+            <h2 class="ps-3">{{ memo.inform1.firstname }} <span class="text-uppercase"> {{memo.inform1.lastname }} </span></h2>
+            <h3 class="ps-3 mb-0 pb-0">{{ memo.inform1.role.name }}</h3>
+        </div>        
+        </div>
+        
+    </div>
+        <div class="row card-body">
+            <h5 class="card-title text-secondary">{{ memo.inform1.profession }}</h5>
+
+            <div class="d-flex justify-content-around">
+                <p><i class="fs-6 logomobile bg-primary text-light fas fa-mobile-alt me-2"></i> {{ memo.inform1.mobilenumber }}</p>
+                <p><i class="text-start logophone fs-6 p-2 text-primary fas fa-phone me-2"></i> {{ memo.inform1.phonenumber }}</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if memo.inform2 is null == true %}
+
+{% else %}
+    <div class="card p-0 col-5 text-center">
+    <div class="card-header justify-content-center col-12 d-flex text-center align-self-center align-items-center">
+
+        <div class="d-flex text-center align-self-center align-items-center">
+            <div class="circle">
+                {% if memo.inform2.photo is empty %}
+
+                <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                {% else %}
+                <img class="profile-pic" src="{{ memo.inform2.photo }}" >
+                {% endif %}
+            </div>
+        <div class="flex-column">
+            <h2 class="ps-3">{{ memo.inform2.firstname }} <span class="text-uppercase"> {{memo.inform2.lastname }} </span></h2>
+            <h3 class="ps-3 mb-0 pb-0">{{ memo.inform2.role.name }}</h3>
+        </div>        
+        </div>
+        
+    </div>
+        <div class="row card-body">
+            <h5 class="card-title text-secondary">{{ memo.inform2.profession }}</h5>
+
+            <div class="d-flex justify-content-around">          
+                <p><i class="fs-6 logomobile bg-primary text-light fas fa-mobile-alt me-2"></i> {{ memo.inform2.mobilenumber }}</p>
+                <p><i class="text-start logophone fs-6 p-2 text-primary fas fa-phone me-2"></i> {{ memo.inform2.phonenumber }}</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+{# fin de row #}
+</section>
+
+<section class="p-1 mt-3 mb-1 container text-center">
+    <a href="{{path('update_memo_controller', {memo: (memo.id)} )}}" class="btn btn-lg btn-primary">Modifier</a>
+    <a href="{{path('delete_memo_controller', {memo: (memo.id)} )}}" class="btn btn-lg btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce memo ?')">Supprimer</a>
+</section>
+
+{% endblock %}

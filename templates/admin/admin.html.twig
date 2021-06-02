@@ -1,0 +1,188 @@
+{% extends '@AdminLTE/layout/default-layout.html.twig' %}
+
+
+{% block page_title %}Administration{% endblock %}
+{% block page_subtitle %}Bienvenue sur l'administration de MémoPCA{% endblock %}
+
+{% block logo_large  %}
+
+<span class="logo-lg"><b>Admin</b>MémoPCA</span>
+
+{% endblock %}
+{# NAVBAR #}
+
+{% block navbar_start %}
+
+     <li class="dropdown user user-menu">
+            <!-- Menu Toggle Button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <!-- The user image in the navbar-->
+              {% if login.photo is empty %}
+              <img src="\asset\images\Photos\Pasdephoto.jpeg" class="user-image" alt="User Image">
+              {% else %}
+              <img src="{{ login.photo }}" class="user-image" alt="User Image">
+              {% endif %}
+              <!-- hidden-xs hides the username on small devices so only the image appears. -->
+              <span class="hidden-xs">{{ login.firstname }} {{ login.lastname }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- The user image in the menu -->
+              <li class="user-header">
+
+            {% if login.photo is empty %}
+                <img src="\asset\images\Photos\Pasdephoto.jpeg" class="img-circle" alt="User Image">
+            {% else %}
+                <img src="{{ login.photo }}" class="img-circle" alt="User Image">
+            {% endif %}
+
+                <p>
+                  {{ login.firstname }} {{ login.lastname }} - {{ login.status }}
+                  <small>{{ login.organization.name }}</small>
+                </p>
+              </li>
+              <!-- Menu Body -->
+
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="{{ path('profil_admin_controller') }}" class="btn btn-default btn-flat">Profil</a>
+                </div>
+                <div class="pull-right">
+                        <a href="{{ path('app_logout') }}" class="btn btn-danger active" role="button">Se déconnecter</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+
+    <li class="dropdown messages-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fas fa-cog"></i>
+            <span class="label label-primary"></span>
+        </a>
+        <ul class="text-center dropdown-menu" style="width: 400px;">
+            <li class="header container" >Paramètres</li>
+                <div class="menu text-center row" style="display: flex; justify-content: space-between;">
+                    <div class="" style="margin-bottom: 20px;">
+                        <a href="{{ path('home_connexion_controller') }}" class="btn btn-warning active" role="button" style="margin-top: 10px;">Retour sur l'application</a>
+                    </div> 
+
+                    <div class="" style="margin-bottom: 20px;">
+                        <a href="{{ path('account_controller') }}" class="btn btn-default active" role="button" style="margin-top: 10px;">Mon compte</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        </li>
+
+{% endblock %}
+
+{# FIN NAV #}
+
+{# SIDEBAR #}
+
+
+{% block sidebar_nav %}
+
+<ul style="padding-left: 0px; padding-top: 30px;">
+
+    {% if  "/administration" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Général</a></li>
+    {% else %}
+        <li style="padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_controller') }}"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Général</a></li>
+    {% endif %}
+
+    {% if  "/admin_organisme" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_organization_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Organisme</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_organization_controller') }}"><i class="fas fa-ticket-alt" style="padding-right: 20px;"></i> Organisme</a></li>
+    {% endif %}
+
+    {% if  "/admin_salle_de_crises" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_crisis_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Salle de crises</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_crisis_controller') }}"><i class="fas fa-users" style="padding-right: 18px;"></i> Salle de crises</a></li>
+    {% endif %}
+
+    {% if  "/admin_sites_agences" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_agency_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Sites/Agences</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_agency_controller') }}"><i class="fas fa-lightbulb" style="padding-right: 25px;"></i> Sites/Agences</a></li>
+    {% endif %}
+
+    {% if  "/admin_processus" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_process_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Processus et FP</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_process_controller') }}"><i class="fas fa-book" style="padding-right: 23px;"></i> Processus et FP</a></li>
+    {% endif %}
+
+
+    {% if  "/admin_to_do_List" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_list_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> To do list</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_list_controller') }}"><i class="fas fa-list-ul" style="padding-right: 20px;"></i> To do list</a></li>
+    {% endif %}
+
+
+    {% if  "/admin_documents" in app.request.uri %}
+        <li style="background-color: rgba(255, 255, 255, 0.1); border-left: solid 3px white; padding-left: 37px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_documents_controller') }}" style="color: white !important;"><i class="fas fa-chart-pie" style="padding-right: 20px;"></i> Base documentaire</a></li>
+    {% else %}
+        <li style="padding-left: 40px; padding-top: 20px; padding-bottom: 20px;"><a href="{{ path('admin_documents_controller') }}"><i class="fas fa-folder-open" style="padding-right: 20px;"></i> Base documentaire</a></li>
+    {% endif %}
+</ul>
+
+
+{% endblock %}
+
+{# FIN SIDEBAR #}
+
+{% block page_content %}
+<section class="row text-center" style="margin-top: 60px; display: flex; justify-content:center;">
+    <div class="box box-success col-md-3" style="max-width: 250px; margin-right: 30px;">
+        <h3 class="text-success">Nombre de contacts:</h3>
+        {% if status == 'SNPCA' %}
+        <h1 class="text-center text-success">{{ users|length }}</h1>
+        {% elseif status == 'RPCA' %}
+        <h1 class="text-center text-success">{{ user|length }}</h1>
+        {% endif %}
+    </div>
+    
+    <div class="box box-info col-md-3" style="max-width: 250px; margin-right: 30px;">
+        <h3 class="text-info">Nombre d'annuaires:</h3>
+        <h1 class="text-center text-info">{{ directory|length }}</h1>
+    </div>
+
+     <div class="box box-warning col-md-3 " style="max-width: 250px; margin-right: 30px;">
+        <h3 class="text-warning">Mémos:</h3>
+        {% if status == 'SNPCA' %}
+            <h1 class="text-center text-warning">{{ memos|length }}</h1>
+        {% elseif status == 'RPCA' %}
+            <h1 class="text-center text-warning">{{ memo|length }}</h1>
+        {% endif %}
+    </div>
+
+    <div class="box box-danger col-md-3 " style="max-width: 250px; margin-right: 30px;">
+        <h3 class="text-danger">Organismes:</h3>
+        {% if status == 'SNPCA' %}
+            <h1 class="text-center text-danger">{{ organizations|length }}</h1>
+        {% elseif status == 'RPCA' %}
+            <h1 class="text-center text-danger">{{ login.organization|length }}</h1>
+        {% endif %}
+    </div>
+
+</section>
+{% endblock %}
+
+
+{% block footer %}
+
+    {% include 'admin/basePartials/footerAdmin.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    {% include 'admin/includes/javascript.html.twig' %}
+
+{% endblock %}

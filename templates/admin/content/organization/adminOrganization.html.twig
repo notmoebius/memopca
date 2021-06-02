@@ -1,0 +1,63 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block page_title %}Organisme{% endblock %}
+{% block page_subtitle %}Vous pouvez consulter votre organisme{% endblock %}
+
+{% block page_content %}
+    {% import "@AdminLTE/Macros/default.html.twig" as macro %}
+
+    <h2 class="text-center">Importer l'annuaire</h2>
+    <h3 class="text-center" style="margin-top: 0px; color: #6c757d;">Vous pouvez uniquement importer l'annuaire en fichier CSV</h3>
+
+{# <div style="display: flex; justify-content:center;">
+<form method="post" enctype="multipart/form-data"  class="col-md-12" style="margin:auto; margin-top: 20px;">
+
+    <div class="col-6 text-center form-group" style="text-align: center;">
+        <label for="importcsv" class="text-uppercase">Insérez votre fichier CSV :</label>
+        <input style="text-align: center; margin:auto;" type="file" name="importcsv" id="importcsv" class="form-control-file mb-3" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+    </div> #}
+{# accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" #}
+    <div class="text-center">
+        <a href="{{ path('import_admin_organization_controller') }}" class="btn btn-lg btn-info" >Importer</a>
+    </div>
+
+
+{# </form>
+</div> #}
+
+<section>
+
+<h1 style="margin-top: 30px;">Liste des organismes</h1>
+<h2><a href="{{ path('add_admin_organization_controller') }}" class="fs-4 btn btn-success" style="margin-right: 20px;">Ajoutez un organisme<i class="fas fa-plus" style="margin-left:30px;"></a></i></h2>
+
+<table class="table" style="margin-top: 30px;">
+
+  <thead style="background-color: #3c8dbc; color: white;">
+
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">Organisme</th>
+        <th scope="col">Département</th>
+        <th scope="col">Code Organisme</th>
+        <th scope="col">Options</th>
+    </tr>
+
+  </thead>
+  <tbody>
+  {% for organization in organization|sort((a, b) => a.department <=> b.department) %} 
+    <tr>
+        <th scope="row">{{ organization.id }} </th>
+        <td scope="row">{{ organization.name }}</td>
+        <td scope="row">{{ organization.department }}</td>
+        <td scope="row">{{ organization.coded }}</td>
+        <td scope="row"><a href="{{ path('update_admin_organization_controller', {organization: (organization.id)} )}}" class="fs-4 text-info" style="font-size: 1.5em; margin-right: 20px;"><i class="fas fa-pencil-alt"></a></i><a href="{{ path('delete_admin_organization_controller', {organization: (organization.id)} )}}" class="fs-4 text-danger" onclick="return confirm('Voulez-vous vraiment supprimer cet organisme ?')" style="font-size: 1.5em;"><i class="fas fa-trash-alt"></i></a></td>
+    </tr>
+{% endfor %}
+  </tbody>
+
+</table>
+
+</section>
+{% endblock %}
+
+

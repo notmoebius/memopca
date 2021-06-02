@@ -1,0 +1,47 @@
+{% extends 'admin/admin.html.twig' %}
+
+{% block page_title %}Modification Site/Agence{% endblock %}
+{% block page_subtitle %}En tant que RPCA, vous pouvez modifiez un Site{% endblock %}
+
+{% block page_content %}
+
+<h1 class="text-center" style="color:#25a9d9;">Formulaire d'ajout d'un site</h1>
+
+<div class="row form-group" style="display:flex; justify-content:center;">
+    <img src="\asset\images\logo\agence.png" class="img-circle col-xs-12 col-md-6" alt="" style="max-width: 200px;">
+</div>
+
+
+<div style="display: flex; justify-content:center;">
+<form method="post" enctype="multipart/form-data" class="col-md-6">
+
+    <div class="col-6 form-group">
+        <label for="site" class="text-uppercase">Libellé du site: </label>
+        <input type="text" name="site" id="site" class="form-control mb-3" value="{{ agency.name }}" required>
+    </div>
+<div style="display:flex; margin-bottom:20px; align-items: center;">
+    <div>
+        <img src="{{ agency.plan }}" alt="le plan du site {{ agency.name }}" style="margin-right:20px; min-width: 230px; max-width:230px;">
+    </div>
+    <div class="col-6 form-group">
+        <label for="planAgency" class="text-uppercase">Insérez le plan du site : </label>
+        <input type="file" name="planAgency" id="planAgency" class="form-control-file mb-3" placeholder="Inserer le plan du site" accept="image/* ,application/pdf" value="{{ agency.plan }}">
+    </div>
+</div>
+    <div class="form-group">
+        <label for="organization" class="text-uppercase">A quel organisme ce site est-il rattaché:</label>
+        <select class="form-control mb-4" name="organization" id="organization" aria-label=".form-select" required>
+            <option value="0" selected>Quel Organisme :</option>
+                    <option value="1" {% if agency.organization.id == 1 %} selected {% endif %}>CPAM National</option>
+                    <option value="2" {% if agency.organization.id == 2 %} selected {% endif %}>CPAM Haute-Garonne</option>
+        </select>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-lg btn-info" type="submit">Modifier</button>
+    </div>
+
+</form>
+</div>
+
+{% endblock %}

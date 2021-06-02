@@ -1,0 +1,29 @@
+{% block stylesheets %}
+
+<style>
+
+.navRole:hover{
+
+    text-decoration: none;
+    color: #0dcaf0 !important;
+
+}
+
+
+</style>
+
+{% endblock %}
+
+
+<nav class="mx-3 navbar navbar-expand-lg ">
+        <div class="d-flex w-100 justify-content-center">
+
+            <div class="list-group list-group-horizontal text-center">
+                <a href="{{ path('list_directory_controller', {page: 'RPCA'}) }}" class="{{ role == 'RPCA' ? 'fw-bold border border-info' : '' }} bg-transparent navRole list-group-item px-4">Rôle RPCA</a>
+                <a href="{{ path('list_directory_controller', {page: 'Direction'}) }}" class="{{ role == 'Direction' ? 'fw-bold border border-info' : '' }} bg-transparent navRole list-group-item px-4">Rôle Direction</a>
+                <a href="{{ path('list_directory_controller', {page: 'Manager'}) }}" class="{{ role == 'Manager' ? 'fw-bold border border-info' : '' }} bg-transparent navRole list-group-item px-4">Rôle Manager</a>              
+                <a href="{{ path('list_directory_controller', {page: 'autre-rôle'}) }}" class="{{ role == 'Autre' ? 'fw-bold border border-info' : '' }} bg-transparent navRole list-group-item px-4">Autre Rôle</a>                         
+            </div>
+        </div>  
+
+    </nav>

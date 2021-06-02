@@ -1,0 +1,196 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajoutez une personne{% endblock %}
+
+        {% block stylesheets %} 
+        <style> 
+        
+        body{
+            background-color: #faf8f7;
+        }
+
+        h1{
+            color: #f00d59;
+        }
+
+        .optionnel{
+            font-size: 0.7em;
+        }
+
+        label{
+            color: #63929c;
+            font-weight: bold;
+        } 
+         
+        </style> 
+         
+         {% endblock %}
+
+{% block body %}
+
+
+<div class="mt-4 mb-2 text-center">
+    <h1>Ajoutez une personne dans l'annuaire <i class="fas fa-user-plus"></i></h1>
+    <p class="text-center fst-italic">Tous les champs du formulaire sont obligatoires.</p>
+
+          {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+</div>
+<section class="container">
+<form  method="POST" enctype="multipart/form-data">
+        {# Start Row #}
+            <div class="row mb-1">
+                <div class="col-6 form-group">
+                    <label for="firstname" class="text-uppercase">Prénom : </label>
+                    <input type="text" name="firstname" id="firstname" class="form-control mb-3" placeholder="Votre prénom" required>
+                </div>
+                <div class="col-6 form-group">
+                    <label for="lastname" class="text-uppercase">Nom : </label>
+                    <input type="text" name="lastname" id="lastname" class="form-control mb-3" placeholder="Votre nom" required>
+                </div>
+            </div>
+        {# End Row #}
+            <div class="row">
+                <div class="form-group mb-2">
+                    <label for="profession" class="text-uppercase">Fonction occupée : </label>
+                <input type="text" name="profession" class="form-control mb-3" id="profession" placeholder="Votre fonction" required>
+                </div>
+            </div>
+        {# Start Row #}
+            <div class="row mb-1">
+                <div class="col-6  form-group">
+                    <label for="mobilenumber" class="text-uppercase">Numéro de téléphone portable : </label>
+                    <input type="number" name="mobilenumber" id="mobilenumber" class="form-control mb-3" placeholder="Votre numéro de téléphone portable" required>
+                </div>
+                <div class="col-6 form-group">
+                    <label for="phonenumber" class="text-uppercase">Numéro de téléphone fixe : </label>
+                    <input type="number" name="phonenumber" id="phonenumber" class="form-control mb-3" placeholder="Numéro de téléphone fixe" required>
+                </div>
+            </div>
+        {# End Row #} 
+
+        {# Start Row #}
+            <div class="row mb-1">
+                <div class="col-6 form-group">
+                    <label for="structure" class="text-uppercase">Bâtiment : </label>
+                    <input type="text" name="structure" id="structure" class="form-control mb-3" placeholder="Votre bâtiment" required>
+                </div>
+                <div class="col-6 form-group">
+                    <label for="floor" class="text-uppercase">Etage : <span class="optionnel fst-italic">(Optionnel)</span> </label>
+                    <input type="text" name="floor" class="form-control mb-3" id="floor" placeholder="Votre etage">
+                </div>
+            </div>
+        {# End Row #}
+
+        {# Start Row #}
+        <div class="row">
+        <div class="form-group">
+            <label for="role" class="text-uppercase">Rôle : </label>
+            <select class="form-select form-select mb-4" name="role" id="role" aria-label=".form-select" required>
+                <option value="0" selected >Choisissez votre rôle:</option>
+                    <option value="1">RPCA</option>
+                    <option value="2">Direction</option>
+                    <option value="3">Manager</option>
+                    <option value="4">Autre</option>
+            </select>
+        </div>
+        </div>
+        {# End Row #}
+
+        {# Start Row #}
+        <div class="row">
+        <div class="form-group">
+            <label for="directory" class="text-uppercase">Annuaire d'affectation : </label>
+            <select class="form-select form-select mb-4" name="directory" id="directory" aria-label=".form-select" required>
+                <option value="0" selected >Choisissez votre annuaire d'affectation :</option>
+                    <option value="1">Comité Crise</option>
+                    <option value="2">Comité Elargi</option>
+                    <option value="3">Responsable site</option>
+                    <option value="4">Numéros Importants</option>
+                    <option value="5">Non Renseigné</option>
+            </select>
+        </div>
+        </div>
+        {# End Row #}
+        <div class="row">
+        <div class="form-group">
+
+        </div>
+            <div class="form-group col-6 mb-2">
+                    <label class="col-12 text-center text-uppercase" for="grade">Votre niveau : </label>
+            <div class="text-center">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="grade" id="grade1" value="1">
+                        <p class="form-check-label" for="titulary">Titulaire</p>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="grade" id="grade2" value="2">
+                        <p class="form-check-label " for="subsitute">Suppléant</p>
+                    </div>
+            </div>
+            </div>
+
+            <div class="text-end col-6">
+                <label for="photo" class="form-label col-12 text-center text-uppercase">Une photo ? <span class="optionnel fst-italic">(Optionnel)</span></label>
+                <input type="file" accept="image/* ,application/pdf" id="photo" class="form-control-file file-upload radius-0 text-center col-12" name="photo"/>
+            </div>
+
+        {# Start Row #}
+        <div class="row">
+        <div class="form-group">
+            <label for="organization" class="text-uppercase">Votre Organisme : </label>
+            <select class="form-select form-select mb-4" name="organization" id="organization" aria-label=".form-select" required>
+                <option value="0" selected >Choisissez votre Organisme:</option>
+                    <option value="1">CPAM National</option>
+                    <option value="2">CPAM Haute-Garonne</option>
+            </select>
+        </div>
+        </div>
+        {# End Row #}
+
+            </div>
+            </div>
+                <div class="text-center">
+                    <button class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Envoyer</button>
+                </div>
+        </form>
+
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+
+                var readURL = function(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $('.profile-pic').attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                $(".file-upload").on('change', function(){
+                    readURL(this);
+                });
+                $(".upload-button").on("click", function () {
+                $(".file-upload").click();
+            });
+        });
+    </script>
+{% endblock %}

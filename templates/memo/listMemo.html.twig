@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mémo{% endblock %}
+
+{% block body %}
+<style>
+
+        h1, h3{
+            color: #f00d59 !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+        h4{
+            color: #78072c;
+        }
+
+        h2, h5{
+            color: #63929c ;
+        }
+        
+        label{
+            color: #63929c;
+            font-weight: bold;
+        } 
+
+    .down{
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 200px 100px 0 100px;
+        border-color: #ff7070 transparent transparent transparent;
+    }
+    .bannierememo{
+        width: 100%;
+    }
+
+    .roundedcard{
+        padding: 2px;
+        border: solid 0.1px rgba(99, 146, 156, 0.5);
+        border-radius: 50%;
+    }
+
+     .circle {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 100px;
+        height: 100px;
+        border: 6px solid rgba(236, 236, 236, 0.7);
+        position: relative;
+        transition: all .3s;
+    }
+
+    .profile-pic {
+        max-width: 100%;
+        height: auto;
+        min-width: 92px;
+        min-height: 92px;
+        max-width: 94px;
+        max-height: 94px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    .export{
+        border: #78072c 2px solid;
+        color:  #ffffff;
+        background-color: #78072c;
+    }
+
+    .export:hover{
+        border: #78072c 2px solid;
+        color:  #78072c;
+        background-color: #ffffff;
+    }
+</style>
+
+{% if 'memo?page=Accueil' in app.request.uri %}
+<div class="example-wrapper">
+<section class="container d-flex justify-content-center py-5 pt-3">
+    <div class="w-100 ">
+    {# Div message flash #}
+        <div class="text-center">
+            {% for level, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ level }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    <div class="row align-items-center align-self-center justify-content-center">
+        <div class="col-12">
+            <h1 class="text-center mb-3 mt-3">Mémo <i class="fas fa-mobile-alt"></i></h1>
+        </div>
+
+        <div class="align-items-center align-self-center col-6">
+            <img class="bannierememo mb-3" src="/asset/images/logo/bannierememo.jpg" alt="">
+        </div>
+    </div>
+    <h2 class="text-center mb-1" >Liste des mémos :</h2>
+    <div class="d-flex justify-content-center text-center">
+        <p class="text-center mb-3"><a class="btn btn-lg btn-secondary rounded-0 m-3" href="{{ path('add_memo_controller') }}">Ajoutez un mémo  <i class="ps-2 fs-4 fas fa-plus"></i></a></p>
+        <p class="text-center"><a class="btn btn-lg export rounded-0 mt-3" href="{{ path('json_memo_controller') }}" target="_blank" download="{{ path('json_memo_controller') }}">Exportez les mémos <i class="ps-2 fs-4 fas fa-download"></i></a></p>
+    </div>
+    <h3 class="fst-italic mb-3" ><u>Le mémo de quel contact souhaitez-vous afficher :</u></h3>
+        <div class="d-flex row justify-content-center flex-wrap">
+    {% for memo in memo %}  
+        <div class="user row m-3 rounded" style="max-width: 400px; min-width: 300px;">
+  
+            <div class="col-9 shadow-lg d-flex flex-column p-2 justify-content-center align-self-center align-items-center bg-white roundedcard"  style="width: 300px; height:300px;">
+                    <h3 class="fw-bold name text-center mt-2 mb-0">{{ memo.users.firstname }} {{ memo.users.lastname }} </h3>
+                    <h5 class="role text-center mb-0">{{ memo.users.role.name }}</h5>
+                <div class="circle ">
+                    {% if memo.users.photo is empty %}
+                        <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                    {% else %}
+                        <img class="profile-pic" src="{{ memo.users.photo }}" >
+                    {% endif %}
+                </div>
+                    <p class="text-secondary text-center status mb-0"><i class="fas fa-briefcase"></i> {{ memo.users.profession }}</p>        
+                <div class="text-center">
+                    <a href="{{path('details_memo_controller', {memo: (memo.id)} )}}" class="mt-2 mb-2 btn btn-outline-secondary text-uppercase" type="submit">Voir son mémo</a>
+                </div>
+            </div>  
+        </div> 
+    {% endfor %}         
+        </div>
+ </section>
+ {% else %}
+ <div class="example-wrapper">
+<section class="container d-flex justify-content-center py-5 pt-3">
+    <div class="w-100 ">
+    {# Div message flash #}
+        <div class="text-center">
+            {% for level, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ level }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    <div class="row align-items-center align-self-center justify-content-center">
+        <div class="col-12">
+            <h1 class="text-center mb-3 mt-3">Mémo <i class="fas fa-mobile-alt"></i></h1>
+        </div>
+
+        <div class="align-items-center align-self-center col-6">
+            <img class="bannierememo mb-3" src="/asset/images/logo/bannierememo.jpg" alt="">
+        </div>
+    </div>
+    <h2 class="text-center mb-1" >Liste des mémos :</h2>
+    <div class="d-flex justify-content-center text-center">
+        <p class="text-center mb-3"><a class="btn btn-lg btn-secondary rounded-0 m-3" href="{{ path('add_memo_controller') }}">Ajoutez un mémo  <i class="ps-2 fs-4 fas fa-plus"></i></a></p>
+    </div>
+    <h3 class="fst-italic mb-3" ><u>Vos Mémos :</u></h3>
+        <div class="d-flex row justify-content-center flex-wrap">
+    {% for memo in memo %}  
+        <div class="user row m-3 rounded" style="max-width: 400px; min-width: 300px;">
+  
+            <div class="col-9 shadow-lg d-flex flex-column p-2 justify-content-center align-self-center align-items-center bg-white roundedcard"  style="width: 300px; height:300px;">
+                    <h3 class="fw-bold name text-center mt-2 mb-0">{{ memo.users.firstname }} {{ memo.users.lastname }} </h3>
+                    <h5 class="role text-center mb-0">{{ memo.users.role.name }}</h5>
+                <div class="circle ">
+                    {% if memo.users.photo is empty %}
+                        <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                    {% else %}
+                        <img class="profile-pic" src="{{ memo.users.photo }}" >
+                    {% endif %}
+                </div>
+                    <p class="text-secondary text-center status mb-0"><i class="fas fa-briefcase"></i> {{ memo.users.profession }}</p>        
+                <div class="text-center">
+                    <a href="{{path('details_memo_controller', {memo: (memo.id)} )}}" class="mt-2 mb-2 btn btn-outline-secondary text-uppercase" type="submit">Voir son mémo</a>
+                </div>
+            </div>  
+        </div> 
+    {% endfor %}         
+        </div>
+ </section>
+ {% endif %}
+{% endblock %}

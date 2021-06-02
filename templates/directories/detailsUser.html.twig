@@ -1,0 +1,146 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annuaire: {{ user.firstname }} {{ user.lastname }} {% endblock %}
+
+{% block stylesheets %}
+<style>
+                
+        
+        body{
+            font-family: 'Nunito', sans-serif;
+            background-color: #faf8f7;
+        } 
+        
+        h1{
+            color: #f00d59 !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+
+        h2{
+            color: #78072c !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+
+        h3{
+            color: #63929c ;
+        }
+
+        
+        .profile-pic {
+            max-width: 100%;
+            height: auto;
+            min-width: 142px;
+            min-height: 142px;
+            max-width: 144px;
+            max-height: 144px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        
+        .circle {
+            border-radius: 50%;
+            background-color: #D0D3D4;
+            overflow: hidden;
+            width: 150px;
+            height: 150px;
+            border: 6px solid rgba(236, 236, 236, 0.7);
+            position: relative;
+            left: 50%;
+            transition: all .3s;
+        }
+        
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+<section class="mt-5 mb-5 container">
+    <div class="text-center">
+        {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+<div class="card text-center">
+  <div class="card-header d-flex text-center align-items-center">
+        <div class="col-3 p-2">
+            <div class="circle">
+                {% if user.photo is empty %}
+
+                <img class="profile-pic" src="\asset\images\Photos\Pasdephoto.jpeg" >
+                {% else %}
+                <img class="profile-pic" src="{{ user.photo }}" >
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-6 mt-4 text-center">
+            <h1 class="fw-bold">{{ user.firstname }} <span class="text-uppercase"> {{ user.lastname }} </span></h1>
+            
+            <h3 class="text-uppercase">{{ user.role.name }}</h3>
+        </div>
+  </div>
+  <div class="card-body">
+  <h2 class="mt-2 mb-4"><i class="fas fa-address-book"></i> {{ user.directory.name }}</h2>
+  <div class="text-center">
+    <h3 class="text-decoration-underline mb-2 card-title">Informations :</h3>
+    <p><i class="text-secondary fas fa-briefcase"></i> Fonction occupée  : {{ user.profession }}</p>
+    <p><i class="text-secondary fas fa-user-alt"></i> {{ user.grade.name }}</p>
+   </div>
+<div class="text-center">
+    <h3 class="text-decoration-underline mb-3 card-title">Coordonnées :</h3>
+
+    <p><i class="fs-4 text-primary fas fa-phone-alt"></i> {{ user.phonenumber }}</p>
+    <p><i class="fs-4 text-success fas fa-mobile-alt"></i> {{ user.mobilenumber }}</p>
+    <p><i class="fs-4 text-danger fas fa-map-marker-alt"></i> {{ user.structure }}</p>
+    {% if user.floor is empty %}
+    <p> <span class="fst-italic">Malheureusement, aucun étage n'a été renseigné. </span></p>
+    {% else %}
+    <p><span class="fst-italic">Quel étage :</span> {{ user.floor }}</p>
+    {% endif %}
+    <p><i class="fs-4 text-secondary far fa-building"></i> {{ user.organization.name }}</p>
+</div>    
+    <a href="{{path('update_directory_controller', {user: (user.id)} )}}" class="mt-4 me-3 btn btn-info text-light">Modifier le contact</a>
+
+    {% if memo is empty %}
+    {% else %}
+    <a href="{{path('details_memo_controller', {memo: (memo.id)} )}}" class="mt-4 ms-3 me-3 btn btn-primary text-light">Voir le mémo</a>
+    {% endif %} 
+    <a href="{{path('delete_directory_controller', {user: (user.id)} )}}" class="mt-4 ms-3 btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer ce contact ?')">Supprimer le contact</a>
+ </div>
+</div>
+</section>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+
+                var readURL = function(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            $('.profile-pic').attr('src', e.target.result);
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                $(".file-upload").on('change', function(){
+                    readURL(this);
+                });
+                $(".upload-button").on("click", function () {
+                $(".file-upload").click();
+            });
+        });
+    </script>
+{% endblock %}

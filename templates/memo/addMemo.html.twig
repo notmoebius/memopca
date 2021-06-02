@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mémo{% endblock %}
+
+{% block body %}
+<style>
+
+        h1, h3, #users{
+            color: #f00d59 !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+        h4{
+            color: #78072c;
+        }
+
+        h2, h5{
+            color: #63929c ;
+        }
+
+        label{
+            color: #63929c;
+            font-weight: bold;
+        } 
+
+
+</style>
+
+<section class="container d-flex justify-content-center pt-3">
+<div class="w-100 ">
+    {# Div message flash #}
+        <div class="text-center">
+            {% for level, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ level }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    <form name="form" method="POST">
+    
+    <h1 class="text-center mt-5 mb-5">Création du Mémo individuelle de
+    <select name="users" id="users" aria-label=".form-select" required>
+            <option value="" selected >Quel utilisateur ?</option>
+            {% for user in user %}
+                <option value="{{ user.id }}"> {{ user.firstname }} {{ user.lastname }}</option>
+            {% endfor %}
+                </select></h1>
+
+    
+
+        {# Start Row #}
+        <div class="row">
+        <div class="form-group">
+
+        </div>
+            <div class="form-group mb-3">
+                    <label class="col-12 text-center text-uppercase mb-2" for="NumbersInformed"> En cas d'alerte, qui va contacter notre utilisateur : </label>
+            </div>
+        {# End Row #}
+            <div class="row">
+            <div id="Informed1" class="form-group col-6 mb-5">
+                <label for="" class="text-uppercase">Contact 1: </label>
+                <select class="form-select form-select mb-4" name="informed" id="informed" aria-label=".form-select" required>
+                    <option value="0" selected >Qui prévient notre utilisateur :</option>
+                        <option value="0">Aucun</option>
+                {% for user in user %}
+                        <option value="{{ user.id }}"> {{ user.firstname }} {{ user.lastname }}</option>
+                {% endfor %}                
+                </select>
+            </div>
+
+            <div id="Informed2" class="form-group col-6">
+                <label for="" class="text-uppercase">Contact 2: </label>
+                <select class="form-select form-select mb-4" name="informed2" id="informed2" aria-label=".form-select" required>
+                    <option value="0" selected >Qui prévient notre utilisateur :</option>
+                        <option value="0">Aucun</option>
+                {% for user in user %}
+                        <option value="{{ user.id }}"> {{ user.firstname }} {{ user.lastname }}</option>
+                {% endfor %}
+                </select>
+                </div>
+            </div>
+
+        {# Start Row #}
+        <div class="row">
+        <div class="form-group">
+
+            <div class="form-group mb-2">
+                    <label class="col-12 text-center text-uppercase mb-2" for="NumbersInform"> En cas d'alerte, Qui notre utilisateur doit contacter : </label>
+            </div>
+        {# End Row #}
+        <div class="row">
+            <div id="Inform1" class="form-group col-6">
+                <label for="" class="text-uppercase">Contact 1: </label>
+                <select class="form-select form-select mb-4" name="inform" id="inform" aria-label=".form-select" required>
+                    <option value="0" selected >Qui notre utilsateur doit prévenir :</option>
+                        <option value="0">Aucun</option>
+                {% for user in user %}
+                        <option value="{{ user.id }}"> {{ user.firstname }} {{ user.lastname }}</option>
+                {% endfor %}                
+                </select>
+            </div>
+
+            <div id="Inform2" class="form-group col-6">
+                <label for="inform2" class="text-uppercase">Contact 2: </label>
+                <select class="form-select form-select mb-4" name="inform2" id="inform2" aria-label=".form-select" required>
+                    <option value="0" selected >Qui notre utilsateur doit prévenir :</option>
+                        <option value="0">Aucun</option>
+                {% for user in user %}
+                        <option value="{{ user.id }}"> {{ user.firstname }} {{ user.lastname }}</option>
+                {% endfor %}                
+                </select>
+                </div>
+        </div>
+                <div class="text-center">
+                    <button class="mt-2 btn btn-lg btn-outline-secondary text-uppercase" type="submit">Créer</button>
+                </div>
+        </form>
+</div>
+</section>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            
+            var $selectmemo = $('#selectmemo');
+            var $informed = $('#informed');
+            var $informed2 = $('#informed2');
+            var $inform = $('#inform');
+            var $inform2 = $('#inform2');
+
+
+        });
+
+    function deleteList($selectmemo) {
+    // on ajoute l'option au panier
+    $('<option>', {
+        value: $selectmemo.val(),
+        text: $selectmemo.text()
+    });
+    
+    $selectmemo.remove(); // on supprime le fruit de la liste de départ
+}
+
+    </script>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion!{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+body{
+    background-color: #faf8f7;
+}
+
+.logo{
+  width: 50px;
+  height: 50px;
+}
+
+h1, h3{
+    color: #f00d59 !important;
+    font-family: 'Nunito', sans-serif; 
+}
+
+h4{
+    color: #78072c;
+}
+
+h2, h5{
+    color: #63929c ;
+    }
+    
+label{
+    color: #63929c;
+    font-weight: bold;
+} 
+
+.navLink:hover{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+<section class="container py-5">
+    <div class="w-50 mx-auto ">
+
+        {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    
+    <div class="mb-3 text-center">
+        <h1 class="mb-3 font-weight-normal">Connexion</h1>
+
+        <p>Connecter votre compte facilement avec l'un de ces services</p>
+
+        <div >
+            <a href=""><img class="logo m-3" src="/asset/images/logo/logoAccessMaster.png" alt="logo Access Master"></a>
+        </div>
+    </div>
+    <div class="w-50 mx-auto ">
+
+        {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="text-center alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+    <form method="post">
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                Bonjour {{ app.user.username }},
+                <br><a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+
+        {% else %}
+            
+                <div class="mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="email" class="form-control mb-3">
+                </div>
+                <div class="mb-3">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="password" id="password" class="form-control mb-3" >
+                </div>
+                
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    {#
+                        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                        See https://symfony.com/doc/current/security/remember_me.html
+
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="_remember_me"> Remember me
+                            </label>
+                        </div>
+                    #}
+                <a class="nav-link text-secondary fst-italic px-0" href="{{path('forget_controller')}}"><i class="pe-1 fs-5 fas fa-unlock-alt"></i> <span class="navLink"> Mot de passe oublié ?</span></a>
+
+                <div class="text-center">
+                    <button class="btn btn-lg btn-outline-secondary mt-3" type="submit">Se connecter</button>
+                </div>
+            </div>
+        {% endif %}
+
+    </form>
+</section>
+{% endblock %}

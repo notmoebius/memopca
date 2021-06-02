@@ -1,0 +1,228 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+
+# ACCUEIL 
+home_controller:
+    path: /accueil
+    controller: App\Controller\DefaultController:Home
+
+home_connexion_controller:
+    path: /home
+    controller: App\Controller\DefaultController:HomeConnexion
+
+
+# ANNUAIRES
+list_directory_controller:
+    path: /annuaire
+    controller: App\Controller\DirectoriesController:ListUser
+
+add_directory_controller:
+    path: /ajoutez-un-contact
+    controller: App\Controller\DirectoriesController:AddUser
+
+details_directory_controller:
+    path: /détails
+    controller: App\Controller\DirectoriesController:DetailsUser
+
+update_directory_controller:
+    path: /modifiez-le-contact
+    controller: App\Controller\DirectoriesController:UpdateUser
+
+delete_directory_controller:
+    path: /supprimez-le-contact
+    controller: App\Controller\DirectoriesController:DeleteUser
+
+# ANNUAIRE FICHIERS JSON
+json_directory_controller:
+    path: /Annuaires
+    controller: App\Controller\DirectoriesController:JsonDirectory
+
+json_directory_controller1:
+    path: /Annuaire_Comite-Crise
+    controller: App\Controller\DirectoriesController:JsonDirectory1
+
+json_directory_controller2:
+    path: /Annuaire_Comite_Elargi
+    controller: App\Controller\DirectoriesController:JsonDirectory2
+
+json_directory_controller3:
+    path: /Annuaire_Responsable_Site
+    controller: App\Controller\DirectoriesController:JsonDirectory3
+
+json_directory_controller4:
+    path: /Annuaire_Numeros_Importants
+    controller: App\Controller\DirectoriesController:JsonDirectory4
+
+json_directory_controller5:
+    path: /Annuaire_Non_Renseigne
+    controller: App\Controller\DirectoriesController:JsonDirectory5
+
+# ANNUAIRE ORGANISME FICHIERS JSON
+json_directory_organization_controller:
+    path: /Annuaires_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization
+
+json_directory_organization_controller1:
+    path: /Annuaire_Comite-Crise_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization1
+
+json_directory_organization_controller2:
+    path: /Annuaire_Comite_Elargi_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization2
+
+json_directory_organization_controller3:
+    path: /Annuaire_Responsable_Site_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization3
+
+json_directory_organization_controller4:
+    path: /Annuaire_Numeros_Importants_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization4
+
+json_directory_organization_controller5:
+    path: /Annuaire_Non_Renseigne_Organisme
+    controller: App\Controller\DirectoriesController:JsonDirectoryOrganization5
+
+# FIN ANNUAIRE
+
+# MEMO
+
+list_memo_controller:
+    path: /memo
+    controller: App\Controller\MemoController:ListMemo
+
+add_memo_controller:
+    path: /creer-un-memo
+    controller: App\Controller\MemoController:AddMemo
+
+details_memo_controller:
+    path: /details-memo
+    controller: App\Controller\MemoController:DetailsMemo
+
+update_memo_controller:
+    path: /modifier-memo
+    controller: App\Controller\MemoController:UpdateMemo
+
+delete_memo_controller:
+    path: /supprimer-memo
+    controller: App\Controller\MemoController:DeleteMemo
+
+json_memo_controller:
+    path: /exporter-memo
+    controller: App\Controller\MemoController:JsonMemo
+    
+# INSCRIPTION
+
+user_register:
+    path: /inscription
+    controller: App\Controller\UserController::Register
+
+# CONNEXION
+
+login_controller:
+    path: /se-connecter
+    controller: App\Controller\SecurityController::Login
+
+forget_controller:
+    path: /mot-de-passe-oublie
+    controller: App\Controller\SecurityController::ForgetPass
+
+# ADMIN
+
+admin_controller:
+    path: /administration
+    controller: App\Controller\AdminController::Admin
+
+# ORGANIZATION
+admin_organization_controller:
+    path: /admin_organisme
+    controller: App\Controller\AdminController::AdminOrganization
+
+add_admin_organization_controller:
+    path: /admin_ajout_organisme
+    controller: App\Controller\AdminController::AddAdminOrganization
+
+update_admin_organization_controller:
+    path: /admin_modification_organisme
+    controller: App\Controller\AdminController::UpdateAdminOrganization
+
+delete_admin_organization_controller:
+    path: /admin_suppression_organisme
+    controller: App\Controller\AdminController::DeleteAdminOrganization
+
+import_admin_organization_controller:
+    path: /admin_importer_annuaire
+    controller: App\Controller\AdminController::ImportAdminOrganization
+
+# Salle de Crise
+admin_crisis_controller:
+    path: /admin_salle_de_crises
+    controller: App\Controller\AdminController::AdminCrisisRoom
+
+add_admin_crisis_controller:
+    path: /admin_ajout_salle_de_crises
+    controller: App\Controller\AdminController::AddAdminCrisisRoom
+
+update_admin_crisis_controller:
+    path: /admin_modification_salle_de_crise
+    controller: App\Controller\AdminController::UpdateAdminCrisisRoom
+
+delete_admin_crisis_controller:
+    path: /admin_suppression_salle_de_crise
+    controller: App\Controller\AdminController::DeleteAdminCrisisRoom
+
+json_admin_crisis_room_controller:
+    path: /salle_crise
+    controller: App\Controller\AdminController::JsonCrisisRoom
+
+# SITES/AGENCES
+admin_agency_controller:
+    path: /admin_sites_agences
+    controller: App\Controller\AdminController::AdminAgency
+
+add_admin_agency_controller:
+    path: /admin_ajout_sites_agences
+    controller: App\Controller\AdminController::AddAdminAgency
+
+update_admin_agency_controller:
+    path: /admin_modification_agence
+    controller: App\Controller\AdminController::UpdateAdminAgency
+
+delete_admin_agency_controller:
+    path: /admin_suppression_agence
+    controller: App\Controller\AdminController::DeleteAdminAgency
+
+json_admin_agency_controller:
+    path: /exporter_sites
+    controller: App\Controller\AdminController::JsonAgency
+
+# PROCESSUS
+admin_process_controller:
+    path: /admin_processus
+    controller: App\Controller\AdminController::AdminProcess
+
+# TO DO LIST
+admin_list_controller:
+    path: /admin_to_do_List
+    controller: App\Controller\AdminController::AdminList
+
+# BASE DOCUMENTAIRE
+admin_documents_controller:
+    path: /admin_documents
+    controller: App\Controller\AdminController::AdminDocuments
+
+# PROFIL
+profil_admin_controller:
+    path: /profil
+    controller: App\Controller\AdminController::ProfilAdmin
+
+# Mon compte
+
+account_controller:
+    path: /mon-compte
+    controller: App\Controller\AccountController::Account
+
+delete_account_controller:
+    path: /supprimer-mon-compte
+    controller: App\Controller\AccountController::DeleteAccount

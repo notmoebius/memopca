@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil MemoPCA{% endblock %}
+
+
+{% block stylesheets %}
+    <style>
+
+        .imgaccueil1{
+            border-radius: 50%;
+            width: 100%;
+
+        }
+
+        .welcome{
+            font-size: 3em !important;
+        }
+
+        .title{
+            font-family: 'Montserrat' !important;
+            font-size: 4em !important;
+        }
+        .accueil{
+            background-color: #effafa;
+        }
+
+        body{
+            background-color: #faf8f7;
+        }
+
+        h1, h3{
+            color: #f00d59 !important;
+            font-family: 'Nunito', sans-serif; 
+        }
+
+        p{
+            color: #78072c;
+        }
+
+        h2{
+            color: #63929c ;
+        }
+        .title2{
+            font-size: 2.5em !important;
+        }
+     .imghome{
+         width: 80%;
+     }
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+<section class="container-fluid d-flex accueil justify-content-center vh-100 pt-3">
+    <div class="container py-5">
+    <div class="w-100">
+    {# Div message flash #}
+        <div class="text-center">
+            {% for level, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ level }}">
+                        {{ message|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+    <div class="row py-5">
+        <div class="col-6 py-5 align-self-center">
+            <img class="imgaccueil1 py-5" src="/asset/images/logo/imgaccueil1.png" alt="">
+        </div>
+        <div class="col-6 align-self-center">
+
+            <h1 class="fs-2 welcome text-center mb-3">Bienvenue sur l'application:</h1>
+            <h1 class="fs-1 title text-center mb-3">MémoPCA <i class="fas fa-headset"></i></h1>
+
+
+            <div class="d-flex justify-content-center">
+
+                <p class="text-center px-3"><a href="#inscription" class="text-center btn btn-lg btn-outline-secondary">Inscription</a></p>
+                <p class="text-center px-3"><a href="{{ path('login_controller') }}" class="text-center btn btn-lg btn-outline-secondary">Connexion</a></p>
+            </div> 
+
+        </div>
+        <h2 class="fs-1 text-center pt-2">Application gérant la gestion des alertes et des annuaires.</h2>
+        <h2 class="fs-2 fst-italic text-center">Créée par la CPAM</h2>
+    </div>
+</div>
+</div>
+</section>
+
+    <section id="inscription" class="container py-5">
+        <h2 class="text-center title2 fw-bold py-5 mb-5"><i class="px-2 far fa-user"></i> Inscription : </h2>
+
+        <p class="fs-3 text-center pb-5">Pour accedez à l'ensemble des fonctionnalités ainsi que leur description, vous devez tout d'abord vous inscrire.</p>
+        <p class="text-center fs-4 fst-italic pb-3">Vous devez commencer par choisir votre statut.</p>
+        <div class="row py-5">
+            <div class="col-4 shopordev ">
+                <h3 class="text-center text-info fw-bold mb-1">Vous êtes SNPCA ?</h3>
+                <p class="text-center"><strong class="fw-normal"><u>Inscrivez-vous</u></strong>.</p>
+                <div class="text-center">
+                    <a href="{{ path('user_register', { status: 'SNPCA'}) }}"><img src="/asset/images/logo/logo1.jpg" class="imghome rounded img-responsive" alt="..."></a>
+                </div>            
+            </div>
+
+            <div class="col-4 shopordev">
+            <h3 class="text-center text-info fw-bold mb-1">Vous êtes RPCA ?</h3>
+                <p class="text-center"><strong class="fw-normal"><u>Inscrivez-vous</u></strong>.</p>
+                <div class="text-center">
+                    <a href="{{ path('user_register', { status: 'RPCA'}) }}"><img src="/asset/images/logo/logo2.jpg" class="imghome rounded img-responsive" alt="..."></a>
+                </div>
+            </div>
+
+            <div class="col-4 shopordev">
+            <h3 class="text-center text-info fw-bold  mb-1">Un autre statut ?</h3>
+                <p class="text-center"><strong class="fw-normal"><u>Inscrivez-vous</u></strong>.</p>
+                <div class="text-center">
+                    <a href="{{ path('user_register', { status: 'Utilisateur'}) }}"><img src="/asset/images/logo/logo3.jpg" class="imghome rounded img-responsive" alt="..."></a>
+                </div>
+            </div> 
+        </div>
+    </section>
+    <section class="container mb-5">
+
+
+    
+    
+    
+    </div>    
+
+</section>
+{% endblock %}

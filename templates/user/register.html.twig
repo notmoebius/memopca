@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+body{
+    background-color: #faf8f7;
+}
+
+.logo{
+  width: 50px;
+  height: 50px;
+}
+
+h1, h3{
+    color: #f00d59 !important;
+    font-family: 'Nunito', sans-serif; 
+        }
+h4{
+    color: #78072c;
+        }
+
+h2, h5{
+    color: #63929c ;
+        }
+
+label{
+    color: #63929c;
+    font-weight: bold;
+        } 
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+<section class="container my-5">
+    <div class="mb-3 text-center">
+        <h1>Créer un compte</h1>
+        <p>Créer un compte facilement avec l'un de ces services</p>
+        <div >
+            <a href=""><img class="logo m-3" src="/asset/images/logo/logoAccessMaster.png" alt="logo Access Master"></a>
+        </div>
+
+    </div>
+    <div class="w-50 mx-auto">
+      {% for level, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ level }}">
+                    {{ message|raw }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    <form method="post" enctype="multipart/form-data">
+          <div class="mb-3">
+          {# Start Row #}
+            <div class="row mb-1">
+                <div class="col-6 form-group">
+                    <label for="firstname" class="text-uppercase">Prénom : </label>
+                    <input type="text" name="firstname" id="firstname" class="form-control mb-3" placeholder="Votre prénom" required>
+                </div>
+                <div class="col-6 form-group">
+                    <label for="lastname" class="text-uppercase">Nom : </label>
+                    <input type="text" name="lastname" id="lastname" class="form-control mb-3" placeholder="Votre nom" required>
+                </div>
+            </div>
+          {# End Row #}
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Votre email">
+          </div>
+          <div class="mb-3 ">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <label  class="form-label">Mot de passe</label>
+              </div>
+              <div class="col-auto">
+                <span id="passwordHelpInline" class="form-text">Doit contenir entre 6-20 caractères.</span>
+              </div>
+            </div>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Votre mot de passe">
+          </div>
+          <div class="mb-3 ">
+            <label for="password" class="col-form-label">Confirmez votre mot de passe</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Votre mot de passe">
+          </div>
+        {# Start Row #}
+        <div class="row">
+        <div class="form-group">
+            <label for="organization" class="text-uppercase">Votre Organisme : </label>
+            <select class="form-select form-select mb-4" name="organization" id="organization" aria-label=".form-select" required>
+                <option value="0" selected >Choisissez votre Organisme:</option>
+                    <option value="1">CPAM National</option>
+                    <option value="2">CPAM Haute-Garonne</option>
+            </select>
+        </div>
+        </div>
+        {# End Row #}
+      {% if  "inscription?status=RPCA" in app.request.uri %}
+        <div class="mb-4">
+            <label for="photo" class="form-label col-12 text-center text-uppercase">Ajoutez votre photo ? <span class="optionnel fst-italic">(Optionnel)</span></label>
+            <input type="file" name="photo" id="photo" class="form-control-file file-upload radius-0 text-center col-12" accept="image/* ,application/pdf"/>
+        </div>
+    {% elseif "inscription?status=SNPCA" in app.request.uri %}
+        <div class="mb-4">
+            <label for="photo" class="form-label col-12 text-center text-uppercase">Ajoutez votre photo ? <span class="optionnel fst-italic">(Optionnel)</span></label>
+            <input type="file" name="photo" id="photo" class="form-control-file file-upload radius-0 text-center col-12" accept="image/* ,application/pdf"/>
+        </div>
+    {% else %}
+    {% endif %}
+          <div class="text-center">
+            <button type="submit" class="btn btn-lg btn-outline-secondary">S'inscrire</button>
+          </div>
+        </form>
+      </div>
+</section>
+{% endblock %}
